@@ -1,0 +1,6 @@
+﻿  Cards.cpp
+E:\Users\Kewen\Desktop\dome\New folder\skydome\COMP345---D02---Warzone\Project Warzone - D02\Cards.cpp(68,21): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+E:\Users\Kewen\Desktop\dome\New folder\skydome\COMP345---D02---Warzone\Project Warzone - D02\Cards.cpp(92,21): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  CardsDriver.cpp
+  Generating Code...
+  Cards.vcxproj -> E:\Users\Kewen\Desktop\dome\New folder\skydome\COMP345---D02---Warzone\Project Warzone - D02\x64\Debug\Cards.exe
