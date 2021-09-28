@@ -5,52 +5,37 @@
 #include <iostream>
 using namespace std;
 
-class Player
-{
-public:
-	Player() {
-
-	}
-
-	Player(const Player& player) {
-
-	}
-
-	~Player() {
-		delete this;
-	}
-
-	Player& operator= (const Player& player) {
-
-	}
-
-	friend ostream& operator<<(ostream& stream, const Player& player);
-
-private:
-	list<int> countries;
-
-public:
-	string playerName;
-	list<Order> orderList;
-
-	list<int> toDefend();
-	list<int> toAttack();
-	void issueOrder();
-};
-
-ostream& operator<<(ostream& stream, const Player& player) {
-	stream << "Player: " << player.playerName << endl;
-	return stream;
-}
-
 class Order {
 public:
-	Order(string order) {
-		this->order = order;
-	}
+	Order(string order) { this->order = order; }
 
 public:
 	string order;
 
 	void executeOrder();
+};
+
+class Player
+{
+public:
+	Player() { cout << " USED player();" << endl; };
+	Player(string playerName);
+	Player(const Player& player) { cout << " USED player(player &reference)" << endl; };
+
+	~Player() { delete this; }
+
+	Player& operator= (const Player& player);
+
+	friend std::ostream& operator <<(std::ostream& stream, const Player& player);
+
+	list<string> toDefend();
+	list<string> toAttack();
+	void issueOrder();
+
+private:
+	list<string> territories;
+	list<Order> orderList;
+
+public:
+	string playerName;
 };
