@@ -1,46 +1,45 @@
 #pragma once
 #include <stdio.h>
 #include <iostream>
+#include <vector>
 
+using namespace std;
 namespace Engine {
 
 	//Abstract class representing a state the game can be in.
 	class GameState {
 	public:
+		//STATIC
+
+		//Keeps track of the current game state.
+		static GameState* current;
+		//Holds the array of all game states (define in 'GameSetup').
+		static GameState** states;
+
+		//Creates an instance of each game state and establishes the connections between each.
+		static void GameSetup();
+		//Deallocates memory taken in 'GameSetup'.
+		static void GameExit();
+		//Safely switches from the current state to another.
+		static GameState* SwitchState(GameState&);
+
+
+		//INSTANCE
+
+		//Allows custom behaviour on transition.
 		virtual void Setup() = 0;
 		virtual void Exit() = 0;
 
-		GameState *links;
-		std::string* commands;
+		//Name of the state.
+		string name;
+
+		//
+		vector<GameState*> links;
+		vector<string> commands;
 	};
-
-
-	//Holds the current GameState.
-	GameState* current;
 	
-	//Free function to switch from one state to another.
-	void SwitchState(GameState&);
-
-	//Creates an instance of each game state and establishes the connections between each.
-	void GameSetup();
-
 
 	namespace States {
-
-		//Example of implementation of GameState abstract class.
-		class Example : public GameState {
-			void GameState::Setup();
-			void GameState::Exit();
-
-			//Constructor.
-			Example() {
-				GameState::commands = new std::string[1]{ "command" };
-			}
-
-			//Destructor.
-			~Example() { }
-		};
-
 
 		class Start : public GameState {
 		public:
@@ -48,7 +47,8 @@ namespace Engine {
 			void GameState::Exit();
 
 			Start() {
-				GameState::commands = new std::string[1]{ "loadmap" };
+				GameState::commands = { "loadmap" };
+				name = "Start";
 			}
 			~Start() { }
 		};
@@ -59,7 +59,8 @@ namespace Engine {
 			void GameState::Exit();
 
 			LoadMap() {
-				GameState::commands = new std::string[2]{ "loadmap", "validatemap" };
+				GameState::commands = { "loadmap", "validatemap" };
+				name = "Loaded Map";
 			}
 			~LoadMap() { }
 		};
@@ -70,7 +71,8 @@ namespace Engine {
 			void GameState::Exit();
 
 			ValidMap() {
-				GameState::commands = new std::string[1]{ "addplayers" };
+				GameState::commands = { "addplayer" };
+				name = "Validated Map";
 			}
 			~ValidMap() { }
 		};
@@ -81,7 +83,8 @@ namespace Engine {
 			void GameState::Exit();
 
 			AddPlayers() {
-				GameState::commands = new std::string[2]{ "addplayers", "assigncountries" };
+				GameState::commands = { "addplayers", "assigncountries" };
+				name = "Add Players";
 			}
 			~AddPlayers() { }
 		};
@@ -92,7 +95,8 @@ namespace Engine {
 			void GameState::Exit();
 
 			AssignReinf() {
-				GameState::commands = new std::string[1]{ "issueorder" };
+				GameState::commands = { "issueorder" };
+				name = "Assign Reinforcements";
 			}
 			~AssignReinf() { }
 		};
@@ -103,7 +107,8 @@ namespace Engine {
 			void GameState::Exit();
 
 			IssueOrders() {
-				GameState::commands = new std::string[2]{ "issueorder", "endissueorders" };
+				GameState::commands = { "issueorder", "endissueorders" };
+				name = "Issue Orders";
 			}
 			~IssueOrders() { }
 		};
@@ -114,7 +119,8 @@ namespace Engine {
 			void GameState::Exit();
 
 			ExecOrders() {
-				GameState::commands = new std::string[3]{ "execorder", "endexecorders", "win" };
+				GameState::commands = { "execorder", "endexecorders", "win" };
+				name = "Execute Orders";
 			}
 			~ExecOrders() { }
 		};
@@ -125,7 +131,8 @@ namespace Engine {
 			void GameState::Exit();
 
 			GameOver() {
-				GameState::commands = new std::string[2]{ "play", "end" };
+				GameState::commands = { "play", "end" };
+				name = "Win";
 			}
 			~GameOver() { }
 		};
