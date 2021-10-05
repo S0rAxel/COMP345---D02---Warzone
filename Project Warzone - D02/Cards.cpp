@@ -48,6 +48,28 @@ void Card::play(int i) {
 	}
 }
 
+ostream& operator << (ostream& out, const Card& c) {
+	switch (c.cardType)
+	{
+	case Card::ctype::bomb:
+		out << "Card type: Bomb.";
+		break;
+	case Card::ctype::reinforcement:
+		out << "Card type: Reinforcement.";
+		break;
+	case Card::ctype::airlift:
+		out << "Card type: Airlift.";
+		break;
+	case Card::ctype::blockade:
+		out << "Card type: Blockade.";
+		break;
+	case Card::ctype::diplomacy:
+		out << "Card type: Diplomacy";
+		break;
+	}
+	return out;
+}
+
 /// <summary>
 /// Hand class implementation
 /// </summary>
@@ -76,6 +98,15 @@ void Hand::removeCard(int i) {
 void Hand::addCard(Card* card) {
 	cards.push_back(card);
 	card->setHand(this);
+}
+
+ostream& operator << (ostream& out, const Hand& h) {
+	out << "Hand size: " << h.cards.size() << "." << endl;
+	out << "Cards in hand: " << endl;
+	for (int i = 0; i < h.cards.size(); i++) {
+		out << "Card " << i << "=" << *(h.cards[i]) << endl;
+	}
+	return out;
 }
 
 /// <summary>
@@ -110,4 +141,13 @@ void Deck::draw(Hand* hand) {
 	Card* drawnCard = new Card(*cards.front());
 	this->removeCard(0);
 	hand->addCard(drawnCard);
+}
+
+ostream& operator << (ostream& out, const Deck& d) {
+	out << "Deck size: " << d.cards.size() << "." << endl;
+	out << "Cards in deck: " << endl;
+	for (int i = 0; i < d.cards.size(); i++) {
+		out << "Card " << i << "=" << *(d.cards[i]) << endl;
+	}
+	return out;
 }
