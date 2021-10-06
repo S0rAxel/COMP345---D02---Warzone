@@ -5,18 +5,22 @@
 
 using namespace Engine;
 
+//Main game loop. Gets commands from the user and perform 
+//state transitionsuntil the 'end' command is given.
 void ControlFlow() {
 	using namespace std;
 
 	//Simply to avoid having to write out 'GameState::current' every time.
-	GameState& current = *GameState::current;
+	GameState* current = GameState::current;
 	//Tracks if the 'end' command was given and if the control flow should end.
 	bool endCmd = true;
 	//The input command given by the user.
 	std::string inputCmd;
 
+	cout << "\n---------------------------\n\t| WARZONE |\n---------------------------\n";
+
 	do {
-		cout << "\nCurrent State: " << current.name << "\n";
+		cout << "\nCurrent State: " << current->name << "\nCommands: " + current->cmdList() + "\n";
 
 		//Tracks if the given command is valid. Assume it won't be.
 		bool validCmd = false;
@@ -30,34 +34,29 @@ void ControlFlow() {
 			short i;
 
 			//Checks if the given command matches one of the state.
-			for (i = 0; i < current.commands.size(); i++)
+			for (i = 0; i < current->commands.size(); i++)
 			{
-				if (inputCmd == current.commands.at(i)) {
+				if (inputCmd == current->commands.at(i)) {
 					validCmd = true;
 					break;
 				}
 			}
 
 			if (validCmd) {
-				cout << "\nEnd prematurely? ";
-				cin >> inputCmd;
-				if(inputCmd == "y") {
-					endCmd = false;
-				}
-
 				//If the command 'end' was valid, then we were in the 'win' state.
 				if (inputCmd == "end") {
 					endCmd = false;
 				}
 				//Otherwise, switch to the state of matching index.
 				else {
-					cout << "\nRecognized. Switching states...";
+					cout << "Recognized. Switching states...\n";
 					//With 'outscoping', we can still access the index of the loop above.
-					current = *GameState::SwitchState(*current.links.at(i));
+					GameState::SwitchState(*(current->links.at(i)));
+					current = GameState::current;
 				}
 			}
 			else {
-				cout << "\nUnrecognized command '" << inputCmd << "'\n";
+				cout << "\nUnrecognized command '" << inputCmd << "'\nCommands: " + current->cmdList() + "\n";
 			}
 
 		//If the given command was valid, then end the command check loop for this game state.
