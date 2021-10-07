@@ -29,9 +29,7 @@ int main() {
 	deck->addCard(new Card(airlift));
 	deck->addCard(new Card(diplomacy));
 	cout << "card type: 0 = bomb, 1 = reinforcement, 2 = blockade, 3 = airlift, 4 = diplomacy" << endl;
-	for (int i = 0; i < deck->size(); i++) {
-		cout << (deck->getCards()[i]->getCardType()) << endl;
-	}
+	cout << *deck;
 	cout << "number of cards in deck: " << deck->size() << endl;
 	cout << "number of cards in first hand: " << hand1->size() << endl;
 	cout << "number of cards in second hand: " << hand2->size() << endl;
@@ -52,28 +50,21 @@ int main() {
 	cout << "number of cards in first hand: " << hand1->size() << endl;
 	cout << "number of cards in second hand: " << hand2->size() << endl;
 
-	cout << endl << "cards in first hand: " << endl;
-	for (int i = 0; i < hand1->size(); i++) {
-		cout << (hand1->getCards()[i]->getCardType()) << endl;
-	}
+	cout << endl << "Hand 1: " << endl;
+	cout << *hand1;
 
 	cout << "hand 1 plays second card in deck (bomb)" << endl;
 	hand1->getCards()[1]->play(1);
-	cout << endl << "cards in first hand: " << endl;
-	for (int i = 0; i < hand1->size(); i++) {
-		cout << (hand1->getCards()[i]->getCardType()) << endl;
-	}
+	cout << endl << "Hand 1: " << endl;
+	cout << *hand1;
 	cout << "number of cards in deck: " << deck->size() << endl;
 
 	cout << "hand 1 plays second card in deck (airlift)" << endl;
 	hand1->getCards()[1]->play(1);
-	cout << endl << "cards in first hand: " << endl;
-	for (int i = 0; i < hand1->size(); i++) {
-		cout << (hand1->getCards()[i]->getCardType()) << endl;
-	}
-	cout << "number of cards in deck: " << deck->size() << endl << endl;
-	cout << endl << "cards in deck: " << endl;
-	for (int i = 0; i < deck->size(); i++) {
-		cout << (deck->getCards()[i]->getCardType()) << endl;
-	}
+	cout << endl << "Hand 1: " << endl;
+	cout << *hand1;
+
+	cout << endl << "deck: " << endl;
+	cout << *deck;
+
 }

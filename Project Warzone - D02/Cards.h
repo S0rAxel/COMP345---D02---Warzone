@@ -14,7 +14,7 @@ public:
 	Hand(const Hand &hand);
 	Hand& operator=(const Hand& other);
 
-	//friend ostream& operator << (ostream& out, const Hand& c);
+	friend ostream& operator << (ostream& out, const Hand& c);
 
 	int size();
 
@@ -35,7 +35,7 @@ public:
 	Deck(const Deck &deck);
 	Deck& operator=(const Deck& other);
 
-	//friend ostream& operator << (ostream& out, const Deck& c);
+	friend ostream& operator << (ostream& out, const Deck& c);
 
 	int size();
 
@@ -68,8 +68,7 @@ public:
 	Card(ctype type, Hand* hand, Deck* deck);
 	Card(const Card& card);
 	Card& operator=(const Card& other);
-
-	//friend ostream& operator << (ostream& out, const Card& c);
+	friend ostream& operator << (ostream& out, const Card& c);
 
 	void play(int i);
 
