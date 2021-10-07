@@ -1,27 +1,32 @@
 #include <iostream>
-#include <list>
 #include "Player.h"
 
 using namespace std;
 
-void Menu();
+/*void Menu();
 inline void AddPlayer();
 void SeeAllPlayer();
-void IssueOrder();
-
-list<Player*> players;
-list<Player*>::iterator counter = players.begin();
+void IssueOrder();*/
 
 int main()
 {
 	cout << " - WARZONE PROJECT | PLAYER DRIVER TESTER -\n" << endl;
 
-	Menu();
+	cout << " Creating new player" << endl;
+	Player* player1 = new Player("Alex");
+	cout << *player1 << " was created..." << endl;
+
+	cout << *player1 << " will attack" << endl;
+	player1->toAttack();
+
+	cout << *player1 << "\n will defend" << endl;
+	player1->toDefend();
+
 
 	cout << endl;
 }
 
-void Menu()
+/*void Menu()
 {
 	int selection = 0;
 
@@ -120,4 +125,4 @@ void IssueOrder()
 	cout << endl;
 	system("pause");
 	cout << endl;
-}
+}*/ 

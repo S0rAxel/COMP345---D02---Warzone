@@ -1,11 +1,13 @@
 #pragma once
-
 #include <string>
 #include <list>
 #include <iostream>
 using namespace std;
 
-class Order {
+#pragma region Extra Classes
+
+class Order
+{
 public:
 	Order(string order) { this->order = order; }
 
@@ -14,6 +16,23 @@ public:
 
 	void executeOrder();
 };
+
+
+class Territory
+{
+public:
+	Territory(string name) : name(name) { }
+
+	string name;
+};
+
+class Card
+{
+
+};
+
+#pragma endregion
+
 
 class Player
 {
@@ -26,15 +45,16 @@ public:
 
 	Player& operator= (const Player& player);
 
-	friend std::ostream& operator <<(std::ostream& stream, const Player& player);
+	friend ostream& operator <<(ostream& stream, const Player& player);
 
-	list<string> toDefend();
-	list<string> toAttack();
+	list<Territory*> toDefend();
+	list<Territory*> toAttack();
 	void issueOrder();
 
 private:
-	list<string> territories;
-	list<Order> orderList;
+	//Card hand[5] = { Card(), Card(), Card(), Card(), Card() };
+	list<Territory*> territories;
+	list<Order*> orders;
 
 public:
 	string playerName;

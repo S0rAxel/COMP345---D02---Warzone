@@ -9,33 +9,38 @@ Player& Player::operator=(const Player& player) {
 	return *this;
 }
 
-list<string> Player::toDefend() {
-	list<string> territoriesToDefend;
+list<Territory*> Player::toDefend() {
+	list<Territory*> territoriesToDefend;
 
-	territoriesToDefend.push_back("Gondor");
-	territoriesToDefend.push_back("Rohan");
-	territoriesToDefend.push_back("Shire");
+	territoriesToDefend.push_back(new Territory("Gondor"));
+	territoriesToDefend.push_back(new Territory("Rohan"));
+	territoriesToDefend.push_back(new Territory("Shire"));
+
+
+	for (Territory* territory : territoriesToDefend)
+		cout << " territory: " << territory->name << endl;
 
 	return territoriesToDefend;
 }
 
-list<string> Player::toAttack() {
-	list<string> territoriesToAttack;
+list<Territory*> Player::toAttack() {
+	list<Territory*> territoriesToAttack;
 
-	territoriesToAttack.push_back("Mordor");
-	territoriesToAttack.push_back("Isengard");
-	territoriesToAttack.push_back("Minas Morgul");
+	territoriesToAttack.push_back(new Territory("Mordor"));
+	territoriesToAttack.push_back(new Territory("Isengard"));
+	territoriesToAttack.push_back(new Territory("Minas Morgul"));
+
+	for (Territory* territory: territoriesToAttack)
+		cout << " territory: " << territory->name << endl;
 
 	return territoriesToAttack;
 }
 
 void Player::issueOrder() {
 	cout << playerName << " is issuing an order" << endl;
-	Order order("Attack");
-	int selection = 0;
-	cout << " - Select the order you want to give \n\t1. Attack\n\t2. Defend ";
 
-	orderList.push_back(order);
+	Order* order = new Order("Attack");
+	orders.push_back(order);
 }
 
 std::ostream& operator<<(std::ostream& stream, const Player& player) {
