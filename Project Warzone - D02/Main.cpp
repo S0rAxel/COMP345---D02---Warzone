@@ -1,5 +1,6 @@
 #include <iostream>
 #include "PlayerDriver.h"
+#include "CardsDriver.h"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ int main()
 
 	cout << "\n\t- CARD Demo -\n";
 	system("wait");
-	// Driver Main function
+	CardsDriverDemo();
 
 	cout << "\n\t- GAME ENGINE Demo -\n";
 	system("wait");

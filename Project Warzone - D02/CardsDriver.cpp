@@ -1,6 +1,7 @@
 #include "Cards.h"
+#include "CardsDriver.h"
 
-int main() {
+void CardsDriverDemo() {
 	Card::ctype bomb = Card::bomb;
 	Card::ctype reinforcement = Card::reinforcement;
 	Card::ctype blockade = Card::blockade;
