@@ -6,18 +6,7 @@ using namespace std;
 
 #pragma region Extra Classes
 
-class Order
-{
-public:
-	Order(string order) { this->order = order; }
-
-public:
-	string order;
-
-	void executeOrder();
-};
-
-
+//As is this is a temporary class is does not have the copy constructor, nor the stream or assignment operators
 class Territory
 {
 public:
@@ -26,10 +15,11 @@ public:
 	string name;
 };
 
-class Card
-{
+//As is this is a temporary class is does not have the copy constructor, nor the stream or assignment operators
+class Order { };
 
-};
+//As is this is a temporary class is does not have the copy constructor, nor the stream or assignment operators
+class Card { };
 
 #pragma endregion
 
@@ -38,8 +28,15 @@ class Player
 {
 public:
 	Player() { cout << " USED player();" << endl; };
-	Player(string playerName);
-	Player(const Player& player) { cout << " USED player(player &reference)" << endl; };
+	// Constructor with name to differentiate the different players during the demo
+	Player(string name) : playerName(name) { cout << " USED player(string name);" << endl; };
+
+	Player(const Player& otherPlayer) {
+		playerName = otherPlayer.playerName;
+		hand = otherPlayer.hand;
+		territories = otherPlayer.territories;
+		orders = otherPlayer.orders;
+	};
 
 	~Player() { delete this; }
 
@@ -52,7 +49,7 @@ public:
 	void issueOrder();
 
 private:
-	//Card hand[5] = { Card(), Card(), Card(), Card(), Card() };
+	list<Card*> hand;
 	list<Territory*> territories;
 	list<Order*> orders;
 

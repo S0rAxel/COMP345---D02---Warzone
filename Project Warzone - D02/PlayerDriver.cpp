@@ -1,28 +1,43 @@
 #include <iostream>
 #include "Player.h"
+#include "PlayerDriver.h"
 
 using namespace std;
 
-/*void Menu();
-inline void AddPlayer();
-void SeeAllPlayer();
-void IssueOrder();*/
+list<Player*> playerList;
 
-int main()
+void PlayerDriverDemo()
 {
 	cout << " - WARZONE PROJECT | PLAYER DRIVER TESTER -\n" << endl;
 
+	// Creating  first player
 	cout << " Creating new player" << endl;
-	Player* player1 = new Player("Alex");
-	cout << *player1 << " was created..." << endl;
+	Player* player1 = new Player("Player1");
+	cout << *player1 << " was created...\n" << endl;
+	
+	// Adding player to the list for demo purposes
+	playerList.push_back(player1);
 
-	cout << *player1 << " will attack" << endl;
-	player1->toAttack();
+	// Creating second player
+	cout << " Creating new player" << endl;
+	Player* player2 = new Player("Player2");
+	cout << *player2 << " was created...\n" << endl;
 
-	cout << *player1 << "\n will defend" << endl;
-	player1->toDefend();
+	// Adding second player to the list for demo purposes
+	playerList.push_back(player2);
 
+	// Looping through the players to show functionality
+	for (Player* player : playerList)
+	{
+		cout << *player << " will issue an order..." << endl;
+		player->issueOrder();
 
+		cout << *player << " will attack: " << endl;
+		player->toAttack();
+
+		cout << *player << " will defend: " << endl;
+		player->toDefend();
+	}
 	cout << endl;
 }
 

@@ -1,10 +1,6 @@
 #include "Player.h"
 
 
-Player::Player(string playerName) : playerName(playerName) {
-	cout << " USED player(string name);" << endl;
-}
-
 Player& Player::operator=(const Player& player) {
 	return *this;
 }
@@ -12,41 +8,47 @@ Player& Player::operator=(const Player& player) {
 list<Territory*> Player::toDefend() {
 	list<Territory*> territoriesToDefend;
 
+	// Creating and adding arbitrary territories to defend
 	territoriesToDefend.push_back(new Territory("Gondor"));
 	territoriesToDefend.push_back(new Territory("Rohan"));
 	territoriesToDefend.push_back(new Territory("Shire"));
 
+	cout << " List of Territories returned: " << endl;
 
+	// Printing the territories to be returned for demo purposes
 	for (Territory* territory : territoriesToDefend)
-		cout << " territory: " << territory->name << endl;
+		cout << "\t - " << territory->name << endl;
 
+	cout << endl;
 	return territoriesToDefend;
 }
 
 list<Territory*> Player::toAttack() {
 	list<Territory*> territoriesToAttack;
 
+	// Creating and adding arbitrary territories to attack
 	territoriesToAttack.push_back(new Territory("Mordor"));
 	territoriesToAttack.push_back(new Territory("Isengard"));
-	territoriesToAttack.push_back(new Territory("Minas Morgul"));
+	territoriesToAttack.push_back(new Territory("Shawdowland"));
 
-	for (Territory* territory: territoriesToAttack)
-		cout << " territory: " << territory->name << endl;
+	cout << " List of Territories returned: " << endl;
 
+	// Printing the territories to be returned for demo purposes
+	for (Territory* territory : territoriesToAttack)
+		cout << "\t - " << territory->name << endl;
+
+	cout << endl;
 	return territoriesToAttack;
 }
 
 void Player::issueOrder() {
-	cout << playerName << " is issuing an order" << endl;
+	Order* order = new Order();
+	cout << " order was added to order list.\n" << endl;
 
-	Order* order = new Order("Attack");
+	// Adding an empty order the the order list
 	orders.push_back(order);
 }
 
 std::ostream& operator<<(std::ostream& stream, const Player& player) {
-	return stream << "Player: " << player.playerName;
-}
-
-void Order::executeOrder() {
-	cout << " Order executing: " << order << endl;
+	return stream << " " << player.playerName;
 }

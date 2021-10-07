@@ -154,9 +154,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerDriver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="GameEngineDriver.cpp" />
     <ClCompile Include="PlayerDriver.cpp" />
