@@ -1,10 +1,11 @@
 #include "Orders.h"
+#include "OrdersDriver.h"
 #include <iostream>
 
 using std::cout;
 using std::endl;
 
-int main()
+void OrderDriverDemo()
 {
     Deploy deploy;
     Advance advance;

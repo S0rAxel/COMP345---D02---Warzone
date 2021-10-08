@@ -8,8 +8,6 @@ list<Player*> playerList;
 
 void PlayerDriverDemo()
 {
-	cout << " - WARZONE PROJECT | PLAYER DRIVER TESTER -\n" << endl;
-
 	// Creating  first player
 	cout << " Creating new player" << endl;
 	Player* player1 = new Player("Player1");
@@ -22,6 +20,8 @@ void PlayerDriverDemo()
 	cout << " Creating new player" << endl;
 	Player* player2 = new Player("Player2");
 	cout << *player2 << " was created...\n" << endl;
+
+	system("pause");
 
 	// Adding second player to the list for demo purposes
 	playerList.push_back(player2);

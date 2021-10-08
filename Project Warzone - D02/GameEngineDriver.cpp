@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iterator>
 #include "GameEngine.h"
+#include "GameEngineDriver.h"
 
 using namespace Engine;
 
@@ -65,7 +66,7 @@ void ControlFlow() {
 	} while (endCmd);
 }
 
-int main() {
+void GameEngineDriverDemo() {
 	GameState::GameSetup();
 	ControlFlow();
 	GameState::GameExit();

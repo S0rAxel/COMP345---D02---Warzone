@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "MapDriver.h"
 #include <fstream>
 #include <string>
 #include <vector>
@@ -181,7 +182,7 @@ Map readfile(string filename)
 	return map;
 }
 		
-int main()
+void MapDriverDemo()
 {
 	string filename;
 	cout << "pleas enter the name of the file for the map generation" << endl;
@@ -197,5 +198,4 @@ int main()
 	{
 		cout << "the map is not valid!!" << endl;
 	}
-	return 1;
 }
