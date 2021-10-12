@@ -189,7 +189,6 @@ void MapDriverDemo()
 	cin >> filename;
 	Map map = readfile(filename);
 	cout << "map has been made" << endl;
-	bool valid = validate(map);
 	if (validate(map))
 	{
 		cout << "the map is valid!!" << endl;
