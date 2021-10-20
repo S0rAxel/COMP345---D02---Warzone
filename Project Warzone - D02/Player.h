@@ -1,10 +1,15 @@
 #pragma once
+
 #include <string>
 #include <list>
 #include <iostream>
+#include "Map.h"
+#include "Orders.h"
+#include "Cards.h"
+
 using namespace std;
 
-#pragma region Extra Classes
+/*#pragma region Extra Classes
 
 //As is this is a temporary class is does not have the copy constructor, nor the stream or assignment operators
 class Territory
@@ -22,14 +27,15 @@ class Order { };
 class Card { };
 
 #pragma endregion
+*/
 
 
 class Player
 {
 public:
-	Player() { cout << " USED player();" << endl; };
-	// Constructor with name to differentiate the different players during the demo
-	Player(string name) : playerName(name) { cout << " USED player(string name);" << endl; };
+	Player() {};
+	
+	Player(string name) : playerName(name) {};
 
 	Player(const Player& otherPlayer) {
 		playerName = otherPlayer.playerName;
@@ -44,13 +50,13 @@ public:
 
 	friend ostream& operator <<(ostream& stream, const Player& player);
 
-	list<Territory*> toDefend();
-	list<Territory*> toAttack();
+	list<territory*> toDefend();
+	list<territory*> toAttack();
 	void issueOrder();
 
 private:
 	list<Card*> hand;
-	list<Territory*> territories;
+	list<territory*> territories;
 	list<Order*> orders;
 
 public:
