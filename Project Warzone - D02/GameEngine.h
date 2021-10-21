@@ -75,64 +75,64 @@ namespace Engine {
 
 		class Start : public GameState {
 		public:
-			void GameState::Setup();
-			void GameState::Exit();
+			void Setup();
+			void Exit();
 
 			Start();
 		};
 
 		class LoadMap : public GameState {
 		public:
-			void GameState::Setup();
-			void GameState::Exit();
+			void Setup();
+			void Exit();
 
 			LoadMap();
 		};
 
 		class ValidMap : public GameState {
 		public:
-			void GameState::Setup();
-			void GameState::Exit();
+			void Setup();
+			void Exit();
 
 			ValidMap();
 		};
 
 		class AddPlayers : public GameState {
 		public:
-			void GameState::Setup();
-			void GameState::Exit();
+			void Setup();
+			void Exit();
 
 			AddPlayers();
 		};
 
 		class AssignReinf : public GameState {
 		public:
-			void GameState::Setup();
-			void GameState::Exit();
+			void Setup();
+			void Exit();
 
 			AssignReinf();
 		};
 
 		class IssueOrders : public GameState {
 		public:
-			void GameState::Setup();
-			void GameState::Exit();
+			void Setup();
+			void Exit();
 
 			IssueOrders();
 		};
 
 		class ExecOrders : public GameState {
 		public:
-			void GameState::Setup();
-			void GameState::Exit();
+			void Setup();
+			void Exit();
 
 			ExecOrders();
 		};
 
 		class GameOver : public GameState {
 		public:
-			void GameState::Setup();
-			void GameState::Exit();
+			void Setup();
+			void Exit();
 
 			GameOver();
 		};
