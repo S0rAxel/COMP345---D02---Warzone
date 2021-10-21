@@ -50,6 +50,7 @@ Map readfile(string filename)
 				{
 					map.addContinent((fileText.substr(0, pos)), counter);
 					fileText.erase(0, pos + delim.length());
+					//need to add another part to read and add the bonus for continent integer
 					break;
 				}
 
