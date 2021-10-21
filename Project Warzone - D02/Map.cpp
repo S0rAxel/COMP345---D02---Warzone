@@ -9,7 +9,7 @@ territory::territory(int id, string n, int c) :ID(id), name(n), continent(c)
 	owner = " ";
 	numOfArmies = 0;
 }
-
+//need to add somehting to include the bonnus
 continent::continent(string n, int id) :name(n), ID(id)
 {
 	terrIDs;
@@ -56,6 +56,11 @@ int continent::getLength()
 	return terrIDs.size();
 }
 
+int continent::getBonus()
+{
+	return bonus;
+}
+
 void Map::addBorders(int territory, int border)
 {
 	land[territory - 1].addBorders(&land[border - 1]);
@@ -65,7 +70,7 @@ void territory::addBorders(territory* t)
 {
 	borders.push_back(t);
 }
-
+//need to add somehting here as well about the bonus
 void Map::addContinent(string name, int id)
 {
 	continents.push_back(continent(name, id));
