@@ -32,7 +32,9 @@ public:
 	int getLength();
 	int getTerrID(int index);
 	void addTerrID(int id);
+	int getBonus();
 private:
+	int bonus;
 	string name;
 	int ID;
 	vector<int> terrIDs;
