@@ -10,7 +10,7 @@ territory::territory(int id, string n, int c) :ID(id), name(n), continent(c)
 	numOfArmies = 0;
 }
 //need to add somehting to include the bonnus
-continent::continent(string n, int id) :name(n), ID(id)
+continent::continent(string n, int id, int bonus) :name(n), ID(id), Bomus(bonus)
 {
 	terrIDs;
 }
