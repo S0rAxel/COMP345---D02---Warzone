@@ -28,7 +28,7 @@ class continent
 public:
 	int getID();
 	string getName();
-	continent(string n, int id);
+	continent(string n, int id, int bonus);
 	int getLength();
 	int getTerrID(int index);
 	void addTerrID(int id);
