@@ -9,7 +9,7 @@ using namespace std;
 
 Map readfile(string filename)
 {
-	string fileText;
+	string fileText, temp;
 	ifstream input;
 	int orderOperation = 0;
 	bool check = false;
@@ -48,8 +48,11 @@ Map readfile(string filename)
 				//this repeating while loop 
 				while ((pos = fileText.find(delim)) != string::npos) 
 				{
-					map.addContinent((fileText.substr(0, pos)), counter);
+					temp = fileText.substr(0, pos);
+					//map.addContinent((fileText.substr(0, pos)), counter);
 					fileText.erase(0, pos + delim.length());
+					pos = fileText.find(delim);
+					map.addContinent(temp, counter, stoi((fileText.substr(0, pos)));
 					//need to add another part to read and add the bonus for continent integer
 					break;
 				}
@@ -60,6 +63,9 @@ Map readfile(string filename)
 		//beggining the making of the land vector in the map that contains all od the territories
 		if (fileText == "[countries]")
 		{
+			int1 = 0;
+			int2 = 0;
+			int3 = 0;
 
 			//cheking if the order is correct
 			if (orderOperation != 1)
@@ -111,7 +117,7 @@ Map readfile(string filename)
 						map.addTerritory(int1 -1, country, int3 -1);
 						//adding the territory to the appropriate continent
 						//here the continent only holds the index of the territory and not a pointer since the vector changes with each addition
-						map.addToContinent(int3 -1, int1 -1);
+						map.addToContinent(int3 -1, int1 -1);// potencial improovement make this guaratee the corrent indecies/ID
 						break;
 					}
 				}
@@ -122,6 +128,9 @@ Map readfile(string filename)
 		//making the borders
 		if (fileText == "[borders]")
 		{
+			int1 = 0;
+			int2 = 0;
+			int3 = 0;
 			//cheking if the order is correct
 			if (orderOperation != 2)
 			{
