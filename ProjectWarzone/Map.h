@@ -34,7 +34,7 @@ public:
 	void addTerrID(int id);
 	int getBonus();
 private:
-	int bonus;
+	int Bonus;
 	string name;
 	int ID;
 	vector<int> terrIDs;
@@ -45,7 +45,7 @@ class Map
 public:
 	Map();
 	void addTerritory(int id,string n, int c);
-	void addContinent(string n, int id);
+	void addContinent(string n, int id, int bonus);
 	continent* getContinent(int id);
 	territory* getTerritory(int id);
 	void addBorders(int territory, int border);
