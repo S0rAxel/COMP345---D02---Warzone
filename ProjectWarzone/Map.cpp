@@ -58,7 +58,7 @@ int continent::getLength()
 
 int continent::getBonus()
 {
-	return bonus;
+	return Bonus;
 }
 
 void Map::addBorders(int territory, int border)
