@@ -52,7 +52,7 @@ Map readfile(string filename)
 					//map.addContinent((fileText.substr(0, pos)), counter);
 					fileText.erase(0, pos + delim.length());
 					pos = fileText.find(delim);
-					map.addContinent(temp, counter, stoi((fileText.substr(0, pos)));
+					map.addContinent(temp, counter, stoi((fileText.substr(0, pos))));
 					//need to add another part to read and add the bonus for continent integer
 					break;
 				}
