@@ -1,6 +1,5 @@
 #include "Player.h"
 
-
 Player& Player::operator=(const Player& player) {
 	return *this;
 }

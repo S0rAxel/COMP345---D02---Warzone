@@ -55,8 +55,8 @@ public:
 	void issueOrder();
 
 private:
-	list<Card*> hand;
 	list<territory*> territories;
+	list<Card*> hand;
 	list<Order*> orders;
 
 public:

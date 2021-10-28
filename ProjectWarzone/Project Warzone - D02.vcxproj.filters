@@ -42,6 +42,9 @@
     <ClInclude Include="GameEngineDriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
@@ -73,6 +76,12 @@
     </ClCompile>
     <ClCompile Include="OrdersDriver.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ILoggable.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.h">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
