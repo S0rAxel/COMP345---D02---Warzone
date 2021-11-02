@@ -1,15 +1,17 @@
 #pragma once
+#include "PlayerDriver.h"
 #include <vector>
 #include <string>
 using namespace std;
+class Player
 
 class territory
 {
 public:
 	territory(int id, string n, int c);
-	string getOwner();
+	Player* getOwner();
 	string getName();
-	void setOwner(string o);
+	void setOwner(Player* o);
 	int getID();
 	void setContinent(int c);
 	void addBorders(territory* t);
@@ -18,7 +20,7 @@ public:
 private:
 	int numOfArmies;
 	vector<territory*> borders; //vector of pointers to neigboting territories
-	string owner;
+	Player* owner;
 	int continent;
 	string name; 
 	int ID; //ID of the territory (1 above its index in the <vector>)

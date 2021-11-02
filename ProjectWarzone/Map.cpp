@@ -6,7 +6,6 @@ using namespace std;
 
 territory::territory(int id, string n, int c) :ID(id), name(n), continent(c)
 {
-	owner = " ";
 	numOfArmies = 0;
 }
 //need to add somehting to include the bonnus
@@ -76,7 +75,7 @@ void Map::addContinent(string name, int id, int bonus)
 	continents.push_back(continent(name, id, bonus));
 };
 
-string territory:: getOwner()
+Player* territory:: getOwner()
 {
 	return owner;
 };
@@ -96,7 +95,7 @@ string continent::getName()
 	return name;
 }
 
-void territory::setOwner(string o)
+void territory::setOwner(Player* o)
 {
 	owner = o;
 };
