@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include "Player.h"
 
 using std::string;
 using std::ostream;
@@ -57,8 +58,8 @@ class Deploy : public Order
 public:
     Deploy();
 
-    bool validate();
-    void execute();
+    bool validate(Player* player, territory* territory);
+    void execute(int numberOfArmies, Player* player, territory* targetTerritory);
 };
 
 // Advance, a certain type of order
@@ -67,8 +68,8 @@ class Advance : public Order
 public:
     Advance();
 
-    bool validate();
-    void execute();
+    bool validate(int numberOfArmies, Player* player, territory* sourceTerritory, territory* targetTerritory);
+    void execute(int numberOfArmies, Player* player, territory* sourceTerritory, territory* targetTerritory, Deck* deck);
 };
 
 // Bomb, a certain type of order

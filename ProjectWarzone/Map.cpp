@@ -120,6 +120,16 @@ int territory::getBorderID(int pos)
 	return borders[pos]->getID();
 }
 
+bool territory::isAdjacentTerritory(territory* target)
+{
+	std::vector<territory*>::iterator it = std::find(borders.begin(), borders.end(), target);
+	if (it != borders.end())
+	{
+		return true;
+	}
+	return false;
+}
+
 int Map::getNumOfCont()
 {
 	return continents.size();

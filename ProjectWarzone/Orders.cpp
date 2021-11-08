@@ -186,21 +186,21 @@ ostream& operator<< (ostream& output, OrdersList& ordList)
 Deploy::Deploy() : Order(new string("deploy"), new string("The deploy order places some armies on one of the current player's territories.")) {}
 
 // Validates the order
-bool Deploy::validate()
+bool Deploy::validate(Player* player, territory* targetTerritory)
 {
-    // Code for the demonstration
-    cout << "validate fct executed" << endl;
-    return true; // TEMP
+    if (player == targetTerritory->getOwner())
+    {
+        return true;
+    }
+    return false;
 }
 
 // Executes the order, provided that the order is valid
-void Deploy::execute()
+void Deploy::execute(int numberOfArmies, Player* player, territory* targetTerritory)
 {
-    // Code for the demonstration
-    cout << "execute fct executed" << endl;
-
-    if (validate())
+    if (validate(player, targetTerritory))
     {
+        targetTerritory->addArmies(numberOfArmies);
         setHasBeenExecuted(new bool(true));
     }
 }
@@ -209,16 +209,67 @@ Advance::Advance() : Order(new string("advance"), new string ("The advance order
 "to an adjacent territory (target). If the target territory belongs to the current player, the armies are moved to the target territory. "
 "If the target territory belongs to another player, an attack happens between the two territories.")) {}
 
-bool Advance::validate()
+bool Advance::validate(int numberOfArmies, Player* player, territory* sourceTerritory, territory* targetTerritory)
 {
-    return true; // TEMP
+    if (player == sourceTerritory->getOwner() && sourceTerritory->isAdjacentTerritory(targetTerritory) && numberOfArmies <= sourceTerritory->getArmies())
+    {
+        return true;
+    }
+    return false;
 }
 
-void Advance::execute()
+void Advance::execute(int numberOfArmies, Player* player, territory* sourceTerritory, territory* targetTerritory, Deck* deck)
 {
-    if (validate())
+    if (validate(numberOfArmies, player, sourceTerritory, targetTerritory))
     {
-        // Some code...
+        if (sourceTerritory->getOwner() == targetTerritory->getOwner())
+        {
+            sourceTerritory->removeArmies(numberOfArmies);
+            targetTerritory->addArmies(numberOfArmies);
+        }
+        else
+        {
+            bool capture = false;
+            sourceTerritory->removeArmies(numberOfArmies);
+            int defendingArmies = targetTerritory->getArmies();
+            int attackingArmies = numberOfArmies;
+            for (int i = 0; i < defendingArmies; i++) {
+                if (rand() % 100 < 70)
+                {
+                    attackingArmies--;
+                }
+            }
+            for (int i = 0; i < numberOfArmies; i++) {
+                if (rand() % 100 < 60)
+                {
+                    defendingArmies--;
+                }
+            }
+            
+            if (attackingArmies < 0) {
+                attackingArmies = 0;
+            }
+            if (defendingArmies < 0) {
+                defendingArmies = 0;
+            }
+
+            if (attackingArmies > 0 && defendingArmies == 0) {
+                targetTerritory->setOwner(player);
+                targetTerritory->setArmies(attackingArmies);
+                capture = true;
+            }
+            else if (defendingArmies > 0) {
+                sourceTerritory->addArmies(attackingArmies);
+                targetTerritory->setArmies(defendingArmies);
+            }
+            else if (attackingArmies == 0 && defendingArmies == 0) {
+                targetTerritory->setArmies(0);
+            }
+
+            if (capture) {
+                deck->draw(player->getHand());
+            }
+        }
 
         setHasBeenExecuted(new bool(true));
     }

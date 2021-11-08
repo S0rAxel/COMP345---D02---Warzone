@@ -50,13 +50,16 @@ public:
 
 	friend ostream& operator <<(ostream& stream, const Player& player);
 
+	list<territory*> getTerritories() { return territories; }
+
 	list<territory*> toDefend();
 	list<territory*> toAttack();
+	Hand* getHand() { return hand; }
 	void issueOrder();
 
 private:
 	list<territory*> territories;
-	list<Card*> hand;
+	Hand* hand;
 	list<Order*> orders;
 
 public:

@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 using namespace std;
-class Player
+class Player;
 
 class territory
 {
@@ -17,9 +17,14 @@ public:
 	void addBorders(territory* t);
 	int getNumOfBorders();
 	int getBorderID(int pos);
+	void addArmies(int numberOfArmies) { numOfArmies += numberOfArmies; }
+	void removeArmies(int numberOfArmies) { numOfArmies -= numberOfArmies; }
+	void setArmies(int numberOfArmies) { numOfArmies = numberOfArmies; }
+	int getArmies() { return numOfArmies; }
+	bool isAdjacentTerritory(territory* target);
 private:
 	int numOfArmies;
-	vector<territory*> borders; //vector of pointers to neigboting territories
+	vector<territory*> borders; //vector of pointers to neigboring territories
 	Player* owner;
 	int continent;
 	string name; 
