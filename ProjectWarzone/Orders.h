@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "Player.h"
+#include "Cards.h"
 
 using std::string;
 using std::ostream;
