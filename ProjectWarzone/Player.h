@@ -29,6 +29,9 @@ class Card { };
 #pragma endregion
 */
 
+class Card;
+class Order;
+class territory;
 
 class Player
 {

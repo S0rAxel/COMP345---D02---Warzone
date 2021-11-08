@@ -42,7 +42,13 @@
     <ClInclude Include="GameEngineDriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
+    <ClInclude Include="..\Project Warzone - D02\ILoggable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project Warzone - D02\Subject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Project Warzone - D02\Observer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -76,12 +82,6 @@
     </ClCompile>
     <ClCompile Include="OrdersDriver.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ILoggable.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Subject.h">
-      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
