@@ -3,32 +3,35 @@
 #include <list>
 #include <string>
 
-class LogObserver;
-
 using namespace std;
+
+class Observer;
 
 class Subject
 {
 public:
 	Subject();
+	Subject(const Subject& sub);
 	virtual ~Subject();
-	virtual void Attach(LogObserver* obs) = 0;
-	virtual void Detach(LogObserver* obs) = 0;
-	virtual void Notify(class ILoggable log) = 0;
+	virtual void Attach(Observer* obs) = 0;
+	virtual void Detach(Observer* obs) = 0;
+	virtual void Notify( class ILoggable &log) = 0;
+
+	Subject& operator= (const Subject& ordList);
 private:
-	list<LogObserver*>* observers;
+	list<Observer*>* observers;
 };
 
 class ILoggable
 {
 public:
-	virtual string stringToLog() { return "help"; };
+	virtual string StringToLog() = 0;
 };
 
 class Observer
 {
 public:
-	virtual void Update(class ILoggable log) = 0;
+	virtual void Update(ILoggable &log) = 0;
 };
 
 class LogObserver : public Observer
@@ -37,7 +40,7 @@ public:
 	LogObserver();
 	LogObserver(Subject* sub);
 	~LogObserver();
-	virtual void Update(ILoggable log);
+	void Update(ILoggable &log);
 
 private:
 	Subject* subject;

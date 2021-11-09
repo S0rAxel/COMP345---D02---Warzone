@@ -158,7 +158,8 @@ void OrdersList::add(Order order)
 {
     list->push_back(order);
 
-    //Notify(this);
+    //cout << "Add method was called" << endl;
+    Notify(*this);
 }
 
 // Assignment operator for OrdersList
@@ -172,6 +173,32 @@ OrdersList& OrdersList::operator= (const OrdersList& ordList)
 
     return *this;
 }
+
+#pragma region Subject and ILoggable
+    void OrdersList::Attach(Observer* obs)
+    {
+        Subject::Attach(obs);
+    }
+    
+    void OrdersList::Detach(Observer* obs)
+    {
+        Subject::Detach(obs);
+    }
+
+    void OrdersList::Notify(ILoggable& log) 
+    {
+        Subject::Notify(log);
+        //cout << "Notify method was called " << endl;
+    }
+
+    string OrdersList::StringToLog()
+    {
+        //cout << "Update was called " << endl;
+        return "Help me please I do not know what I am doing \n";
+    }
+
+#pragma endregion
+
 
 // Stream insertion operator for OrdersList
 ostream& operator<< (ostream& output, OrdersList& ordList)

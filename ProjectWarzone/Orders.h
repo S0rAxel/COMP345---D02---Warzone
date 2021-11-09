@@ -45,7 +45,7 @@ private:
 };
 
 // A list of Order objects
-class OrdersList //:public Subject, ILoggable
+class OrdersList : public Subject, ILoggable
 {
 public:
     OrdersList();
@@ -61,10 +61,10 @@ public:
     friend ostream& operator<<(ostream& output, OrdersList& ordList);
     
 #pragma region Subject and ILoggable implementation
-    /*void Attach(LogObserver* obs);
-    void Detach(LogObserver* obs);
-    void Notify(class ILoggable log);
-    string StringToLog();*/
+    void Attach(Observer* obs);
+    void Detach(Observer* obs);
+    void Notify(ILoggable& log);
+    string StringToLog();
 #pragma endregion
 
 private:

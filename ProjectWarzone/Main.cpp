@@ -1,5 +1,6 @@
 #include <iostream>
 #include "LoggingObserver.h"
+#include "Orders.h"
 
 
 
@@ -10,7 +11,13 @@ int main()
 	cout << "\n\t - WARZONE PROJECT - \n";
 
 	LogObserver* logObs = new LogObserver();
+	OrdersList* orderList = new OrdersList();
 
+	orderList->Attach(logObs);
+
+	//cout << orderList->StringToLog();
+
+	orderList->add(Order());
 
 	/*/cout << "\n\t- MAP DEMO -\n";
 	system("pause");
