@@ -59,6 +59,7 @@ public:
 	list<territory*> toAttack();
 	Hand* getHand() { return hand; }
 	void issueOrder();
+	list<Order*> getOrders();
 
 private:
 	list<territory*> territories;
