@@ -22,6 +22,11 @@ void Player::issueOrder() {
 	orders.push_back(order);
 }
 
+list<Order*> Player::getOrders()
+{
+	return orders;
+}
+
 std::ostream& operator<<(std::ostream& stream, const Player& player) {
 	return stream << " " << player.playerName;
 }
