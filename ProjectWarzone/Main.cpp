@@ -1,9 +1,6 @@
 #include <iostream>
-#include "MapDriver.h"
-#include "PlayerDriver.h"
-#include "OrdersDriver.h"
-#include "CardsDriver.h"
-#include "GameEngineDriver.h"
+#include "LoggingObserver.h"
+
 
 
 using namespace std;
@@ -12,7 +9,10 @@ int main()
 {
 	cout << "\n\t - WARZONE PROJECT - \n";
 
-	cout << "\n\t- MAP DEMO -\n";
+	LogObserver* logObs = new LogObserver();
+
+
+	/*/cout << "\n\t- MAP DEMO -\n";
 	system("pause");
 	MapDriverDemo();
 
@@ -30,5 +30,5 @@ int main()
 
 	cout << "\n\t- GAME ENGINE DEMO -\n";
 	system("pause");
-	GameEngineDriverDemo();
+	GameEngineDriverDemo();*/
 }
