@@ -18,13 +18,7 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerDriver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Cards.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CardsDriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
@@ -33,28 +27,7 @@
     <ClInclude Include="Orders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OrdersDriver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MapDriver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineDriver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Project Warzone - D02\ILoggable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Project Warzone - D02\Subject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Project Warzone - D02\Observer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandProcessing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandProcessingDriver.h">
+    <ClInclude Include="LoggingObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -89,10 +62,7 @@
     <ClCompile Include="OrdersDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CommandProcessing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandProcessingDriver.cpp">
+    <ClCompile Include="LoggingObserver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

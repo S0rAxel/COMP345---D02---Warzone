@@ -157,6 +157,8 @@ void OrdersList::remove(int index)
 void OrdersList::add(Order order)
 {
     list->push_back(order);
+
+    //Notify(this);
 }
 
 // Assignment operator for OrdersList

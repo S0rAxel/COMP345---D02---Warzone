@@ -1,15 +1,18 @@
+#pragma once
+
 #include <string>
 #include <iostream>
 #include <vector>
 #include "Player.h"
 #include "Cards.h"
+#include "LoggingObserver.h"
 
 using std::string;
 using std::ostream;
 using std::vector;
 
 // An Order object, which contains data members and functions related to a Warzone order
-class Order
+class Order //: public Subject, ILoggable
 {
 public:
     Order();
@@ -27,6 +30,14 @@ public:
     Order& operator= (const Order& order);
     friend ostream& operator<< (ostream& output, Order& order);
 
+#pragma region Subject and ILoggable implementation
+    /*void Attach(LogObserver* obs);
+    void Detach(LogObserver* obs);
+    void Notify(class ILoggable log);
+    string StringToLog();*/
+#pragma endregion
+
+
 private:
     string* effect;
     string* description;
@@ -34,7 +45,7 @@ private:
 };
 
 // A list of Order objects
-class OrdersList
+class OrdersList //:public Subject, ILoggable
 {
 public:
     OrdersList();
@@ -48,6 +59,13 @@ public:
 
     OrdersList& operator= (const OrdersList& ordList);
     friend ostream& operator<<(ostream& output, OrdersList& ordList);
+    
+#pragma region Subject and ILoggable implementation
+    /*void Attach(LogObserver* obs);
+    void Detach(LogObserver* obs);
+    void Notify(class ILoggable log);
+    string StringToLog();*/
+#pragma endregion
 
 private:
     vector<Order>* list;
