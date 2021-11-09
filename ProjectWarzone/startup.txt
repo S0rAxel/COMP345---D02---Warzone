@@ -1,0 +1,4 @@
+loadmap
+loadmap
+loadmap
+fail
