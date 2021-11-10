@@ -97,8 +97,8 @@ class Bomb : public Order
 public:
     Bomb();
 
-    bool validate();
-    void execute();
+    bool validate(Player* player, territory* target);
+    void execute(Player* player, territory* target);
 };
 
 // Blockade, a certain type of order
@@ -117,8 +117,8 @@ class Airlift : public Order
 public:
     Airlift();
 
-    bool validate();
-    void execute();
+    bool validate(Player* player, territory* source, territory* target);
+    void execute(int numOfArmies, Player* player, territory* source, territory* target);
 };
 
 // Negotiate, a certain type of order

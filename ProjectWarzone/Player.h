@@ -53,18 +53,19 @@ public:
 
 	friend ostream& operator <<(ostream& stream, const Player& player);
 
-	list<territory*> getTerritories() { return territories; }
-
-	list<territory*> toDefend();
-	list<territory*> toAttack();
+	vector<territory*> getTerritories() { return territories; }
+	void addTerritory(territory* territory) { territories.push_back(territory); }
+	void removeTerritory(territory* territory) { territories.erase(remove(territories.begin(), territories.end(), territory), territories.end()); }
+	vector<territory*> toDefend();
+	vector<territory*> toAttack();
 	Hand* getHand() { return hand; }
 	void issueOrder();
-	list<Order*> getOrders();
+	vector<Order*> getOrders();
 
 private:
-	list<territory*> territories;
+	vector<territory*> territories;
 	Hand* hand;
-	list<Order*> orders;
+	vector<Order*> orders;
 
 public:
 	string playerName;
