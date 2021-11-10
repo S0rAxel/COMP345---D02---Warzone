@@ -60,11 +60,15 @@ public:
 	Hand* getHand() { return hand; }
 	void issueOrder();
 	list<Order*> getOrders();
+	int getReinF() { return numOfReinF; }
+	void addReinF(int reinf) { numOfReinF += reinf; }
+	void removeReinf(int reinf) { numOfReinF -= reinf; }//must add a validation before using this one
 
 private:
 	list<territory*> territories;
 	Hand* hand;
 	list<Order*> orders;
+	int numOfReinF;
 
 public:
 	string playerName;
