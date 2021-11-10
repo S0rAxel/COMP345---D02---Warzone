@@ -17,7 +17,7 @@ public:
 	virtual void Detach(Observer* obs) = 0;
 	virtual void Notify( class ILoggable &log) = 0;
 
-	Subject& operator= (const Subject& ordList);
+	Subject& operator= (const Subject& sub);
 private:
 	list<Observer*>* observers;
 };
@@ -38,10 +38,11 @@ class LogObserver : public Observer
 {
 public:
 	LogObserver();
-	LogObserver(Subject* sub);
+	LogObserver(const LogObserver& obs);
 	~LogObserver();
 	void Update(ILoggable &log);
 
+	LogObserver& operator= (const LogObserver& obs);
 private:
 	Subject* subject;
 };

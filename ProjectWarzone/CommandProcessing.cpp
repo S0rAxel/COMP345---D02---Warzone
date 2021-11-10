@@ -6,8 +6,6 @@
 
 using namespace std;
 
-
-
 #pragma region Command
 
 Command::Command(string value) : value(value) { }
@@ -19,11 +17,36 @@ void Command::execute() {
 
 void Command::saveEffect() {
 	this->effect = "Achieved: " + this->value;
+
+	Notify(*this);
 }
 
 ostream& operator<<(ostream& out, Command& cmd) {
 	return out << "Command: " << cmd.value;
 }
+
+#pragma region Subject and ILoggable
+void Command::Attach(Observer* obs)
+{
+	Subject::Attach(obs);
+}
+
+void Command::Detach(Observer* obs)
+{
+	Subject::Detach(obs);
+}
+
+void Command::Notify(ILoggable& log)
+{
+	Subject::Notify(log);
+}
+
+string Command::StringToLog()
+{
+	return "Notify Called from Command::SaveEffect() \n";
+}
+
+#pragma endregion
 
 #pragma endregion
 
@@ -63,6 +86,8 @@ Command CommandProcessor::getCommand() {
 void CommandProcessor::saveCommand(Command& cmd) {
 	//Store the command in the command log.
 	this->cmdLog.push_back(cmd);
+
+	Notify(*this);
 }
 
 bool CommandProcessor::validate(Command& cmd) {
@@ -85,6 +110,29 @@ ostream& operator<<(ostream& out, CommandProcessor& cmdProcess) {
 	return out << "Console Command Processor. Log of "
 		<< cmdProcess.cmdLog.size() << " commands.";
 }
+
+#pragma region Subject and ILoggable
+void CommandProcessor::Attach(Observer* obs)
+{
+	Subject::Attach(obs);
+}
+
+void CommandProcessor::Detach(Observer* obs)
+{
+	Subject::Detach(obs);
+}
+
+void CommandProcessor::Notify(ILoggable& log)
+{
+	Subject::Notify(log);
+}
+
+string CommandProcessor::StringToLog()
+{
+	return "Notify from CommandProcessor::SaveCommand() \n";
+}
+
+#pragma endregion
 
 #pragma endregion
 

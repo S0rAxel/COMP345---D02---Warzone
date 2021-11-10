@@ -188,13 +188,11 @@ OrdersList& OrdersList::operator= (const OrdersList& ordList)
     void OrdersList::Notify(ILoggable& log) 
     {
         Subject::Notify(log);
-        //cout << "Notify method was called " << endl;
     }
 
     string OrdersList::StringToLog()
     {
-        //cout << "Update was called " << endl;
-        return "Help me please I do not know what I am doing \n";
+        return "Notify from OrdersList::Add() \n";
     }
 
 #pragma endregion

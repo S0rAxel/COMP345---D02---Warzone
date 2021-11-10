@@ -58,7 +58,27 @@ void Subject::Notify(ILoggable& log) {
 LogObserver::LogObserver()
 {
 
-};
+}
+
+/// <summary>
+/// Copy Constructor
+/// </summary>
+LogObserver::LogObserver(const LogObserver& obs)
+{
+	subject = obs.subject;
+}
+
+// Assignment operator for OrdersList
+LogObserver& LogObserver::operator= (const LogObserver& obs)
+{
+	// self-assignment guard
+	if (this == &obs)
+		return *this;
+
+	subject = obs.subject;
+
+	return *this;
+}
 
 LogObserver::~LogObserver()
 {
@@ -67,9 +87,12 @@ LogObserver::~LogObserver()
 
 void LogObserver::Update(ILoggable& log)
 {
-	ofstream outfile("gamelog.txt");
+	ofstream file("gamelog.txt", ios::app);
+	
+	if (!file.is_open())
+		cout << "File could not be opened" << endl;
 
-	cout << log.StringToLog();
+	file << log.StringToLog();
 
-	outfile.close();
+	file.close();
 };

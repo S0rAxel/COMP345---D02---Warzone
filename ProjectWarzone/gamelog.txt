@@ -1,0 +1,44 @@
+
+ - New log created at time: 19:25:08 - 
+
+Notify Called from Command::SaveEffect() 
+Notify from CommandProcessor::SaveCommand() 
+Notify from OrdersList::Add() 
+
+ - New log created at time: 19:25:08 - 
+
+Notify Called from Command::SaveEffect() 
+Notify from CommandProcessor::SaveCommand() 
+Notify from OrdersList::Add() 
+
+ - New log created at time: 19:25:57 - 
+
+Notify Called from Command::SaveEffect() 
+Notify from CommandProcessor::SaveCommand() 
+Notify from OrdersList::Add() 
+
+ - New log created at time: 19:25:57 - 
+
+Notify Called from Command::SaveEffect() 
+Notify from CommandProcessor::SaveCommand() 
+Notify from OrdersList::Add() 
+
+ - New log created at time: Tue Nov  9 19:29:27 2021 - 
+
+Notify Called from Command::SaveEffect() 
+Notify from CommandProcessor::SaveCommand() 
+Notify from OrdersList::Add() 
+
+ - New log created at time: Tue Nov  9 19:29:54 2021
+ - 
+
+Notify Called from Command::SaveEffect() 
+Notify from CommandProcessor::SaveCommand() 
+Notify from OrdersList::Add() 
+
+ - New log created at time: Tue Nov  9 19:30:11 2021
+ - 
+
+Notify Called from Command::SaveEffect() 
+Notify from CommandProcessor::SaveCommand() 
+Notify from OrdersList::Add() 
