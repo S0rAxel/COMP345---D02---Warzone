@@ -281,11 +281,8 @@ void Advance::execute(int numberOfArmies, Player* player, territory* sourceTerri
             }
 
             if (attackingArmies > 0 && defendingArmies == 0) {
-                targetTerritory->getOwner()->removeTerritory(targetTerritory);
                 targetTerritory->setOwner(player);
                 targetTerritory->setArmies(attackingArmies);
-                player->addTerritory(targetTerritory);
-
                 capture = true;
             }
             else if (defendingArmies > 0) {
@@ -308,25 +305,16 @@ void Advance::execute(int numberOfArmies, Player* player, territory* sourceTerri
 Bomb::Bomb() : Order(new string("bomb"), new string("The bomb order destroys half of the armies located on an opponent’s territory that is adjacent to one "
 "of the current player's territories.")) {}
 
-bool Bomb::validate(Player* player, territory* target)
+bool Bomb::validate()
 {
-    if (player == target->getOwner())
-    {
-        vector<territory*> territories = player->getTerritories();
-        for (int i = 0; i < territories.size(); i++) {
-            if (target->isAdjacentTerritory(territories.at(i))) {
-                return true;
-            }
-        }
-    }
-    return false;
+    return true; // TEMP
 }
 
-void Bomb::execute(Player* player, territory* target)
+void Bomb::execute()
 {
-    if (validate(player, target))
+    if (validate())
     {
-        target->setArmies(target->getArmies() / 2);
+        // Some code...
 
         setHasBeenExecuted(new bool(true));
     }
@@ -353,21 +341,16 @@ void Blockade::execute()
 Airlift::Airlift() : Order(new string("airlift"), new string("The airlift order advances some armies from one of the current player's territories to any "
 "another territory.")) {}
 
-bool Airlift::validate(Player* player, territory* source, territory* target)
+bool Airlift::validate()
 {
-    if (player == source->getOwner() && player == target->getOwner())
-    {
-        return true;
-    }
-    return false;
+    return true; // TEMP
 }
 
-void Airlift::execute(int numOfArmies, Player* player, territory* source, territory* target)
+void Airlift::execute()
 {
-    if (validate(player, source, target))
+    if (validate())
     {
-        source->removeArmies(numOfArmies);
-        target->addArmies(numOfArmies);
+        // Some code...
 
         setHasBeenExecuted(new bool(true));
     }
