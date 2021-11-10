@@ -42,3 +42,10 @@ Notify from OrdersList::Add()
 Notify Called from Command::SaveEffect() 
 Notify from CommandProcessor::SaveCommand() 
 Notify from OrdersList::Add() 
+
+ - New log created at time: Wed Nov 10 01:59:22 2021
+ - 
+
+Notify Called from Command::SaveEffect() 
+Notify from CommandProcessor::SaveCommand() 
+Notify from OrdersList::Add() 

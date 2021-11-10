@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <list>
+#include <vector>
 #include <iostream>
 #include "Map.h"
 #include "Orders.h"
@@ -53,22 +53,27 @@ public:
 
 	friend ostream& operator <<(ostream& stream, const Player& player);
 
-	list<territory*> getTerritories() { return territories; }
+	vector<territory*> getTerritories() { return territories; }
 
-	list<territory*> toDefend();
-	list<territory*> toAttack();
+	vector<territory*> toDefend();
+	vector<territory*> toAttack();
 	Hand* getHand() { return hand; }
 	void issueOrder();
-	list<Order*> getOrders();
+	vector<Order*> getOrders();
 	int getReinF() { return numOfReinF; }
 	void addReinF(int reinf) { numOfReinF += reinf; }
 	void removeReinf(int reinf) { numOfReinF -= reinf; }//must add a validation before using this one
+	vector<Player*> getNegotiate() { return negotiate; }
+	void clearNegotiate() { negotiate.clear(); }
+	void addNegotiate(Player* player) { negotiate.push_back(player); }
+	bool isNegotiate(Player* player);
 
 private:
-	list<territory*> territories;
+	vector<territory*> territories;
 	Hand* hand;
-	list<Order*> orders;
+	vector<Order*> orders;
 	int numOfReinF;
+	vector<Player*> negotiate; //vector of players that cannot be attacked. Clear after every turn
 
 public:
 	string playerName;

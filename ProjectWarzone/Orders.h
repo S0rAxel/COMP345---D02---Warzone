@@ -77,7 +77,7 @@ class Deploy : public Order
 public:
     Deploy();
 
-    bool validate(Player* player, territory* territory);
+    bool validate(int numberOfArmies, Player* player, territory* territory);
     void execute(int numberOfArmies, Player* player, territory* targetTerritory);
 };
 
@@ -97,8 +97,8 @@ class Bomb : public Order
 public:
     Bomb();
 
-    bool validate();
-    void execute();
+    bool validate(Player* player, territory* target);
+    void execute(Player* player, territory* target);
 };
 
 // Blockade, a certain type of order
@@ -107,8 +107,8 @@ class Blockade : public Order
 public:
     Blockade();
 
-    bool validate();
-    void execute();
+    bool validate(Player* player, Player* neutral, territory* target);
+    void execute(Player* player, Player* neutral, territory* target);
 };
 
 // Airlift, a certain type of order
@@ -117,8 +117,8 @@ class Airlift : public Order
 public:
     Airlift();
 
-    bool validate();
-    void execute();
+    bool validate(Player* player, territory* source, territory* target);
+    void execute(int numOfArmies, Player* player, territory* source, territory* target);
 };
 
 // Negotiate, a certain type of order
@@ -127,6 +127,6 @@ class Negotiate : public Order
 public:
     Negotiate();
 
-    bool validate();
-    void execute();
+    bool validate(Player* player, Player* target);
+    void execute(Player* player, Player* target);
 };

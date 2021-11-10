@@ -41,11 +41,12 @@ class CommandProcessor : public Subject, ILoggable {
 protected:
 	vector<Command> cmdLog;
 
-	void saveCommand(Command&);
+	
 	virtual Command readCommand();
 
 public:
 	//Static members
+	void saveCommand(Command&);
 	static CommandProcessor* cmdProcessor;
 	static void startup();
 	static bool validate(Command&);

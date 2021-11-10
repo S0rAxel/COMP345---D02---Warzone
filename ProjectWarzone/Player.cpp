@@ -4,14 +4,14 @@ Player& Player::operator=(const Player& player) {
 	return *this;
 }
 
-list<territory*> Player::toDefend() {
-	list<territory*> territoriesToDefend;
+vector<territory*> Player::toDefend() {
+	vector<territory*> territoriesToDefend;
 
 	return territoriesToDefend;
 }
 
-list<territory*> Player::toAttack() {
-	list<territory*> territoriesToAttack;
+vector<territory*> Player::toAttack() {
+	vector<territory*> territoriesToAttack;
 
 	return territoriesToAttack;
 }
@@ -22,9 +22,19 @@ void Player::issueOrder() {
 	orders.push_back(order);
 }
 
-list<Order*> Player::getOrders()
+vector<Order*> Player::getOrders()
 {
 	return orders;
+}
+
+bool Player::isNegotiate(Player* player)
+{
+	std::vector<Player*>::iterator it = std::find(negotiate.begin(), negotiate.end(), player);
+	if (it != negotiate.end())
+	{
+		return true;
+	}
+	return false;
 }
 
 std::ostream& operator<<(std::ostream& stream, const Player& player) {

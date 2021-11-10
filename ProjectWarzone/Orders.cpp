@@ -213,21 +213,23 @@ ostream& operator<< (ostream& output, OrdersList& ordList)
 Deploy::Deploy() : Order(new string("deploy"), new string("The deploy order places some armies on one of the current player's territories.")) {}
 
 // Validates the order
-bool Deploy::validate(Player* player, territory* targetTerritory)
+bool Deploy::validate(int numberOfArmies, Player* player, territory* targetTerritory)
 {
-    if (player == targetTerritory->getOwner())
+    if (player == targetTerritory->getOwner() && player->getReinF() >= numberOfArmies)
     {
         return true;
     }
+    cout << "Invalid deploy order." << endl;
     return false;
 }
 
 // Executes the order, provided that the order is valid
 void Deploy::execute(int numberOfArmies, Player* player, territory* targetTerritory)
 {
-    if (validate(player, targetTerritory))
+    if (validate(numberOfArmies, player, targetTerritory))
     {
         targetTerritory->addArmies(numberOfArmies);
+        player->removeReinf(numberOfArmies);
         setHasBeenExecuted(new bool(true));
     }
 }
@@ -238,10 +240,11 @@ Advance::Advance() : Order(new string("advance"), new string ("The advance order
 
 bool Advance::validate(int numberOfArmies, Player* player, territory* sourceTerritory, territory* targetTerritory)
 {
-    if (player == sourceTerritory->getOwner() && sourceTerritory->isAdjacentTerritory(targetTerritory) && numberOfArmies <= sourceTerritory->getArmies())
+    if (player == sourceTerritory->getOwner() && sourceTerritory->isAdjacentTerritory(targetTerritory) && numberOfArmies <= sourceTerritory->getArmies() && !(targetTerritory->getOwner()->isNegotiate(player)))
     {
         return true;
     }
+    cout << "Invalid Advance order." << endl;
     return false;
 }
 
@@ -305,16 +308,26 @@ void Advance::execute(int numberOfArmies, Player* player, territory* sourceTerri
 Bomb::Bomb() : Order(new string("bomb"), new string("The bomb order destroys half of the armies located on an opponent’s territory that is adjacent to one "
 "of the current player's territories.")) {}
 
-bool Bomb::validate()
+bool Bomb::validate(Player* player, territory* target)
 {
-    return true; // TEMP
+    if (player != target->getOwner() && !(target->getOwner()->isNegotiate(player)))
+    {
+        vector<territory*> territories = player->getTerritories();
+        for (int i = 0; i < territories.size(); i++) {
+            if (target->isAdjacentTerritory(territories.at(i))) {
+                return true;
+            }
+        }
+    }
+    cout << "Invalid Bomb order." << endl;
+    return false;
 }
 
-void Bomb::execute()
+void Bomb::execute(Player* player, territory* target)
 {
-    if (validate())
+    if (validate(player, target))
     {
-        // Some code...
+        target->setArmies(target->getArmies() / 2);
 
         setHasBeenExecuted(new bool(true));
     }
@@ -323,34 +336,46 @@ void Bomb::execute()
 Blockade::Blockade() : Order(new string("blockade"), new string("The blockade order triples the number of armies on one of the current player's territories "
 "and make it a neutral territory.")) {}
 
-bool Blockade::validate()
+bool Blockade::validate(Player* player, Player* neutral, territory* target)
 {
-    return true; // TEMP
+    if (target->getOwner() == player || target->getOwner() == neutral)
+    {
+        return true;
+    }
+    cout << "Invalid Blockade order." << endl;
+    return false;
 }
 
-void Blockade::execute()
+void Blockade::execute(Player* player, Player* neutral, territory* target)
 {
-    if (validate())
+    if (validate(player, neutral, target))
     {
-        // Some code...
+        target->setOwner(neutral);
+        target->setArmies(target->getArmies() * 2);
 
         setHasBeenExecuted(new bool(true));
     }
 }
 
 Airlift::Airlift() : Order(new string("airlift"), new string("The airlift order advances some armies from one of the current player's territories to any "
-"another territory.")) {}
+    "another territory.")) {}
 
-bool Airlift::validate()
+bool Airlift::validate(Player* player, territory* source, territory* target)
 {
-    return true; // TEMP
+    if (player == source->getOwner() && player == target->getOwner())
+    {
+        return true;
+    }
+    cout << "Invalid Airlift order." << endl;
+    return false;
 }
 
-void Airlift::execute()
+void Airlift::execute(int numOfArmies, Player* player, territory* source, territory* target)
 {
-    if (validate())
+    if (validate(player, source, target))
     {
-        // Some code...
+        source->removeArmies(numOfArmies);
+        target->addArmies(numOfArmies);
 
         setHasBeenExecuted(new bool(true));
     }
@@ -359,16 +384,21 @@ void Airlift::execute()
 Negotiate::Negotiate() : Order(new string("negotiate"), new string("The negotiate order prevents attacks between the current player and another player until "
 "the end of the turn.")) {}
 
-bool Negotiate::validate()
+bool Negotiate::validate(Player* player, Player* target)
 {
-    return true; // TEMP
+    if (target != player) {
+        return true;
+    }
+    cout << "Invalid Negotiate order." << endl;
+    return false;
 }
 
-void Negotiate::execute()
+void Negotiate::execute(Player* player, Player* target)
 {
-    if (validate())
+    if (validate(player, target))
     {
-        // Some code...
+        player->addNegotiate(target);
+        target->addNegotiate(player);
 
         setHasBeenExecuted(new bool(true));
     }
