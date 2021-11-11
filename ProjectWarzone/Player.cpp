@@ -40,3 +40,15 @@ bool Player::isNegotiate(Player* player)
 std::ostream& operator<<(std::ostream& stream, const Player& player) {
 	return stream << " " << player.playerName;
 }
+
+void Player::removeTerritories(territory* territory)
+{
+	for (int i = 0; i < territories.size(); i++)
+	{
+		if (territories[i] == territory)
+		{
+			territories.erase(territories.begin() + i);
+			break;
+		}
+	}
+}

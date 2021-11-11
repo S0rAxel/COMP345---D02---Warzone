@@ -54,7 +54,8 @@ public:
 	friend ostream& operator <<(ostream& stream, const Player& player);
 
 	vector<territory*> getTerritories() { return territories; }
-
+	void addTerritories(territory* territory) { territories.push_back(territory); }
+	void removeTerritories(territory* territory);
 	vector<territory*> toDefend();
 	vector<territory*> toAttack();
 	Hand* getHand() { return hand; }

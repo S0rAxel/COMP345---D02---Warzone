@@ -182,7 +182,7 @@ void reinforcementPhase(Map m, vector<Player*> participants)
 	//to get the continent bonus
 	for (int i = 0; i < m.getNumOfCont(); i++)
 	{
-		Player* tempOwner = m.getTerritory(m.getContinent(i)->getTerrID(0))->getOwner();
+		tempOwner = m.getTerritory(m.getContinent(i)->getTerrID(0))->getOwner();
 		bool getBonus = false;
 		for (int j = 1; j < m.getContinent(i)->getLength(); j++)
 		{
@@ -200,18 +200,39 @@ void reinforcementPhase(Map m, vector<Player*> participants)
 		{
 			tempOwner->addReinF(m.getContinent(i)->getBonus());
 		}
-
+	}
+	//cheking for map ownership as in to see if only one player owns it all
+	Player* tempOwner = m.getTerritory(0)->getOwner();
+	bool won = false;
+	for (int i = 1; i < m.getNumOfTerr(); i++)
+	{
+		if (m.getTerritory(i)->getOwner() != tempOwner)
+		{
+			won = false;
+			break;
+		}
+		else
+		{
+			won = true;
+		}
+	}
+	if (won)
+	{
+		//insert path to won phase or victory screen
+	}
+	else
+	{
+		//transition to orderPhase
 	}
 }
 
 void issueOrderPhase(Map m, vector<Player*> participants)
 {
 
-}
 
+}
 void executeOrderPhase(Map m, vector<Player*> participants)
 {
 
 }
-
 #pragma endregion
