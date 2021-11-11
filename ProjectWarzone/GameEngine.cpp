@@ -1,4 +1,8 @@
 #include "GameEngine.h"
+#include <vector>
+#include "Player.h"
+#include "Map.h"
+#include "Orders.h"
 
 using namespace Engine;
 using namespace std;
@@ -158,5 +162,56 @@ void ExecOrders::Exit() { }
 
 void GameOver::Setup() { }
 void GameOver::Exit() { }
+
+void mainGameLoop()
+{
+	vector<Player*> participants;
+	Map map;
+
+
+}
+
+
+void reinforcementPhase(Map m, vector<Player*> participants)
+{
+	//loop for all territories to give players appropriate reinforcements
+	for (int i = 0; i < m.getNumOfTerr(); i++)
+	{
+
+	}
+	//to get the continent bonus
+	for (int i = 0; i < m.getNumOfCont(); i++)
+	{
+		Player* tempOwner = m.getTerritory(m.getContinent(i)->getTerrID(0))->getOwner();
+		bool getBonus = false;
+		for (int j = 1; j < m.getContinent(i)->getLength(); j++)
+		{
+			if (m.getTerritory(m.getContinent(i)->getTerrID(j))->getOwner() != tempOwner)
+			{
+				getBonus = false;
+				break;
+			}
+			else
+			{
+				getBonus = true;
+			}
+		}
+		if (getBonus)
+		{
+			tempOwner->addReinF(m.getContinent(i)->getBonus());
+		}
+
+	}
+}
+
+void issueOrderPhase(Map m, vector<Player*> participants)
+{
+
+}
+
+void executeOrderPhase(Map m, vector<Player*> participants)
+{
+
+}
 
 #pragma endregion
