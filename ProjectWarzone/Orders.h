@@ -75,58 +75,81 @@ private:
 class Deploy : public Order
 {
 public:
-    Deploy();
-
-    bool validate(int numberOfArmies, Player* player, territory* territory);
-    void execute(int numberOfArmies, Player* player, territory* targetTerritory);
+    Deploy(int numberOfArmies, Player* player, territory* target);
+    bool validate();
+    void execute();
+private:
+    int numOfArmies;
+    Player* player;
+    territory* target;
 };
 
 // Advance, a certain type of order
 class Advance : public Order
 {
 public:
-    Advance();
+    Advance(int numberOfArmies, Player* player, territory* sourceTerritory, territory* targetTerritory, Deck* deck);
 
-    bool validate(int numberOfArmies, Player* player, territory* sourceTerritory, territory* targetTerritory);
-    void execute(int numberOfArmies, Player* player, territory* sourceTerritory, territory* targetTerritory, Deck* deck);
+    bool validate();
+    void execute();
+private:
+    int numOfArmies;
+    Player* player;
+    territory* source;
+    territory* target;
+    Deck* deck;
 };
 
 // Bomb, a certain type of order
 class Bomb : public Order
 {
 public:
-    Bomb();
+    Bomb(Player* player, territory* target);
 
-    bool validate(Player* player, territory* target);
-    void execute(Player* player, territory* target);
+    bool validate();
+    void execute();
+private:
+    Player* player;
+    territory* target;
 };
 
 // Blockade, a certain type of order
 class Blockade : public Order
 {
 public:
-    Blockade();
+    Blockade(Player* player, Player* neutral, territory* target);
 
-    bool validate(Player* player, Player* neutral, territory* target);
-    void execute(Player* player, Player* neutral, territory* target);
+    bool validate();
+    void execute();
+private:
+    Player* player;
+    Player* neutral;
+    territory* target;
 };
 
 // Airlift, a certain type of order
 class Airlift : public Order
 {
 public:
-    Airlift();
+    Airlift(int numOfArmies, Player* player, territory* source, territory* target);
 
-    bool validate(Player* player, territory* source, territory* target);
-    void execute(int numOfArmies, Player* player, territory* source, territory* target);
+    bool validate();
+    void execute();
+private:
+    int numOfArmies;
+    Player* player;
+    territory* source;
+    territory* target;
 };
 
 // Negotiate, a certain type of order
 class Negotiate : public Order
 {
 public:
-    Negotiate();
+    Negotiate(Player* player, Player* target);
 
-    bool validate(Player* player, Player* target);
-    void execute(Player* player, Player* target);
+    bool validate();
+    void execute();
+    Player* player;
+    Player* target;
 };

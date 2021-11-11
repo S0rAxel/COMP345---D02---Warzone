@@ -210,12 +210,16 @@ ostream& operator<< (ostream& output, OrdersList& ordList)
     return cout << "The OrdersList contains a vector of Order objects of size " << ordList.list->size() << ": \n" << information;
 }
 
-Deploy::Deploy() : Order(new string("deploy"), new string("The deploy order places some armies on one of the current player's territories.")) {}
+Deploy::Deploy(int numberOfArmies, Player* player, territory* target) : Order(new string("deploy"), new string("The deploy order places some armies on one of the current player's territories.")) {
+    numOfArmies = numberOfArmies;
+    this->player = player;
+    this->target = target;
+}
 
 // Validates the order
-bool Deploy::validate(int numberOfArmies, Player* player, territory* targetTerritory)
+bool Deploy::validate()
 {
-    if (player == targetTerritory->getOwner() && player->getReinF() >= numberOfArmies)
+    if (player == target->getOwner() && player->getReinF() >= numOfArmies)
     {
         return true;
     }
@@ -224,23 +228,28 @@ bool Deploy::validate(int numberOfArmies, Player* player, territory* targetTerri
 }
 
 // Executes the order, provided that the order is valid
-void Deploy::execute(int numberOfArmies, Player* player, territory* targetTerritory)
+void Deploy::execute()
 {
-    if (validate(numberOfArmies, player, targetTerritory))
+    if (validate())
     {
-        targetTerritory->addArmies(numberOfArmies);
-        player->removeReinf(numberOfArmies);
+        target->addArmies(numOfArmies);
+        player->removeReinf(numOfArmies);
         setHasBeenExecuted(new bool(true));
     }
 }
 
-Advance::Advance() : Order(new string("advance"), new string ("The advance order moves some armies from one of the current player's territories (source) "
+Advance::Advance(int numberOfArmies, Player* player, territory* sourceTerritory, territory* targetTerritory, Deck* deck) : Order(new string("advance"), new string ("The advance order moves some armies from one of the current player's territories (source) "
 "to an adjacent territory (target). If the target territory belongs to the current player, the armies are moved to the target territory. "
-"If the target territory belongs to another player, an attack happens between the two territories.")) {}
+"If the target territory belongs to another player, an attack happens between the two territories.")) {
+    numOfArmies = numberOfArmies;
+    this->player = player;
+    source = sourceTerritory;
+    target = targetTerritory;
+}
 
-bool Advance::validate(int numberOfArmies, Player* player, territory* sourceTerritory, territory* targetTerritory)
+bool Advance::validate()
 {
-    if (player == sourceTerritory->getOwner() && sourceTerritory->isAdjacentTerritory(targetTerritory) && numberOfArmies <= sourceTerritory->getArmies() && !(targetTerritory->getOwner()->isNegotiate(player)))
+    if (player == source->getOwner() && source->isAdjacentTerritory(target) && numOfArmies <= source->getArmies() && !(target->getOwner()->isNegotiate(player)))
     {
         return true;
     }
@@ -248,28 +257,28 @@ bool Advance::validate(int numberOfArmies, Player* player, territory* sourceTerr
     return false;
 }
 
-void Advance::execute(int numberOfArmies, Player* player, territory* sourceTerritory, territory* targetTerritory, Deck* deck)
+void Advance::execute()
 {
-    if (validate(numberOfArmies, player, sourceTerritory, targetTerritory))
+    if (validate())
     {
-        if (sourceTerritory->getOwner() == targetTerritory->getOwner())
+        if (source->getOwner() == target->getOwner())
         {
-            sourceTerritory->removeArmies(numberOfArmies);
-            targetTerritory->addArmies(numberOfArmies);
+            source->removeArmies(numOfArmies);
+            target->addArmies(numOfArmies);
         }
         else
         {
             bool capture = false;
-            sourceTerritory->removeArmies(numberOfArmies);
-            int defendingArmies = targetTerritory->getArmies();
-            int attackingArmies = numberOfArmies;
+            source->removeArmies(numOfArmies);
+            int defendingArmies = target->getArmies();
+            int attackingArmies = numOfArmies;
             for (int i = 0; i < defendingArmies; i++) {
                 if (rand() % 100 < 70)
                 {
                     attackingArmies--;
                 }
             }
-            for (int i = 0; i < numberOfArmies; i++) {
+            for (int i = 0; i < numOfArmies; i++) {
                 if (rand() % 100 < 60)
                 {
                     defendingArmies--;
@@ -284,16 +293,18 @@ void Advance::execute(int numberOfArmies, Player* player, territory* sourceTerri
             }
 
             if (attackingArmies > 0 && defendingArmies == 0) {
-                targetTerritory->setOwner(player);
-                targetTerritory->setArmies(attackingArmies);
+                target->getOwner()->removeTerritories(target);
+                target->setOwner(player);
+                player->addTerritories(target);
+                target->setArmies(attackingArmies);
                 capture = true;
             }
             else if (defendingArmies > 0) {
-                sourceTerritory->addArmies(attackingArmies);
-                targetTerritory->setArmies(defendingArmies);
+                source->addArmies(attackingArmies);
+                target->setArmies(defendingArmies);
             }
             else if (attackingArmies == 0 && defendingArmies == 0) {
-                targetTerritory->setArmies(0);
+                target->setArmies(0);
             }
 
             if (capture) {
@@ -305,10 +316,13 @@ void Advance::execute(int numberOfArmies, Player* player, territory* sourceTerri
     }
 }
 
-Bomb::Bomb() : Order(new string("bomb"), new string("The bomb order destroys half of the armies located on an opponent’s territory that is adjacent to one "
-"of the current player's territories.")) {}
+Bomb::Bomb(Player* player, territory* target) : Order(new string("bomb"), new string("The bomb order destroys half of the armies located on an opponent’s territory that is adjacent to one "
+"of the current player's territories.")) {
+    this->player = player;
+    this->target = target;
+}
 
-bool Bomb::validate(Player* player, territory* target)
+bool Bomb::validate()
 {
     if (player != target->getOwner() && !(target->getOwner()->isNegotiate(player)))
     {
@@ -323,9 +337,9 @@ bool Bomb::validate(Player* player, territory* target)
     return false;
 }
 
-void Bomb::execute(Player* player, territory* target)
+void Bomb::execute()
 {
-    if (validate(player, target))
+    if (validate())
     {
         target->setArmies(target->getArmies() / 2);
 
@@ -333,10 +347,14 @@ void Bomb::execute(Player* player, territory* target)
     }
 }
 
-Blockade::Blockade() : Order(new string("blockade"), new string("The blockade order triples the number of armies on one of the current player's territories "
-"and make it a neutral territory.")) {}
+Blockade::Blockade(Player* player, Player* neutral, territory* target) : Order(new string("blockade"), new string("The blockade order triples the number of armies on one of the current player's territories "
+"and make it a neutral territory.")) {
+    this->player = player;
+    this->neutral = neutral;
+    this->target = target;
+}
 
-bool Blockade::validate(Player* player, Player* neutral, territory* target)
+bool Blockade::validate()
 {
     if (target->getOwner() == player || target->getOwner() == neutral)
     {
@@ -346,9 +364,9 @@ bool Blockade::validate(Player* player, Player* neutral, territory* target)
     return false;
 }
 
-void Blockade::execute(Player* player, Player* neutral, territory* target)
+void Blockade::execute()
 {
-    if (validate(player, neutral, target))
+    if (validate())
     {
         target->setOwner(neutral);
         target->setArmies(target->getArmies() * 2);
@@ -357,10 +375,15 @@ void Blockade::execute(Player* player, Player* neutral, territory* target)
     }
 }
 
-Airlift::Airlift() : Order(new string("airlift"), new string("The airlift order advances some armies from one of the current player's territories to any "
-    "another territory.")) {}
+Airlift::Airlift(int numOfArmies, Player* player, territory* source, territory* target) : Order(new string("airlift"), new string("The airlift order advances some armies from one of the current player's territories to any "
+    "another territory.")) {
+    this->numOfArmies = numOfArmies;
+    this->player = player;
+    this->source = source;
+    this->target = target;
+}
 
-bool Airlift::validate(Player* player, territory* source, territory* target)
+bool Airlift::validate()
 {
     if (player == source->getOwner() && player == target->getOwner())
     {
@@ -370,9 +393,9 @@ bool Airlift::validate(Player* player, territory* source, territory* target)
     return false;
 }
 
-void Airlift::execute(int numOfArmies, Player* player, territory* source, territory* target)
+void Airlift::execute()
 {
-    if (validate(player, source, target))
+    if (validate())
     {
         source->removeArmies(numOfArmies);
         target->addArmies(numOfArmies);
@@ -381,10 +404,13 @@ void Airlift::execute(int numOfArmies, Player* player, territory* source, territ
     }
 }
 
-Negotiate::Negotiate() : Order(new string("negotiate"), new string("The negotiate order prevents attacks between the current player and another player until "
-"the end of the turn.")) {}
+Negotiate::Negotiate(Player* player, Player* target) : Order(new string("negotiate"), new string("The negotiate order prevents attacks between the current player and another player until "
+    "the end of the turn.")) {
+    this->player = player;
+    this->target = target;
+}
 
-bool Negotiate::validate(Player* player, Player* target)
+bool Negotiate::validate()
 {
     if (target != player) {
         return true;
@@ -393,9 +419,9 @@ bool Negotiate::validate(Player* player, Player* target)
     return false;
 }
 
-void Negotiate::execute(Player* player, Player* target)
+void Negotiate::execute()
 {
-    if (validate(player, target))
+    if (validate())
     {
         player->addNegotiate(target);
         target->addNegotiate(player);
