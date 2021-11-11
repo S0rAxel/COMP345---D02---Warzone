@@ -55,3 +55,15 @@ void Player::removeTerritories(territory* territory)
 		}
 	}
 }
+
+void Player::removeOrder(Order* o)
+{
+	for (int i = 0; i < orders.size(); i++)
+	{
+		if (orders[i] == o)
+		{
+			orders.erase(orders.begin() + i);
+			break;
+		}
+	}
+}

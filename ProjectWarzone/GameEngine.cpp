@@ -233,7 +233,9 @@ void issueOrderPhase(Map m, vector<Player*> participants)
 		participants[i]->clearNegotiate();
 		participants[i]->setDrawn(false);
 	}
+	//TODO make the order making sequence
 }
+
 void executeOrderPhase(Map m, vector<Player*> participants)
 {
 	int j = 0;

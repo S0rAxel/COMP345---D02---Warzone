@@ -61,6 +61,9 @@ public:
 	Hand* getHand() { return hand; }
 	void issueOrder();
 	vector<Order*> getOrders();
+	void addOrder(Order* o) { orders.push_back(o); }
+	void removeOrder(Order* o);
+	void clearOrders() { orders.clear(); }
 	int getReinF() { return numOfReinF; }
 	void addReinF(int reinf) { numOfReinF += reinf; }
 	void removeReinf(int reinf) { numOfReinF -= reinf; }//must add a validation before using this one
