@@ -128,6 +128,10 @@ vector<Card*> Deck::getCards() {
 }
 
 void Deck::removeCard(int i) {
+	if (cards.size() == 0) {
+		cout << "Deck is empty" << endl;
+		return;
+	}
 	cards.erase(cards.begin() + i);
 }
 

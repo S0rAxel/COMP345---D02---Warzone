@@ -307,7 +307,7 @@ void Advance::execute()
                 target->setArmies(0);
             }
 
-            if (capture) {
+            if (capture && !player->getDrawn()) {
                 deck->draw(player->getHand());
             }
         }

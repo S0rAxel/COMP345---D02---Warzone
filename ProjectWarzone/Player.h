@@ -65,6 +65,8 @@ public:
 	void addReinF(int reinf) { numOfReinF += reinf; }
 	void removeReinf(int reinf) { numOfReinF -= reinf; }//must add a validation before using this one
 	vector<Player*> getNegotiate() { return negotiate; }
+	void setDrawn(bool drawn) { this->drawn = drawn; }
+	bool getDrawn() { return drawn; }
 	void clearNegotiate() { negotiate.clear(); }
 	void addNegotiate(Player* player) { negotiate.push_back(player); }
 	bool isNegotiate(Player* player);
@@ -75,6 +77,7 @@ private:
 	vector<Order*> orders;
 	int numOfReinF;
 	vector<Player*> negotiate; //vector of players that cannot be attacked. Clear after every turn
+	bool drawn; //player has drawn card. Set to false after every turn
 
 public:
 	string playerName;
