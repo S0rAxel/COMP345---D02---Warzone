@@ -167,17 +167,24 @@ void mainGameLoop()
 {
 	vector<Player*> participants;
 	Map map;
-
-
+	Deck deck;
+	bool ended = reinforcementPhase(map, participants);
+	while (!ended)
+	{
+		issueOrderPhase(map, participants);
+		executeOrderPhase(map, participants);
+		ended = reinforcementPhase(map, participants);
+	}
+	
 }
 
 
-void reinforcementPhase(Map m, vector<Player*> participants)
+bool reinforcementPhase(Map m, vector<Player*> participants)
 {
-	//loop for all territories to give players appropriate reinforcements
-	for (int i = 0; i < m.getNumOfTerr(); i++)
+	//loop for all players to give players appropriate reinforcements base on territories owned / 3
+	for (int i = 0; i < participants.size(); i++)
 	{
-
+		participants[i]->addReinF((participants[i]->getTerritories().size()) / 3);
 	}
 	//to get the continent bonus
 	for (int i = 0; i < m.getNumOfCont(); i++)
@@ -216,14 +223,7 @@ void reinforcementPhase(Map m, vector<Player*> participants)
 			won = true;
 		}
 	}
-	if (won)
-	{
-		//insert path to won phase or victory screen
-	}
-	else
-	{
-		//transition to orderPhase
-	}
+	return won;
 }
 
 void issueOrderPhase(Map m, vector<Player*> participants)
@@ -245,7 +245,7 @@ void executeOrderPhase(Map m, vector<Player*> participants)
 			maxSize = 0;
 			if (j < participants[i]->getOrders().size())
 			{
-				//(participants[i]->getOrders())[j]->execute();
+				(participants[i]->getOrders())[j]->execute();
 			}
 			else
 			{
@@ -258,7 +258,7 @@ void executeOrderPhase(Map m, vector<Player*> participants)
 			break;
 		}
 	}
-	//move back to the
+	//move back to the start.. althought his can be handles by the gameloop
 
 }
 #pragma endregion

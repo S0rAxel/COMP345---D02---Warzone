@@ -19,7 +19,7 @@ public:
     Order(string* effect, string* description);
     Order(const Order& ord);
     ~Order();
-
+    virtual void execute() = 0;
     string* getEffect();
     void setEffect(string* effect);
     string* getDescription();
