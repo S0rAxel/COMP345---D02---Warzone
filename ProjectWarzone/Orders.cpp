@@ -71,6 +71,34 @@ void Order::setHasBeenExecuted(bool* passedHasBeenExecuted)
     *hasBeenExecuted = *passedHasBeenExecuted;
 }
 
+void Order::execute()
+{
+    Notify(*this);
+}
+
+#pragma region Subject and ILoggable
+void Order::Attach(Observer* obs)
+{
+    Subject::Attach(obs);
+}
+
+void Order::Detach(Observer* obs)
+{
+    Subject::Detach(obs);
+}
+
+void Order::Notify(ILoggable& log)
+{
+    Subject::Notify(log);
+}
+
+string Order::StringToLog()
+{
+    return "Order::Execute() - "+ *effect + " order has been executed. Effect: " + *description + " \n";
+}
+
+#pragma endregion
+
 // Assignment operator for Order
 Order& Order::operator= (const Order& order)
 {
@@ -192,7 +220,7 @@ OrdersList& OrdersList::operator= (const OrdersList& ordList)
 
     string OrdersList::StringToLog()
     {
-        return "Notify from OrdersList::Add() \n";
+        return "OrdersList::Add() - " + *this->list->back().getEffect()+ " order has been added \n";
     }
 
 #pragma endregion
@@ -232,6 +260,7 @@ void Deploy::execute()
 {
     if (validate())
     {
+        Order::execute();
         target->addArmies(numOfArmies);
         player->removeReinf(numOfArmies);
         setHasBeenExecuted(new bool(true));
@@ -261,6 +290,8 @@ void Advance::execute()
 {
     if (validate())
     {
+        Order::execute();
+
         if (source->getOwner() == target->getOwner())
         {
             source->removeArmies(numOfArmies);
@@ -341,6 +372,8 @@ void Bomb::execute()
 {
     if (validate())
     {
+        Order::execute();
+
         target->setArmies(target->getArmies() / 2);
 
         setHasBeenExecuted(new bool(true));
@@ -368,6 +401,8 @@ void Blockade::execute()
 {
     if (validate())
     {
+        Order::execute();
+
         target->setOwner(neutral);
         target->setArmies(target->getArmies() * 2);
 
@@ -397,6 +432,8 @@ void Airlift::execute()
 {
     if (validate())
     {
+        Order::execute();
+
         source->removeArmies(numOfArmies);
         target->addArmies(numOfArmies);
 
@@ -423,6 +460,8 @@ void Negotiate::execute()
 {
     if (validate())
     {
+        Order::execute();
+
         player->addNegotiate(target);
         target->addNegotiate(player);
 

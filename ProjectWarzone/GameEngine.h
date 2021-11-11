@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include "Player.h"
+#include "Map.h"
 
 using namespace std;
 namespace Engine {
@@ -28,7 +30,6 @@ namespace Engine {
 		//Safely switches from the current state to another.
 		static void SwitchState(GameState&);
 
-
 		//INSTANCE
 
 		//Name of the state.
@@ -54,6 +55,7 @@ namespace Engine {
 
 		//Gets values of right hand side.
 		void operator=(GameState&);
+
 	};
 	
 	//Passes state name and command list to the stream.

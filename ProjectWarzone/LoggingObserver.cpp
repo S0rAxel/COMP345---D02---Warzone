@@ -4,6 +4,8 @@
 
 using namespace std;
 
+#pragma region Subject
+
 //Default Constructor
 Subject::Subject()
 {
@@ -16,7 +18,7 @@ Subject::Subject(const Subject& sub)
 	observers = sub.observers;
 }
 
-// Assignment operator for OrdersList
+// Assignment operator
 Subject& Subject::operator= (const Subject& sub)
 {
 	// self-assignment guard
@@ -55,20 +57,28 @@ void Subject::Notify(ILoggable& log) {
 	}
 }
 
+// Stream insertion operator
+ostream& operator<<(ostream& stream, const Subject& sub) {
+	return stream << " Subject to stream insertion operator";
+}
+
+#pragma endregion
+
+#pragma region LogObserber
+
+//Default Constructor
 LogObserver::LogObserver()
 {
 
 }
 
-/// <summary>
-/// Copy Constructor
-/// </summary>
+// Copy Constructor
 LogObserver::LogObserver(const LogObserver& obs)
 {
 	subject = obs.subject;
 }
 
-// Assignment operator for OrdersList
+// Assignment operator
 LogObserver& LogObserver::operator= (const LogObserver& obs)
 {
 	// self-assignment guard
@@ -80,15 +90,18 @@ LogObserver& LogObserver::operator= (const LogObserver& obs)
 	return *this;
 }
 
+// Destructor
 LogObserver::~LogObserver()
 {
 	subject->Detach(this);
 }
 
+// Implementation of virtual method from parent class Observer
 void LogObserver::Update(ILoggable& log)
 {
 	ofstream file("gamelog.txt", ios::app);
-	
+
+	// Check if the file was not been able to open
 	if (!file.is_open())
 		cout << "File could not be opened" << endl;
 
@@ -96,3 +109,10 @@ void LogObserver::Update(ILoggable& log)
 
 	file.close();
 };
+
+// Stream insertion operator
+ostream& operator<<(ostream& stream, const LogObserver& sub) {
+	return stream << " Log Observer from stream insertion operator";
+}
+
+#pragma endregion
