@@ -17,6 +17,9 @@ vector<territory*> Player::toAttack() {
 }
 
 void Player::issueOrder() {
+	{
+		///TODO must add order making logic here
+	}
 	Order* order = new Order();
 	
 	orders.push_back(order);

@@ -182,7 +182,7 @@ void reinforcementPhase(Map m, vector<Player*> participants)
 	//to get the continent bonus
 	for (int i = 0; i < m.getNumOfCont(); i++)
 	{
-		tempOwner = m.getTerritory(m.getContinent(i)->getTerrID(0))->getOwner();
+		Player* tempOwner = m.getTerritory(m.getContinent(i)->getTerrID(0))->getOwner();
 		bool getBonus = false;
 		for (int j = 1; j < m.getContinent(i)->getLength(); j++)
 		{
@@ -228,11 +228,37 @@ void reinforcementPhase(Map m, vector<Player*> participants)
 
 void issueOrderPhase(Map m, vector<Player*> participants)
 {
-
-
+	for (int i = 0; i < participants.size(); i++)
+	{
+		participants[i]->clearNegotiate();
+		participants[i]->setDrawn(false);
+	}
 }
 void executeOrderPhase(Map m, vector<Player*> participants)
 {
+	int j = 0;
+	int maxSize = 0;
+	while (true)
+	{
+		for (int i = 0; i < participants.size(); i++)
+		{
+			maxSize = 0;
+			if (j < participants[i]->getOrders().size())
+			{
+				//(participants[i]->getOrders())[j]->execute();
+			}
+			else
+			{
+				maxSize++;
+			}
+		}
+		j++;
+		if (maxSize >= participants.size())
+		{
+			break;
+		}
+	}
+	//move back to the
 
 }
 #pragma endregion
