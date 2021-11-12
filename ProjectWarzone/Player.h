@@ -40,6 +40,8 @@ public:
 	
 	Player(string name) : playerName(name) {};
 
+	Player(string name, Hand* hand) { playerName = name; this->hand = hand; };
+
 	Player(const Player& otherPlayer) {
 		playerName = otherPlayer.playerName;
 		hand = otherPlayer.hand;
@@ -75,6 +77,7 @@ public:
 	bool isNegotiate(Player* player);
 	bool ordersComplete;
 	bool havePlayedCard;
+	void setHand(Hand* hand) { this->hand = hand; }
 
 private:
 	vector<territory*> territories;

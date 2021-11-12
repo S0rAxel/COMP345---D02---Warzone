@@ -183,3 +183,43 @@ CommandProcessor::SaveCommand(): Command default saved
 Command::saveEffect(): 
 OrdersList::Add() - negotiate order has been added 
 Order::Execute() - negotiate order has been executed. Effect: The negotiate order prevents attacks between the current player and another player until the end of the turn. 
+
+ - New log created at time: Fri Nov 12 14:46:28 2021
+ 
+
+CommandProcessor::SaveCommand(): Command default saved 
+Command::saveEffect(): 
+OrdersList::Add() - negotiate order has been added 
+Order::Execute() - negotiate order has been executed. Effect: The negotiate order prevents attacks between the current player and another player until the end of the turn. 
+
+ - New log created at time: Fri Nov 12 14:49:28 2021
+ 
+
+CommandProcessor::SaveCommand(): Command default saved 
+Command::saveEffect(): 
+OrdersList::Add() - negotiate order has been added 
+Order::Execute() - negotiate order has been executed. Effect: The negotiate order prevents attacks between the current player and another player until the end of the turn. 
+
+ - New log created at time: Fri Nov 12 14:50:55 2021
+ 
+
+CommandProcessor::SaveCommand(): Command default saved 
+Command::saveEffect(): 
+OrdersList::Add() - negotiate order has been added 
+Order::Execute() - negotiate order has been executed. Effect: The negotiate order prevents attacks between the current player and another player until the end of the turn. 
+
+ - New log created at time: Fri Nov 12 14:51:50 2021
+ 
+
+CommandProcessor::SaveCommand(): Command default saved 
+Command::saveEffect(): 
+OrdersList::Add() - negotiate order has been added 
+Order::Execute() - negotiate order has been executed. Effect: The negotiate order prevents attacks between the current player and another player until the end of the turn. 
+
+ - New log created at time: Fri Nov 12 15:15:21 2021
+ 
+
+CommandProcessor::SaveCommand(): Command default saved 
+Command::saveEffect(): 
+OrdersList::Add() - negotiate order has been added 
+Order::Execute() - negotiate order has been executed. Effect: The negotiate order prevents attacks between the current player and another player until the end of the turn. 

@@ -238,6 +238,7 @@ void Deploy::execute()
         target->addArmies(numOfArmies);
         player->removeReinf(numOfArmies);
         setHasBeenExecuted(new bool(true));
+        cout << "Deploy order sucess. Target territory now has " << target->getArmies() << " armies." << endl;
     }
 }
 
@@ -270,6 +271,7 @@ void Advance::execute()
         {
             source->removeArmies(numOfArmies);
             target->addArmies(numOfArmies);
+            cout << "Advance order sucess. Result: Moved armies between player owned territories. Target territory now has " << target->getArmies() << " armies." << endl;
         }
         else
         {
@@ -303,20 +305,23 @@ void Advance::execute()
                 player->addTerritories(target);
                 target->setArmies(attackingArmies);
                 capture = true;
+                cout << "Advance order sucess. Result: Capture with " << attackingArmies << " armies remaining." << endl;
             }
             else if (defendingArmies > 0) {
                 source->addArmies(attackingArmies);
                 target->setArmies(defendingArmies);
+                cout << "Advance order sucess. Result: Capture failed. Remaining attacking armies sent back: " << attackingArmies << ". Remaining defeding armies: " << defendingArmies << "." << endl;
             }
             else if (attackingArmies == 0 && defendingArmies == 0) {
                 target->setArmies(0);
+                cout << "Advance order sucess. Result: Capture failed. No remaining attacking or defending armies." << endl;
             }
 
             if (capture && !player->getDrawn()) {
+                cout << "Player draws a card." << endl;
                 deck->draw(player->getHand());
             }
         }
-
         setHasBeenExecuted(new bool(true));
     }
 }
@@ -349,7 +354,7 @@ void Bomb::execute()
         Order::execute();
 
         target->setArmies(target->getArmies() / 2);
-
+        cout << "Bomb order sucess. Target territory has " << target->getArmies() << " armies." << endl;
         setHasBeenExecuted(new bool(true));
     }
 }
@@ -379,7 +384,7 @@ void Blockade::execute()
 
         target->setOwner(neutral);
         target->setArmies(target->getArmies() * 2);
-
+        cout << "Blockade order sucess. Target territory is neutral and has " << target->getArmies() << " armies." << endl;
         setHasBeenExecuted(new bool(true));
     }
 }
@@ -410,7 +415,7 @@ void Airlift::execute()
 
         source->removeArmies(numOfArmies);
         target->addArmies(numOfArmies);
-
+        cout << "Airlift order sucess. target territory now has " << target->getArmies() << " armies." << endl;
         setHasBeenExecuted(new bool(true));
     }
 }
@@ -438,7 +443,7 @@ void Negotiate::execute()
 
         player->addNegotiate(target);
         target->addNegotiate(player);
-
+        cout << "Negotiate order sucess. " << player->playerName << " and "  << target->playerName << " cannot attack eachother until next turn."<< endl;
         setHasBeenExecuted(new bool(true));
     }
 }

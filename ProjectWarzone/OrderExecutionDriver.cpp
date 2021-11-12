@@ -22,10 +22,12 @@ void OrderExecutionDriverDemo() {
 	t5->addBorders(t0);
 	t0->addBorders(t5);
 
-	Player* p1 = new Player("p1");
-	Player* p2 = new Player("p2");
-	Player* p3 = new Player("p3");
-	Player* neutral = new Player("p1");
+	Deck* deck = new Deck();
+
+	Player* p1 = new Player("p1", new Hand());
+	Player* p2 = new Player("p2", new Hand());
+	Player* p3 = new Player("p3", new Hand());
+	Player* neutral = new Player("neutral");
 
 	//Assigning ownership to territories: p1: t0. p2: t2, t3. p3: t5, neutral: t1, t4
 
@@ -37,12 +39,19 @@ void OrderExecutionDriverDemo() {
 	t5->setOwner(p3);
 
 	//Deploy
+	cout << "Simulating deploy order.\n==========================================" << endl;
 	p1->addReinF(10);
-	cout << "p1 tries to deploy 5 on t0, 5 on t2." << endl;
+	cout << "p1 tries to deploy 5 on t0, 5 on t2. There are currently no armies anywhere on the map." << endl;
 	Order* o = new Deploy(5, p1, t0);
 	Order* o2 = new Deploy(5, p1, t1);
+	cout << "trying to execute deploy 5 on t0" << endl;
 	o->execute();
+	cout << "trying to execute deploy 5 on t1" << endl;
 	o2->execute();
 
+	cout << "t0 has " << t0->getArmies() << " armies." << endl << "==========================================\nSimulating Advance Order\n==========================================" << endl;
+
+	//Advance
+	cout << "giving t1 8 armies to resist t0's 5 army advance." << endl;
 
 }
