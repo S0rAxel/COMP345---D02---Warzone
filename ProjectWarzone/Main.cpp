@@ -5,12 +5,15 @@
 #include "LoggingObserver.h"
 #include "Orders.h"
 #include "CommandProcessingDriver.h"
+#include "OrderExecutionDriver.h"
 
 
 using namespace std;
 
 int main() 
 {
+	OrderExecutionDriverDemo();
+	/*
 	cout << "\n\t - WARZONE PROJECT - \n";
 
 	ofstream file("gamelog.txt", ios::app);
@@ -41,7 +44,7 @@ int main()
 
 
 	CommandProcessingDemo();
-
+	*/
 	/*/cout << "\n\t- MAP DEMO -\n";
 	system("pause");
 	MapDriverDemo();

@@ -73,7 +73,7 @@ public:
 	void clearNegotiate() { negotiate.clear(); }
 	void addNegotiate(Player* player) { negotiate.push_back(player); }
 	bool isNegotiate(Player* player);
-	bool ordersCompleate;
+	bool ordersComplete;
 	bool havePlayedCard;
 
 private:

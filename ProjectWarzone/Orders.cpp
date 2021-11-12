@@ -119,72 +119,47 @@ ostream& operator<< (ostream& output, Order& order)
 
 OrdersList::OrdersList()
 {
-    list = new vector<Order>();
 }
 
-OrdersList::OrdersList(vector<Order>* passedList)
+OrdersList::OrdersList(vector<Order*> passedList)
 {
-    list = new vector<Order>();
-    for (int i = 0; i < passedList->size(); i++)
+    for (int i = 0; i < passedList.size(); i++)
     {
-        Order copyOfOrder = Order(passedList->at(i));
-        list->push_back(copyOfOrder);
+        list.push_back(passedList.at(i));
     }
 }
 
 OrdersList::OrdersList(const OrdersList& ordList)
 {
-    list = new vector<Order>();
-    for (int i = 0; i < ordList.list->size(); i++)
+    for (int i = 0; i < ordList.list.size(); i++)
     {
-        Order copyOfOrder = Order(ordList.list->at(i));
-        list->push_back(copyOfOrder);
+        list.push_back(ordList.list.at(i));
     }
 }
 
 OrdersList::~OrdersList()
 {
-    delete list;
 }
 
 // Moves an order at a specified index
 void OrdersList::move(int currIndex, int newIndex)
 {
-    Order ord = Order(list->at(currIndex));
-
-    remove(currIndex);
-
-    vector<Order>* newList = new vector<Order>;
-    for (int i = 0; i < newIndex; i++)
-        newList->push_back(list->at(i));
-
-    newList->push_back(ord);
-
-    for (int i = newIndex + 1; i <= list->size(); i++)
-        newList->push_back(list->at(i - 1));
-
-    list->clear();
-    list = newList;
+    if (currIndex > newIndex)
+        rotate(list.rend() - currIndex - 1, list.rend() - currIndex, list .rend() - newIndex);
+    else
+        rotate(list.begin() + currIndex, list.begin() + currIndex + 1, list.begin() + newIndex + 1);
 }
 
 // Removes an order in the list at a certain index
 void OrdersList::remove(int index)
 {
-    vector<Order>* newList = new vector<Order>;
-    for (int i = 0; i < list->size(); i++)
-    {
-        if (i != index)
-            newList->push_back(list->at(i));
-    }
-
-    list->clear();
-    list = newList;
+    list.erase(list.begin() + index);
 }
 
 // For testing purposes. Will probably be replaced with another method eventually
-void OrdersList::add(Order order)
+void OrdersList::add(Order* order)
 {
-    list->push_back(order);
+    list.push_back(order);
 
     //cout << "Add method was called" << endl;
     Notify(*this);
@@ -193,10 +168,9 @@ void OrdersList::add(Order order)
 // Assignment operator for OrdersList
 OrdersList& OrdersList::operator= (const OrdersList& ordList)
 {
-    for (int i = 0; i < ordList.list->size(); i++)
+    for (int i = 0; i < ordList.list.size(); i++)
     {
-        Order copyOfOrder = Order(ordList.list->at(i));
-        list->push_back(copyOfOrder);
+        list.push_back(ordList.list.at(i));
     }
 
     return *this;
@@ -220,7 +194,7 @@ OrdersList& OrdersList::operator= (const OrdersList& ordList)
 
     string OrdersList::StringToLog()
     {
-        return "OrdersList::Add() - " + *this->list->back().getEffect()+ " order has been added \n";
+        return "OrdersList::Add() - " + *this->list.back()->getEffect()+ " order has been added \n";
     }
 
 #pragma endregion
@@ -230,12 +204,12 @@ OrdersList& OrdersList::operator= (const OrdersList& ordList)
 ostream& operator<< (ostream& output, OrdersList& ordList)
 {
     string information;
-    for (int i = 0; i < ordList.list->size(); i++)
+    for (int i = 0; i < ordList.list.size(); i++)
     {
-        information += "Index " + to_string(i) + ": " + *ordList.list->at(i).getDescription() + "\n";
+        information += "Index " + to_string(i) + ": " + *ordList.list.at(i)->getDescription() + "\n";
     }
 
-    return cout << "The OrdersList contains a vector of Order objects of size " << ordList.list->size() << ": \n" << information;
+    return cout << "The OrdersList contains a vector of Order objects of size " << ordList.list.size() << ": \n" << information;
 }
 
 Deploy::Deploy(int numberOfArmies, Player* player, territory* target) : Order(new string("deploy"), new string("The deploy order places some armies on one of the current player's territories.")) {

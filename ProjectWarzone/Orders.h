@@ -21,14 +21,12 @@ public:
     virtual void execute() = 0;
 
     ~Order();
-    virtual void execute() = 0;
     string* getEffect();
     void setEffect(string* effect);
     string* getDescription();
     void setDescription(string* description);
     bool* getHasBeenExecuted();
     void setHasBeenExecuted(bool* hasBeenExecuted);
-    virtual void execute();
 
     Order& operator= (const Order& order);
     friend ostream& operator<< (ostream& output, Order& order);
@@ -51,13 +49,14 @@ class OrdersList : public Subject, ILoggable
 {
 public:
     OrdersList();
-    OrdersList(vector<Order>* list);
+    OrdersList(vector<Order*> list);
     OrdersList(const OrdersList& ordList);
     ~OrdersList();
 
     void remove(int index);
     void move(int currIndex, int newIndex);
-    void add(Order order);
+    void add(Order* order);
+    Order* getOrder(int i) { return list.at(i); }
 
     OrdersList& operator= (const OrdersList& ordList);
     friend ostream& operator<<(ostream& output, OrdersList& ordList);
@@ -70,7 +69,7 @@ public:
 #pragma endregion
 
 private:
-    vector<Order>* list;
+    vector<Order*> list;
 };
 
 // Deploy, a certain type of order
