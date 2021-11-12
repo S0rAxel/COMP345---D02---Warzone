@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Map.h"
 #include "Orders.h"
+#include "MapDriver.h"
 
 using namespace Engine;
 using namespace std;
@@ -175,6 +176,168 @@ void GameOver::Setup() {
 }
 void GameOver::Exit() { }
 
+void GameState::startupPhase(vector<Player*>* players, Deck* deck)
+{
+	GameSetup();
+
+	cout << "The startup phase has been initiated..." << endl;
+
+	Map mapToLoad;
+	bool startupIsDone = false;
+	while (!startupIsDone)
+	{
+		string inputCmd;
+		bool validCmd = false;
+		while (!validCmd)
+		{
+			cout << "Please enter a command" << endl;
+			cin >> inputCmd;
+
+			for (int i = 0; i < current->commands.size(); i++)
+			{
+				if (inputCmd == current->commands.at(i))
+					validCmd = true;
+			}
+
+			if (!validCmd)
+				cout << "Invalid command. Make sure that you are using a command that is valid in the current state" << endl;
+		}
+
+		if (inputCmd == "loadmap")
+			mapToLoad = loadmapCmd();
+
+		if (inputCmd == "validatemap")
+			validatemapCmd(mapToLoad);
+
+		if (inputCmd == "addplayer")
+			addplayerCmd(players);
+
+		if (inputCmd == "gamestart")
+		{
+			gamestartCmd(mapToLoad, players, deck);
+			startupIsDone = true;
+		}
+
+		cout << endl;
+	}
+
+	// TODO: here prob ends with starting "play phase"
+}
+
+Map GameState::loadmapCmd()
+{
+	cout << "Now executing loadmap command..." << endl;
+	string filename;
+
+	cout << "Please enter the name of the map to load..." << endl;
+	cin >> filename;
+
+	Map map = readfile(filename);
+
+	// Change current state to the "maploaded" state
+	current = states[1];
+
+	return map;
+}
+
+void GameState::validatemapCmd(Map map)
+{
+	cout << "Now executing validatemap command..." << endl;
+	// Change current state to the "mapvalidated" state
+	if (validate(map))
+	{
+		cout << "The map was validated. Now entering the mapvalidated state..." << endl;
+		current = states[2];
+	}
+	else
+		cout << "The map is invalid. Use the loadmap command to load a valid map..." << endl;
+}
+
+void GameState::addplayerCmd(vector<Player*>* players)
+{
+	cout << "Now executing addplayer command..." << endl;
+
+	int numOfPlayers;
+	cout << "How many players do you wish to add to the current game?\nYou can choose a number between 2 and 6" << endl;
+	cin >> numOfPlayers;
+
+	for (int i = 0; i < numOfPlayers; i++)
+	{
+		string playerName;
+
+		cout << "Adding player " << (i + 1) << endl;
+		cout << "Name of the new player: ";
+		cin >> playerName;
+
+		Player *player = new Player(playerName);
+
+		cout << "Player" << *player <<  " was added to the game\n" << endl;
+
+		players->push_back(player);
+	}
+
+	// Change current state to the "playersadded" state
+	current = states[3];
+}
+
+void GameState::gamestartCmd(Map map, vector<Player*>* players, Deck* deck)
+{
+	cout << "Now executing gamestart command..." << endl;
+
+	// Distributing the territories to the players
+	int numOfTerrPerPlayer = map.getNumOfTerr() / players->size();
+	int remainderOfTerrs = map.getNumOfTerr() - (numOfTerrPerPlayer * players->size());
+
+	// This gives territories to the players but it's possible that there are still some unallocated territories
+	// This happens if the remainder is not zero
+	// At most, a player may have 1 territory more than another player
+	// Note however that this is still quite fair since maps have a lot of territories (which means players have many territories overall as well)
+	for (int i = 0; i < players->size(); i++)
+		for (int j = 0; j < numOfTerrPerPlayer; j++)
+			players->at(i)->addTerritories(map.getTerritory(j));
+
+	if (remainderOfTerrs != 0)
+	{
+		for (int i = 0; i < remainderOfTerrs; i++)
+			players->at(i)->addTerritories(map.getTerritory((numOfTerrPerPlayer * players->size()) + i));
+	}
+
+	// Randomly determining the order of play
+	srand((unsigned int)time(NULL));
+
+	// We first start by generating random numbers
+	vector<int> nums;
+	for (int i = 0; i < players->size(); i++)
+	{
+		nums.push_back(rand());
+	}
+
+	// Then we can determine the actual play order from those random numbers
+	for (int i = 0; i < players->size(); i++)
+	{
+		int max = -1;
+		int indexOfMax = -1;
+		for (int j = 0; j < nums.size(); j++)
+		{
+			if (nums.at(j) > max)
+			{
+				max = nums.at(j);
+				indexOfMax = j;
+			}
+		}
+
+		players->at(indexOfMax)->setPlayOrder(new int(i + 1));
+		nums.at(indexOfMax) = -1;
+	}
+
+	// Give 50 armies to each player
+	for (int i = 0; i < players->size(); i++)
+		players->at(i)->setReinF(50);
+
+	// Each player draws two cards
+	for (int i = 0; i < players->size(); i++)
+		deck->draw(players->at(i)->getHand());
+}
 
 void mainGameLoop()
 {
@@ -192,11 +355,7 @@ void mainGameLoop()
 				participants.erase(participants.begin() + i);
 			}
 		}
-<<<<<<< Updated upstream
 		issueOrderPhase(map, participants, deck);
-=======
-		issueOrderPhase(map, participants, &deck);
->>>>>>> Stashed changes
 		executeOrderPhase(map, participants);
 		ended = reinforcementPhase(map, participants);
 	}
