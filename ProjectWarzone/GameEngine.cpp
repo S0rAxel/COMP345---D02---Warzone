@@ -192,7 +192,11 @@ void mainGameLoop()
 				participants.erase(participants.begin() + i);
 			}
 		}
+<<<<<<< Updated upstream
 		issueOrderPhase(map, participants, deck);
+=======
+		issueOrderPhase(map, participants, &deck);
+>>>>>>> Stashed changes
 		executeOrderPhase(map, participants);
 		ended = reinforcementPhase(map, participants);
 	}
@@ -293,6 +297,8 @@ void executeOrderPhase(Map m, vector<Player*> participants)
 			if (j < participants[i]->getOrders().size())
 			{
 				(participants[i]->getOrders())[j]->execute();
+				//since the orders are kept on the heap i remove the object here directly
+				delete (participants[i]->getOrders())[j];
 			}
 			else
 			{
@@ -304,6 +310,11 @@ void executeOrderPhase(Map m, vector<Player*> participants)
 		{
 			break;
 		}
+	}
+	for (int i = 0; i < participants.size(); i++)
+	{
+		//removing dangling pointers
+		participants[i]->clearOrders();
 	}
 	//move back to the start.. althought his can be handles by the gameloop
 }
