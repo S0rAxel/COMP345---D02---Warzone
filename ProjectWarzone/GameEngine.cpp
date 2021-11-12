@@ -184,11 +184,19 @@ void mainGameLoop()
 	bool ended = reinforcementPhase(map, participants);
 	while (!ended)
 	{
+		//removing empty player if there is one
+		for (int i = 0; i < participants.size(); i++)
+		{
+			if (participants[i]->getTerritories().size() == 0)
+			{
+				participants.erase(participants.begin() + i);
+			}
+		}
 		issueOrderPhase(map, participants);
 		executeOrderPhase(map, participants);
 		ended = reinforcementPhase(map, participants);
 	}
-
+	//must chage where the victory condition is
 }
 
 
@@ -245,16 +253,31 @@ void issueOrderPhase(Map m, vector<Player*> participants)
 	vector<int> reinf;
 	vector<vector<territory*>> defend;
 	vector<vector<territory*>> attack;
+	int playersDone;
 	for (int i = 0; i < participants.size(); i++)
 	{
+		participants[i]->ordersCompleate = false;
 		participants[i]->clearNegotiate();
 		participants[i]->setDrawn(false);
 		participants[i]->clearOrders();
 		reinf.push_back(participants[i]->getReinF());
-		attack.push_back(participants[i]->toAttack());
-		defend.push_back(participants[i]->toDefend());
+		attack.push_back(participants[i]->toAttack(m));
+		defend.push_back(participants[i]->toDefend(m));
 	}
-
+	do {
+		playersDone = participants.size();
+		for (int i = 0; i < participants.size(); i++)
+		{
+			if (participants[i]->ordersCompleate)
+			{
+				participants[i]->issueOrder(reinf[i], m, attack[i], defend[i]);
+			}
+			else
+			{
+				playersDone--;
+			}
+		}
+	} while (playersDone != 0);
 	//TODO make the order making sequence
 }
 

@@ -16,8 +16,25 @@ vector<territory*> Player::toAttack(Map m) {
 	return territoriesToAttack;
 }
 
-void Player::issueOrder() {
-	//TODO MUST MAKE ORDER MAKING LOGIC
+void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend) {
+	if (reinf > 0)
+	{
+		//reinfordement logic
+	}
+	else if(!havePlayedCard && hand->size()!=0)
+	{
+		//play a card and remove it from hand
+		//must make the card making an order or apropriate type
+		(hand->getCards())[0];
+		//removes card form hand
+		(hand->getCards())[0]->play(0);
+		havePlayedCard = true;
+	}
+	else
+	{
+		//move logic
+	}
+
 }
 
 vector<Order*> Player::getOrders()
