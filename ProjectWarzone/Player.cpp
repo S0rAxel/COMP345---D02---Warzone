@@ -110,7 +110,6 @@ void Player::removeOrder(Order* o)
 		{
 			orders.erase(orders.begin() + i);
 			break;
-			i--;
 		}
 	}
 }

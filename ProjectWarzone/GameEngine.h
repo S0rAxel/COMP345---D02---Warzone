@@ -147,8 +147,8 @@ namespace Engine {
 
 void mainGameLoop();
 
-bool reinforcementPhase(Map m, vector<Player*> participants);
+bool reinforcementPhase(Map m, vector<Player*>& participants);
 
-void issueOrderPhase(Map m, vector<Player*> participants, Deck* deck);
+void issueOrderPhase(Map m, vector<Player*>& participants, Deck* deck);
 
-void executeOrderPhase(Map m, vector<Player*> participants);
+void executeOrderPhase(Map m, vector<Player*>& participants);

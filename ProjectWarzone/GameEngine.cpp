@@ -363,7 +363,7 @@ void mainGameLoop()
 }
 
 
-bool reinforcementPhase(Map m, vector<Player*> participants)
+bool reinforcementPhase(Map m, vector<Player*>& participants)
 {
 	Player* tempOwner;
 	//loop for all players to give players appropriate reinforcements base on territories owned / 3
@@ -411,7 +411,7 @@ bool reinforcementPhase(Map m, vector<Player*> participants)
 	return won;
 }
 
-void issueOrderPhase(Map m, vector<Player*> participants, Deck* deck)
+void issueOrderPhase(Map m, vector<Player*>& participants, Deck* deck)
 {
 	vector<int> reinf;
 	vector<vector<territory*>> defend;
@@ -444,7 +444,7 @@ void issueOrderPhase(Map m, vector<Player*> participants, Deck* deck)
 	//TODO make the order making sequence
 }
 
-void executeOrderPhase(Map m, vector<Player*> participants)
+void executeOrderPhase(Map m, vector<Player*>& participants)
 {
 	int j = 0;
 	int maxSize = 0;
@@ -474,6 +474,15 @@ void executeOrderPhase(Map m, vector<Player*> participants)
 	{
 		//removing dangling pointers
 		participants[i]->clearOrders();
+	}
+	//removing any empty players (can be done better with lamda functions but that will come later)
+	for (int i = 0; i < participants.size(); i++)
+	{
+		if (participants[i]->getTerritories().size() == 0)
+		{
+			participants.erase(participants.begin() + i);
+			i--;
+		}
 	}
 	//move back to the start.. althought his can be handles by the gameloop
 }
