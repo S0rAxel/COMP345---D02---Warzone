@@ -34,7 +34,7 @@ void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<terr
 			addOrder(new Bomb(me, attack[0]));
 			break;
 		case (1):
-			addReinF(10);
+			addReinF(5);
 			break;
 		case (2):
 			addOrder(new Blockade(me, &neutral, defend[0]));
