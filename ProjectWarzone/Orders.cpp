@@ -1,6 +1,7 @@
 #include "Orders.h"
 #include <vector>
 #include <string>
+#include <random>
 
 using std::vector;
 using std::string;
@@ -249,6 +250,7 @@ Advance::Advance(int numberOfArmies, Player* player, territory* sourceTerritory,
     this->player = player;
     source = sourceTerritory;
     target = targetTerritory;
+    this->deck = deck;
 }
 
 bool Advance::validate()
@@ -279,24 +281,34 @@ void Advance::execute()
             source->removeArmies(numOfArmies);
             int defendingArmies = target->getArmies();
             int attackingArmies = numOfArmies;
+            random_device dev;
+            mt19937 rng(dev());
+            uniform_int_distribution<std::mt19937::result_type> dist(0, 99);
             for (int i = 0; i < defendingArmies; i++) {
-                if (rand() % 100 < 70)
+                if (attackingArmies == 0) {
+                    break;
+                }
+                if (dist(rng) < 70)
                 {
+                    cout << "killing 1 atk" << endl;
                     attackingArmies--;
+                    if (attackingArmies == 0) {
+                        break;
+                    }
                 }
             }
             for (int i = 0; i < numOfArmies; i++) {
-                if (rand() % 100 < 60)
-                {
-                    defendingArmies--;
+                if (defendingArmies == 0) {
+                    break;
                 }
-            }
-            
-            if (attackingArmies < 0) {
-                attackingArmies = 0;
-            }
-            if (defendingArmies < 0) {
-                defendingArmies = 0;
+                if (dist(rng) < 60)
+                {
+                    cout << "killing 1 def" << endl;
+                    defendingArmies--;
+                    if (defendingArmies == 0) {
+                        break;
+                    }
+                }
             }
 
             if (attackingArmies > 0 && defendingArmies == 0) {
@@ -310,7 +322,7 @@ void Advance::execute()
             else if (defendingArmies > 0) {
                 source->addArmies(attackingArmies);
                 target->setArmies(defendingArmies);
-                cout << "Advance order sucess. Result: Capture failed. Remaining attacking armies sent back: " << attackingArmies << ". Remaining defeding armies: " << defendingArmies << "." << endl;
+                cout << "Advance order sucess. Result: Capture failed. Remaining attacking armies sent back: " << attackingArmies << ". Remaining defending armies: " << defendingArmies << "." << endl;
             }
             else if (attackingArmies == 0 && defendingArmies == 0) {
                 target->setArmies(0);
@@ -320,6 +332,8 @@ void Advance::execute()
             if (capture && !player->getDrawn()) {
                 cout << "Player draws a card." << endl;
                 deck->draw(player->getHand());
+                cout << *player->getHand() << endl;
+                player->setDrawn(true);
             }
         }
         setHasBeenExecuted(new bool(true));
@@ -368,7 +382,7 @@ Blockade::Blockade(Player* player, Player* neutral, territory* target) : Order(n
 
 bool Blockade::validate()
 {
-    if (target->getOwner() == player || target->getOwner() == neutral)
+    if (target->getOwner() == player)
     {
         return true;
     }

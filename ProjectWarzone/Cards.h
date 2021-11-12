@@ -71,7 +71,6 @@ public:
 	friend ostream& operator << (ostream& out, const Card& c);
 
 	void play(int i);
-	void createRandomCards(Deck* deck, Hand* hand, int amount);
 	Card::ctype getCardType();
 
 	void setDeck(Deck* deck);
@@ -83,3 +82,5 @@ private:
 	Card::ctype cardType;
 	
 };
+
+void createRandomCards(Deck* deck, Hand* hand, int amount);

@@ -1,4 +1,5 @@
 #include "Cards.h"
+#include <random>
 
 using namespace std;
 /// <summary>
@@ -48,9 +49,12 @@ void Card::play(int i) {
 	}
 }
 
-void Card::createRandomCards(Deck* deck, Hand* hand, int amount) {
+void createRandomCards(Deck* deck, Hand* hand, int amount) {
+	random_device dev;
+	mt19937 rng(dev());
+	uniform_int_distribution<std::mt19937::result_type> dist(0, 4);
 	for (int i = 0; i < amount; i++) {
-		deck->addCard(new Card((ctype)(rand() % 5), hand, deck));
+		deck->addCard(new Card((Card::ctype)(dist(rng)), hand, deck));
 	}
 }
 

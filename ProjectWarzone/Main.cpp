@@ -13,6 +13,7 @@ using namespace std;
 
 int main() 
 {
+
 	OrderExecutionDriverDemo();
 	
 	cout << "\n\t - WARZONE PROJECT - \n";
@@ -30,7 +31,7 @@ int main()
 	Command* cmd = new Command();
 	CommandProcessor* cmdP = new CommandProcessor();
 
-	Order* order = new Negotiate(new Player(), new Player());
+	Order* order = new Negotiate(new Player("p1"), new Player("p2"));
 	order->Attach(logObs);
 
 	cmd->Attach(logObs);
