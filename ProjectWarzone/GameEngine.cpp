@@ -70,13 +70,9 @@ void GameState::GameExit() {
 
 //Base class default and initialization constructor.
 //Default parameters are declared in header file.
-GameState::GameState(string stateName, vector<string> cmds) : name(stateName), commands(cmds) {
-	cout << "\t\tCreated state: " + this->name + "\n";
-}
+GameState::GameState(string stateName, vector<string> cmds) : name(stateName), commands(cmds) { }
 //Base class copy constructor.
-GameState::GameState(GameState& toCopy) : name(toCopy.name), links(toCopy.links), commands(toCopy.commands) {
-	cout << "\t\tCopied state " + toCopy.name << "\n";
-}
+GameState::GameState(GameState& toCopy) : name(toCopy.name), links(toCopy.links), commands(toCopy.commands) { }
 
 //Base class destructor.
 GameState::~GameState() {
@@ -90,14 +86,14 @@ GameState::~GameState() {
 
 //Derived class default constructors.
 //Funky table indentation. Hopefully easier to read.
-Start::Start():			GameState(	"Start",			{ "loadmap" }				) { }
-LoadMap::LoadMap():		GameState(	"Loaded Map",			{ "loadmap", "validatemap" }		) { }
+Start::Start():				GameState(	"Start",				{ "loadmap" }				) { }
+LoadMap::LoadMap():			GameState(	"Loaded Map",			{ "loadmap", "validatemap" }		) { }
 ValidMap::ValidMap():		GameState(	"Validated Map",		{ "addplayer" }				) { }
 AddPlayers::AddPlayers():	GameState(	"Add Players",			{ "addplayer", "assigncountries" }	) { }
-AssignReinf::AssignReinf():	GameState(	"Assign Reinforcements",	{ "issueorder" }			) { }
+AssignReinf::AssignReinf():	GameState(	"Assign Reinforcements",{ "issueorder" }			) { }
 IssueOrders::IssueOrders():	GameState(	"Issue Orders",			{ "issueorder", "endissueorders" }	) { }
 ExecOrders::ExecOrders():	GameState(	"Execute Orders",		{ "execorder", "endexecorders", "win" }	) { }
-GameOver::GameOver():		GameState(	"Win",				{ "play", "end" }			) { }
+GameOver::GameOver():		GameState(	"Win",					{ "play", "end" }			) { }
 
 //Again, there are no destructors for the derived
 //classes since they define no members (see header file).
@@ -139,50 +135,73 @@ string GameState::cmdList() {
 //These will allow for custom behavior for every state on transition.
 //Nothing for now.
 
-void Start::Setup() { }
+void Start::Setup() {
+	cout << "Entered: Start state.\n";
+}
 void Start::Exit() { }
 
-void LoadMap::Setup() { }
+void LoadMap::Setup() {
+	cout << "Entered: Load Map state.\n";
+}
 void LoadMap::Exit() { }
 
-void ValidMap::Setup() { }
+void ValidMap::Setup() {
+	cout << "Entered: Validate Map state.\n";
+}
 void ValidMap::Exit() { }
 
-void AddPlayers::Setup() { }
+void AddPlayers::Setup() {
+	cout << "Entered: Add Players state.\n";
+}
 void AddPlayers::Exit() { }
 
-void AssignReinf::Setup() { }
+void AssignReinf::Setup() {
+	cout << "Entered: Assign Reinforcements state.\n";
+}
 void AssignReinf::Exit() { }
 
-void IssueOrders::Setup() { }
+void IssueOrders::Setup() {
+	cout << "Entered: Issue Orders state.\n";
+}
 void IssueOrders::Exit() { }
 
-void ExecOrders::Setup() { }
+void ExecOrders::Setup() {
+	cout << "Entered: Execute Orders state.\n";
+}
 void ExecOrders::Exit() { }
 
-void GameOver::Setup() { }
+void GameOver::Setup() {
+	cout << "Entered: Game Over state.\n";
+}
 void GameOver::Exit() { }
 
 void mainGameLoop()
 {
 	vector<Player*> participants;
 	Map map;
-
-
+	Deck deck;
+	bool ended = reinforcementPhase(map, participants);
+	while (!ended)
+	{
+		issueOrderPhase(map, participants);
+		executeOrderPhase(map, participants);
+		ended = reinforcementPhase(map, participants);
+	}
+	
 }
 
 
-void reinforcementPhase(Map m, vector<Player*> participants)
+bool reinforcementPhase(Map m, vector<Player*> participants)
 {
-	//loop for all territories to give players appropriate reinforcements
-	for (int i = 0; i < m.getNumOfTerr(); i++)
+	//loop for all players to give players appropriate reinforcements base on territories owned / 3
+	for (int i = 0; i < participants.size(); i++)
 	{
-
+		participants[i]->addReinF((participants[i]->getTerritories().size()) / 3);
 	}
 	//to get the continent bonus
 	for (int i = 0; i < m.getNumOfCont(); i++)
 	{
-		tempOwner = m.getTerritory(m.getContinent(i)->getTerrID(0))->getOwner();
+		Player* tempOwner = m.getTerritory(m.getContinent(i)->getTerrID(0))->getOwner();
 		bool getBonus = false;
 		for (int j = 1; j < m.getContinent(i)->getLength(); j++)
 		{
@@ -202,7 +221,6 @@ void reinforcementPhase(Map m, vector<Player*> participants)
 		}
 	}
 	//cheking for map ownership as in to see if only one player owns it all
-	Player* tempOwner = m.getTerritory(0)->getOwner();
 	bool won = false;
 	for (int i = 1; i < m.getNumOfTerr(); i++)
 	{
@@ -216,23 +234,48 @@ void reinforcementPhase(Map m, vector<Player*> participants)
 			won = true;
 		}
 	}
-	if (won)
-	{
-		//insert path to won phase or victory screen
-	}
-	else
-	{
-		//transition to orderPhase
-	}
+	return won;
 }
 
 void issueOrderPhase(Map m, vector<Player*> participants)
 {
+	vector<int> reinf;
+	for (int i = 0; i < participants.size(); i++)
+	{
+		participants[i]->clearNegotiate();
+		participants[i]->setDrawn(false);
+		participants[i]->clearOrders();
+		reinf.push_back(participants[i]->getReinF());
+	}
 
-
+	//TODO make the order making sequence
 }
+
 void executeOrderPhase(Map m, vector<Player*> participants)
 {
+	int j = 0;
+	int maxSize = 0;
+	while (true)
+	{
+		for (int i = 0; i < participants.size(); i++)
+		{
+			maxSize = 0;
+			if (j < participants[i]->getOrders().size())
+			{
+				(participants[i]->getOrders())[j]->execute();
+			}
+			else
+			{
+				maxSize++;
+			}
+		}
+		j++;
+		if (maxSize >= participants.size())
+		{
+			break;
+		}
+	}
+	//move back to the start.. althought his can be handles by the gameloop
 
 }
 #pragma endregion

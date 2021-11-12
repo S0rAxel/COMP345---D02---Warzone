@@ -15,8 +15,7 @@ public:
 
 	string value;
 	string effect;
-	void execute();
-	void saveEffect();
+	void saveEffect(string);
 
 	void operator=(const Command&);
 	friend ostream& operator<<(ostream&, Command&);
@@ -34,22 +33,22 @@ public:
 
 };
 ostream& operator<<(ostream&, Command&);
+bool operator==(const Command&, const string&);
+bool operator==(const string&, const Command&);
 
 
 
 class CommandProcessor : public Subject, ILoggable {
 protected:
 	vector<Command> cmdLog;
-
-	
 	virtual Command readCommand();
 
 public:
 	//Static members
 	void saveCommand(Command&);
-	static CommandProcessor* cmdProcessor;
+	static CommandProcessor* current;
 	static void startup();
-	static bool validate(Command&);
+	static int validate(Command&);
 
 
 	CommandProcessor();
@@ -58,9 +57,10 @@ public:
 	virtual ~CommandProcessor();
 
 	//Instance members
-
 	virtual Command getCommand();
+	void printLog();
 
+	//Opeators.
 	void operator=(CommandProcessor&);
 	friend ostream& operator<<(ostream&, CommandProcessor&);
 	

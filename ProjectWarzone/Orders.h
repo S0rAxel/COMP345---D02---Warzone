@@ -12,7 +12,7 @@ using std::ostream;
 using std::vector;
 
 // An Order object, which contains data members and functions related to a Warzone order
-class Order //: public Subject, ILoggable
+class Order : public Subject, ILoggable
 {
 public:
     Order();
@@ -21,24 +21,24 @@ public:
     virtual void execute() = 0;
 
     ~Order();
-
+    virtual void execute() = 0;
     string* getEffect();
     void setEffect(string* effect);
     string* getDescription();
     void setDescription(string* description);
     bool* getHasBeenExecuted();
     void setHasBeenExecuted(bool* hasBeenExecuted);
+    virtual void execute();
 
     Order& operator= (const Order& order);
     friend ostream& operator<< (ostream& output, Order& order);
 
 #pragma region Subject and ILoggable implementation
-    /*void Attach(LogObserver* obs);
-    void Detach(LogObserver* obs);
-    void Notify(class ILoggable log);
-    string StringToLog();*/
+    void Attach(Observer* obs);
+    void Detach(Observer* obs);
+    void Notify(ILoggable& log);
+    string StringToLog();
 #pragma endregion
-
 
 private:
     string* effect;

@@ -2,10 +2,11 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include "Player.h"
+#include "Map.h"
 
 using namespace std;
 namespace Engine {
-	//IMPORTANT FOR GRADING
 	/*
 	* The assignment requirements specify that one class named 'GameEngine' must be included.
 	* For all intents and purposes, this is it. I simply find 'GameState' to be a more descriptive name.
@@ -27,7 +28,6 @@ namespace Engine {
 		static void GameExit();
 		//Safely switches from the current state to another.
 		static void SwitchState(GameState&);
-
 
 		//INSTANCE
 
@@ -54,13 +54,13 @@ namespace Engine {
 
 		//Gets values of right hand side.
 		void operator=(GameState&);
+
 	};
 	
 	//Passes state name and command list to the stream.
 	ostream& operator<<(ostream&, GameState&);
 
 	namespace States {
-		//IMPORTRANT FOR GRADING
 		/*
 		* I am aware of the assignment requirement stating that each class should have a
 		* copy constructor, destructor, assignment and stream insertion operator

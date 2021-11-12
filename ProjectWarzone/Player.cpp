@@ -17,9 +17,7 @@ vector<territory*> Player::toAttack() {
 }
 
 void Player::issueOrder() {
-	Order* order = new Order();
-	
-	orders.push_back(order);
+	//TODO MUST MAKE ORDER MAKING LOGIC
 }
 
 vector<Order*> Player::getOrders()
@@ -48,6 +46,18 @@ void Player::removeTerritories(territory* territory)
 		if (territories[i] == territory)
 		{
 			territories.erase(territories.begin() + i);
+			break;
+		}
+	}
+}
+
+void Player::removeOrder(Order* o)
+{
+	for (int i = 0; i < orders.size(); i++)
+	{
+		if (orders[i] == o)
+		{
+			orders.erase(orders.begin() + i);
 			break;
 		}
 	}

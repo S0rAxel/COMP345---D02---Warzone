@@ -13,13 +13,9 @@ Command::Command(string value) : value(value), effect("None") { }
 Command::Command() : Command("default") {}
 Command::Command(const Command& toCopy) : Command(toCopy.value) { };
 
-void Command::execute() {
-	cout << "Executing command: " << this->value;
-}
-
-//Temporary. Not sure how to get a more descirptive message.
-void Command::saveEffect() {
-	this->effect = "Achieved: " + this->value;
+//Should be called right after doing an action in reaction to the command.
+void Command::saveEffect(string effect) {
+	this->effect = this->value;
 
 	Notify(*this);
 }
@@ -28,6 +24,12 @@ void Command::saveEffect() {
 void Command::operator=(const Command& get) {
 	this->value = get.value;
 	this->effect = get.effect;
+}
+bool operator==(const Command& cmd, const string& str) {
+	return cmd.value == str;
+}
+bool operator==(const string& str, const Command& cmd) {
+	return cmd.value == str;
 }
 ostream& operator<<(ostream& out, Command& cmd) {
 	return out << "Command: " << cmd.value;
@@ -52,7 +54,7 @@ void Command::Notify(ILoggable& log)
 
 string Command::StringToLog()
 {
-	return "Notify Called from Command::SaveEffect() \n";
+	return "Command::saveEffect(): " + this->effect + "\n";
 }
 
 #pragma endregion
@@ -69,7 +71,7 @@ CommandProcessor::CommandProcessor(const CommandProcessor& toCopy) : cmdLog(toCo
 CommandProcessor::~CommandProcessor() { }
 
 //Initial value.
-CommandProcessor* CommandProcessor::cmdProcessor = nullptr;
+CommandProcessor* CommandProcessor::current = nullptr;
 
 //Selects the command processing mode.
 void CommandProcessor::startup() {
@@ -81,7 +83,7 @@ void CommandProcessor::startup() {
 
 		if (input == "-console") {
 			//Assign Console Processor to static Command Processor.
-			cmdProcessor = new CommandProcessor();
+			current = new CommandProcessor();
 			break;
 		}
 		else if (input == "-file") {
@@ -90,10 +92,10 @@ void CommandProcessor::startup() {
 				cin >> input;
 
 				//Assign File Processor to static Command Processor.
-				cmdProcessor = new FileCommandProcessorAdapter(input);
+				current = new FileCommandProcessorAdapter(input);
 
 				//Check if the File Processor found the given file.
-				if ((dynamic_cast<FileCommandProcessorAdapter*>(cmdProcessor))->isOpen()) {
+				if ((dynamic_cast<FileCommandProcessorAdapter*>(current))->isOpen()) {
 					break;
 				}
 
@@ -132,21 +134,30 @@ void CommandProcessor::saveCommand(Command& cmd) {
 	Notify(*this);
 }
 
-bool CommandProcessor::validate(Command& cmd) {
+//Returns the index of the state transition matching the 
+int CommandProcessor::validate(Command& cmd) {
 	using namespace Engine;
 
 	//Checks if the given command matches ones valid in the current state.
-	for (string validCmd : GameState::current->commands) {
-		if (cmd.value == validCmd) {
-			return true;
+	for (int i = 0; i < GameState::current->commands.size(); i++) {
+		//If it matches, return the index of the state (will be used for transition).
+		if (cmd == GameState::current->commands.at(i)) {
+			return i;
 		}
 	}
 
 	//If this is reached then the given command matches
 	//none of the valid ones in the current state.
-	return false;
+	return -1;
 }
 
+void CommandProcessor::printLog() {
+	cout << "\n\nCommand Processor Log:\n";
+	for (Command cmd : CommandProcessor::current->cmdLog) {
+		cout << cmd << endl;
+	}
+	cout << "\n\n";
+}
 
 //Operators
 void CommandProcessor::operator=(CommandProcessor& get) {
@@ -175,7 +186,7 @@ void CommandProcessor::Notify(ILoggable& log)
 
 string CommandProcessor::StringToLog()
 {
-	return "Notify from CommandProcessor::SaveCommand() \n";
+	return "CommandProcessor::SaveCommand(): Command " + this->cmdLog.back().value + " saved \n";
 }
 
 #pragma endregion
@@ -188,7 +199,7 @@ string CommandProcessor::StringToLog()
 //Constructors.
 FileLineReader::FileLineReader(string fileName) : targetFile(fileName), fileStrm(targetFile, ios::in) {
 	if (fileStrm.is_open()) { cout << "File Command Processor attached to: " << targetFile << endl; }
-	else { cout << "Failed to open file '" << targetFile <<"'\n"; }
+	else { cout << "Failed to open file '" << targetFile << "'\n"; }
 }
 //May result in error.
 FileLineReader::FileLineReader(const FileLineReader& ref) : fileStrm(targetFile, ios::in) { }
@@ -199,19 +210,26 @@ FileLineReader::~FileLineReader() {
 
 
 Command FileLineReader::readCommand() {
-	if (this->fileStrm.is_open() && this->fileStrm.good()) {
+	if (this->fileStrm.is_open()) {
+		if (this->fileStrm.good()) {
+			string fInput;
+			this->fileStrm >> fInput;
 
-		string fInput;
-		this->fileStrm >> fInput;
+			cout << "\n> " << fInput << endl;
+			Command fileCmd(fInput);
 
-		cout << "\n> " << fInput << endl;
-		Command fileCmd(fInput);
-
-		if (!CommandProcessor::validate(fileCmd)) { cout << "Invalid command.\n\n"; }
-		return fileCmd;
+			return fileCmd;
+		}
+		else if (this->fileStrm.eof()) {
+			cout << "\nReached end of file.";
+		}
+		else {
+			cout << "Error reading file.";
+		}
+		return Command("$abort");
 	}
 	else {
-		cout << "Failed to read.";
+		cout << "No input file to read.";
 	}
 	return Command();
 }
@@ -269,8 +287,8 @@ void FileCommandProcessorAdapter::operator=(FileCommandProcessorAdapter& get) {
 	*this->fReader = *get.fReader;
 }
 ostream& operator<<(ostream& out, FileCommandProcessorAdapter& fCmdAdapt) {
-	return out << "File Command Processor Adapter. Contains:\n\t" 
-		<< fCmdAdapt.fReader << "\nLog of " 
+	return out << "File Command Processor Adapter. Contains:\n\t"
+		<< fCmdAdapt.fReader << "\nLog of "
 		<< fCmdAdapt.cmdLog.size() << " commands.";
 }
 
