@@ -11,31 +11,35 @@ Player& Player::operator=(const Player& player) {
 	return *this;
 }
 
-vector<territory*> Player::toDefend(Map m) 
+vector<territory*> Player::toDefend(Map m, int reinf) 
 {
+	int limit = rand() % getTerritories().size();
 	vector<territory*> territoriesToDefend;
-	for (int i = 0; i < territories.size(); i++)
+	//TLDR the player assigns a random number of territories to defend
+	for (int i = 0; i < limit; i++)
 	{
-
+		territoriesToDefend.push_back(getTerritories()[rand() % (getTerritories().size())]);
 	}
 	//make randomizer for the to defend generating
 	return territoriesToDefend;
 }
 
-vector<territory*> Player::toAttack(Map m) {
+vector<territory*> Player::toAttack(Map m, int reinf) {
 	vector<territory*> territoriesToAttack;
+	int limit = rand() % reinf;
 
 	//make randomizer for the to attack generating
 	return territoriesToAttack;
 }
 
-void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck) 
+void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter) 
 {
+	bool goOn = false;
 	//this first if is to ensure that the character doesn't
 	if (reinf > 0)
 	{
 		//reinfordement logic
-		addOrder(new Deploy(1, me, defend[0]));
+		addOrder(new Deploy(rand() % (reinf/2 + 1) + (reinf/2 + 1), me, defend[counter]));
 	}
 	else if(!havePlayedCard && getHand()->size()!=0)
 	{

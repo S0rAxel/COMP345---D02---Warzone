@@ -58,10 +58,10 @@ public:
 	vector<territory*> getTerritories() { return territories; }
 	void addTerritories(territory* territory) { territories.push_back(territory); }
 	void removeTerritories(territory* territory);
-	vector<territory*> toDefend(Map m);
-	vector<territory*> toAttack(Map m);
+	vector<territory*> toDefend(Map m, int reinf);
+	vector<territory*> toAttack(Map m, int reinf);
 	Hand* getHand() { return hand; }
-	void issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck);
+	void issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter);
 	vector<Order*> getOrders();
 	void addOrder(Order* o) { orders.push_back(o); }
 	void removeOrder(Order* o);
