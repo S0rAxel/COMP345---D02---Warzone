@@ -7,7 +7,6 @@
 
 using namespace std;
 namespace Engine {
-	//IMPORTANT FOR GRADING
 	/*
 	* The assignment requirements specify that one class named 'GameEngine' must be included.
 	* For all intents and purposes, this is it. I simply find 'GameState' to be a more descriptive name.
@@ -62,7 +61,6 @@ namespace Engine {
 	ostream& operator<<(ostream&, GameState&);
 
 	namespace States {
-		//IMPORTRANT FOR GRADING
 		/*
 		* I am aware of the assignment requirement stating that each class should have a
 		* copy constructor, destructor, assignment and stream insertion operator

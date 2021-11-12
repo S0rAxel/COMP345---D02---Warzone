@@ -70,13 +70,9 @@ void GameState::GameExit() {
 
 //Base class default and initialization constructor.
 //Default parameters are declared in header file.
-GameState::GameState(string stateName, vector<string> cmds) : name(stateName), commands(cmds) {
-	cout << "\t\tCreated state: " + this->name + "\n";
-}
+GameState::GameState(string stateName, vector<string> cmds) : name(stateName), commands(cmds) { }
 //Base class copy constructor.
-GameState::GameState(GameState& toCopy) : name(toCopy.name), links(toCopy.links), commands(toCopy.commands) {
-	cout << "\t\tCopied state " + toCopy.name << "\n";
-}
+GameState::GameState(GameState& toCopy) : name(toCopy.name), links(toCopy.links), commands(toCopy.commands) { }
 
 //Base class destructor.
 GameState::~GameState() {
@@ -139,28 +135,44 @@ string GameState::cmdList() {
 //These will allow for custom behavior for every state on transition.
 //Nothing for now.
 
-void Start::Setup() { }
+void Start::Setup() {
+	cout << "Entered: Start state.\n";
+}
 void Start::Exit() { }
 
-void LoadMap::Setup() { }
+void LoadMap::Setup() {
+	cout << "Entered: Load Map state.\n";
+}
 void LoadMap::Exit() { }
 
-void ValidMap::Setup() { }
+void ValidMap::Setup() {
+	cout << "Entered: Validate Map state.\n";
+}
 void ValidMap::Exit() { }
 
-void AddPlayers::Setup() { }
+void AddPlayers::Setup() {
+	cout << "Entered: Add Players state.\n";
+}
 void AddPlayers::Exit() { }
 
-void AssignReinf::Setup() { }
+void AssignReinf::Setup() {
+	cout << "Entered: Assign Reinforcements state.\n";
+}
 void AssignReinf::Exit() { }
 
-void IssueOrders::Setup() { }
+void IssueOrders::Setup() {
+	cout << "Entered: Issue Orders state.\n";
+}
 void IssueOrders::Exit() { }
 
-void ExecOrders::Setup() { }
+void ExecOrders::Setup() {
+	cout << "Entered: Execute Orders state.\n";
+}
 void ExecOrders::Exit() { }
 
-void GameOver::Setup() { }
+void GameOver::Setup() {
+	cout << "Entered: Game Over state.\n";
+}
 void GameOver::Exit() { }
 
 void mainGameLoop()
