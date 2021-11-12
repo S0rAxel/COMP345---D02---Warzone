@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_DEPRECATE
+
 #include "LoggingObserver.h"
 #include <iostream>
 #include <fstream>
@@ -99,13 +101,17 @@ LogObserver::~LogObserver()
 // Implementation of virtual method from parent class Observer
 void LogObserver::Update(ILoggable& log)
 {
+	time_t now = time(0);
+	tm* ltm = localtime(&now);
+
 	ofstream file("gamelog.txt", ios::app);
 
 	// Check if the file was not been able to open
 	if (!file.is_open())
 		cout << "File could not be opened" << endl;
 
-	file << log.StringToLog();
+
+	file << 5 + ltm->tm_hour << ":" << 30 + ltm->tm_min << ":" << ltm->tm_sec << " - " << log.StringToLog();
 
 	file.close();
 };

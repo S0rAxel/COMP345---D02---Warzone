@@ -3,7 +3,6 @@
 #include <iostream>
 #include <fstream>
 #include "LoggingObserver.h"
-#include "Orders.h"
 #include "CommandProcessingDriver.h"
 #include "OrderExecutionDriver.h"
 #include "CommandProcessing.h"
@@ -27,10 +26,6 @@ int main()
 
 	file.close();
 
-	LogObserver* logObs = new LogObserver();
-	OrdersList* orderList = new OrdersList();
-	Command* cmd = new Command();
-	CommandProcessor* cmdP = new CommandProcessor();
 
 	Order* order = new Negotiate(new Player("p1"), new Player("p2"));
 	order->Attach(logObs);

@@ -7,6 +7,8 @@ Map readfile(string);
 //Demonstrates the functionality of the command processing part.
 void CommandProcessingDemo() {
 
+	LogObserver* logObs = new LogObserver();
+
 	Engine::GameState::GameSetup();
 
 	system("pause");
@@ -15,9 +17,11 @@ void CommandProcessingDemo() {
 	Command* cmd;
 	Command* followUp;
 	string cmdEffect;
+
 	int nextStateIndex;
 	do {
 		cmd = CommandProcessor::current->getCommand();
+		cmd->Attach(logObs);
 		cmdEffect = "";
 
 		//Special command, exits. For demo only.
