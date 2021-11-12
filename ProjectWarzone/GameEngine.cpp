@@ -228,11 +228,15 @@ bool reinforcementPhase(Map m, vector<Player*> participants)
 
 void issueOrderPhase(Map m, vector<Player*> participants)
 {
+	vector<int> reinf;
 	for (int i = 0; i < participants.size(); i++)
 	{
 		participants[i]->clearNegotiate();
 		participants[i]->setDrawn(false);
+		participants[i]->clearOrders();
+		reinf.push_back(participants[i]->getReinF());
 	}
+
 	//TODO make the order making sequence
 }
 
