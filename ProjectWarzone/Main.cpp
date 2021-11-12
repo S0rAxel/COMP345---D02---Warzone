@@ -4,7 +4,7 @@
 #include <fstream>
 #include "LoggingObserver.h"
 #include "Orders.h"
-#include "CommandProcessing.h"
+#include "CommandProcessingDriver.h"
 
 
 using namespace std;
@@ -38,6 +38,9 @@ int main()
 	orderList->add(*order);
 
 	order->execute();
+
+
+	CommandProcessingDemo();
 
 	/*/cout << "\n\t- MAP DEMO -\n";
 	system("pause");
