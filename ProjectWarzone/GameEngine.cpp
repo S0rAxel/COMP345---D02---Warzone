@@ -248,7 +248,7 @@ bool reinforcementPhase(Map m, vector<Player*> participants)
 	return won;
 }
 
-void issueOrderPhase(Map m, vector<Player*> participants)
+void issueOrderPhase(Map m, vector<Player*> participants, Deck* deck)
 {
 	vector<int> reinf;
 	vector<vector<territory*>> defend;
@@ -270,7 +270,7 @@ void issueOrderPhase(Map m, vector<Player*> participants)
 		{
 			if (participants[i]->ordersCompleate)
 			{
-				participants[i]->issueOrder(reinf[i], m, attack[i], defend[i]);
+				participants[i]->issueOrder(reinf[i], m, attack[i], defend[i], participants[i], deck);
 			}
 			else
 			{

@@ -143,6 +143,6 @@ void mainGameLoop();
 
 bool reinforcementPhase(Map m, vector<Player*> participants);
 
-void issueOrderPhase(Map m, vector<Player*> participants);
+void issueOrderPhase(Map m, vector<Player*> participants, Deck* deck);
 
 void executeOrderPhase(Map m, vector<Player*> participants);

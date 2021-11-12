@@ -59,7 +59,7 @@ public:
 	vector<territory*> toDefend(Map m);
 	vector<territory*> toAttack(Map m);
 	Hand* getHand() { return hand; }
-	void issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend);
+	void issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck);
 	vector<Order*> getOrders();
 	void addOrder(Order* o) { orders.push_back(o); }
 	void removeOrder(Order* o);
@@ -74,6 +74,7 @@ public:
 	void addNegotiate(Player* player) { negotiate.push_back(player); }
 	bool isNegotiate(Player* player);
 	bool ordersCompleate;
+	bool havePlayedCard;
 
 private:
 	vector<territory*> territories;
