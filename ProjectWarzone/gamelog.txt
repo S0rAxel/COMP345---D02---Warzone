@@ -175,3 +175,11 @@ CommandProcessor::SaveCommand(): Command default saved
 Command::saveEffect(): Achieved: default
 OrdersList::Add() - negotiate order has been added 
 Order::Execute() - negotiate order has been executed. Effect: The negotiate order prevents attacks between the current player and another player until the end of the turn. 
+
+ - New log created at time: Fri Nov 12 14:41:25 2021
+ 
+
+CommandProcessor::SaveCommand(): Command default saved 
+Command::saveEffect(): 
+OrdersList::Add() - negotiate order has been added 
+Order::Execute() - negotiate order has been executed. Effect: The negotiate order prevents attacks between the current player and another player until the end of the turn. 

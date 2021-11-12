@@ -6,6 +6,7 @@
 #include "Orders.h"
 #include "CommandProcessingDriver.h"
 #include "OrderExecutionDriver.h"
+#include "CommandProcessing.h"
 
 
 using namespace std;
@@ -13,7 +14,7 @@ using namespace std;
 int main() 
 {
 	OrderExecutionDriverDemo();
-	/*
+	
 	cout << "\n\t - WARZONE PROJECT - \n";
 
 	ofstream file("gamelog.txt", ios::app);
@@ -36,15 +37,15 @@ int main()
 	cmdP->Attach(logObs);
 	orderList->Attach(logObs);
 
-	cmdP->saveCommand(*cmd);
-	cmd->saveEffect();
-	orderList->add(*order);
+	cmdP->saveCommand(cmd);
+	cmd->saveEffect("");
+	orderList->add(order);
 
 	order->execute();
 
 
 	CommandProcessingDemo();
-	*/
+	
 	/*/cout << "\n\t- MAP DEMO -\n";
 	system("pause");
 	MapDriverDemo();

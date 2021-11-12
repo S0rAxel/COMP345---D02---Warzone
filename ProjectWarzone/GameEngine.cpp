@@ -180,7 +180,7 @@ void mainGameLoop()
 {
 	vector<Player*> participants;
 	Map map;
-	Deck deck;
+	Deck* deck = new Deck();
 	bool ended = reinforcementPhase(map, participants);
 	while (!ended)
 	{
@@ -192,7 +192,7 @@ void mainGameLoop()
 				participants.erase(participants.begin() + i);
 			}
 		}
-		issueOrderPhase(map, participants);
+		issueOrderPhase(map, participants, deck);
 		executeOrderPhase(map, participants);
 		ended = reinforcementPhase(map, participants);
 	}
@@ -256,7 +256,7 @@ void issueOrderPhase(Map m, vector<Player*> participants, Deck* deck)
 	int playersDone;
 	for (int i = 0; i < participants.size(); i++)
 	{
-		participants[i]->ordersCompleate = false;
+		participants[i]->ordersComplete = false;
 		participants[i]->clearNegotiate();
 		participants[i]->setDrawn(false);
 		participants[i]->clearOrders();
@@ -268,7 +268,7 @@ void issueOrderPhase(Map m, vector<Player*> participants, Deck* deck)
 		playersDone = participants.size();
 		for (int i = 0; i < participants.size(); i++)
 		{
-			if (participants[i]->ordersCompleate)
+			if (participants[i]->ordersComplete)
 			{
 				participants[i]->issueOrder(reinf[i], m, attack[i], defend[i], participants[i], deck);
 			}

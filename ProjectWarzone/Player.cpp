@@ -21,7 +21,7 @@ void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<terr
 	if (reinf > 0)
 	{
 		//reinfordement logic
-		addOrder(&(Deploy(1, me, defend[0])));
+		addOrder(new Deploy(1, me, defend[0]));
 	}
 	else if(!havePlayedCard && hand->size()!=0)
 	{
@@ -31,19 +31,19 @@ void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<terr
 		switch ((hand->getCards())[0]->getCardType())
 		{
 		case (0):
-			addOrder(&(Bomb(me, attack[0])));
+			addOrder(new Bomb(me, attack[0]));
 			break;
 		case (1):
 			addReinF(10);
 			break;
 		case (2):
-			addOrder(&(Blockade(me, &neutral, defend[0])));
+			addOrder(new Blockade(me, &neutral, defend[0]));
 			break;
 		case (3):
-			addOrder(&(Airlift(1, me, defend[0], attack[0])));
+			addOrder(new Airlift(1, me, defend[0], attack[0]));
 			break;
 		case (4):
-			addOrder(&(Negotiate(me, attack[0]->getOwner())));
+			addOrder(new Negotiate(me, attack[0]->getOwner()));
 			break;
 		}
 
@@ -53,7 +53,7 @@ void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<terr
 	}
 	else
 	{
-		addOrder(&(Advance(1, me, defend[0], attack[0], deck)));
+		addOrder(new Advance(1, me, defend[0], attack[0], deck));
 		//move logic
 	}
 }
