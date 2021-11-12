@@ -397,6 +397,7 @@ void Blockade::execute()
         Order::execute();
 
         target->setOwner(neutral);
+        player->removeTerritories(target);
         target->setArmies(target->getArmies() * 2);
         cout << "Blockade order sucess. Target territory is neutral and has " << target->getArmies() << " armies." << endl;
         setHasBeenExecuted(new bool(true));
