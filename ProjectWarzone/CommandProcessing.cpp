@@ -33,7 +33,6 @@ ostream& operator<<(ostream& out, Command& cmd) {
 	return out << "Command: " << cmd.value;
 }
 
-
 #pragma region Subject and ILoggable
 void Command::Attach(Observer* obs)
 {
@@ -52,7 +51,7 @@ void Command::Notify(ILoggable& log)
 
 string Command::StringToLog()
 {
-	return "Notify Called from Command::SaveEffect() \n";
+	return "Command::saveEffect(): " + this->effect + "\n";
 }
 
 #pragma endregion
@@ -175,7 +174,7 @@ void CommandProcessor::Notify(ILoggable& log)
 
 string CommandProcessor::StringToLog()
 {
-	return "Notify from CommandProcessor::SaveCommand() \n";
+	return "CommandProcessor::SaveCommand(): Command " + this->cmdLog.back().value + " saved \n";
 }
 
 #pragma endregion

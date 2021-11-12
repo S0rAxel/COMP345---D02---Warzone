@@ -90,14 +90,14 @@ GameState::~GameState() {
 
 //Derived class default constructors.
 //Funky table indentation. Hopefully easier to read.
-Start::Start():			GameState(	"Start",			{ "loadmap" }				) { }
-LoadMap::LoadMap():		GameState(	"Loaded Map",			{ "loadmap", "validatemap" }		) { }
+Start::Start():				GameState(	"Start",				{ "loadmap" }				) { }
+LoadMap::LoadMap():			GameState(	"Loaded Map",			{ "loadmap", "validatemap" }		) { }
 ValidMap::ValidMap():		GameState(	"Validated Map",		{ "addplayer" }				) { }
 AddPlayers::AddPlayers():	GameState(	"Add Players",			{ "addplayer", "assigncountries" }	) { }
-AssignReinf::AssignReinf():	GameState(	"Assign Reinforcements",	{ "issueorder" }			) { }
+AssignReinf::AssignReinf():	GameState(	"Assign Reinforcements",{ "issueorder" }			) { }
 IssueOrders::IssueOrders():	GameState(	"Issue Orders",			{ "issueorder", "endissueorders" }	) { }
 ExecOrders::ExecOrders():	GameState(	"Execute Orders",		{ "execorder", "endexecorders", "win" }	) { }
-GameOver::GameOver():		GameState(	"Win",				{ "play", "end" }			) { }
+GameOver::GameOver():		GameState(	"Win",					{ "play", "end" }			) { }
 
 //Again, there are no destructors for the derived
 //classes since they define no members (see header file).
@@ -209,7 +209,6 @@ bool reinforcementPhase(Map m, vector<Player*> participants)
 		}
 	}
 	//cheking for map ownership as in to see if only one player owns it all
-	Player* tempOwner = m.getTerritory(0)->getOwner();
 	bool won = false;
 	for (int i = 1; i < m.getNumOfTerr(); i++)
 	{

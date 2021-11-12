@@ -17,7 +17,7 @@ int main()
 
 	time_t t = time(0);
 
-	file << "\n - New log created at time: " << ctime(&t) << " - \n" << endl;
+	file << "\n - New log created at time: " << ctime(&t) << " \n" << endl;
 
 	file.close();
 
@@ -26,13 +26,18 @@ int main()
 	Command* cmd = new Command();
 	CommandProcessor* cmdP = new CommandProcessor();
 
+	Order* order = new Negotiate(new Player(), new Player());
+	order->Attach(logObs);
+
 	cmd->Attach(logObs);
 	cmdP->Attach(logObs);
 	orderList->Attach(logObs);
 
-	cmd->saveEffect();
 	cmdP->saveCommand(*cmd);
-	orderList->add(Order());
+	cmd->saveEffect();
+	orderList->add(*order);
+
+	order->execute();
 
 	/*/cout << "\n\t- MAP DEMO -\n";
 	system("pause");
