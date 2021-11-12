@@ -18,9 +18,9 @@ public:
     Order();
     Order(string* effect, string* description);
     Order(const Order& ord);
-    virtual void execute() = 0;
 
     ~Order();
+    virtual void execute();
     string* getEffect();
     void setEffect(string* effect);
     string* getDescription();
