@@ -1,5 +1,12 @@
 #include "Player.h"
 
+Player::Player(string playerName)
+{
+	this->playerName = playerName;
+	playOrder = new int(-1);
+	hand = new Hand();
+}
+
 Player& Player::operator=(const Player& player) {
 	return *this;
 }
@@ -34,7 +41,7 @@ void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<terr
 			addOrder(new Bomb(me, attack[0]));
 			break;
 		case (1):
-			addReinF(10);
+			addReinF(5);
 			break;
 		case (2):
 			addOrder(new Blockade(me, &neutral, defend[0]));
@@ -99,4 +106,24 @@ void Player::removeOrder(Order* o)
 			break;
 		}
 	}
+}
+
+int Player::getTerritorySize()
+{
+	return territories.size();
+}
+
+int* Player::getPlayOrder()
+{
+	return playOrder;
+}
+
+void Player::setPlayOrder(int* playOrder)
+{
+	*this->playOrder = *playOrder;
+}
+
+void Player::setReinF(int numOfReinF)
+{
+	this->numOfReinF = numOfReinF;
 }

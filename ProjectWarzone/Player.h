@@ -38,7 +38,7 @@ class Player
 public:
 	Player() {};
 	
-	Player(string name) : playerName(name) {};
+	Player(string name);
 
 	Player(string name, Hand* hand) { playerName = name; this->hand = hand; };
 
@@ -67,6 +67,7 @@ public:
 	void removeOrder(Order* o);
 	void clearOrders() { orders.clear(); }
 	int getReinF() { return numOfReinF; }
+	void setReinF(int numOfReinF);
 	void addReinF(int reinf) { numOfReinF += reinf; }
 	void removeReinf(int reinf) { numOfReinF -= reinf; }//must add a validation before using this one
 	vector<Player*> getNegotiate() { return negotiate; }
@@ -79,6 +80,10 @@ public:
 	bool havePlayedCard;
 	void setHand(Hand* hand) { this->hand = hand; }
 
+	int getTerritorySize();
+	int* getPlayOrder();
+	void setPlayOrder(int* playOrder);
+
 private:
 	vector<territory*> territories;
 	Hand* hand;
@@ -86,6 +91,8 @@ private:
 	int numOfReinF;
 	vector<Player*> negotiate; //vector of players that cannot be attacked. Clear after every turn
 	bool drawn; //player has drawn card. Set to false after every turn
+
+	int* playOrder;
 
 public:
 	string playerName;

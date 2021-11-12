@@ -1,4 +1,4 @@
-/*#include "Map.h"
+#include "Map.h"
 #include "MapDriver.h"
 #include <fstream>
 #include <string>
@@ -207,4 +207,4 @@ void MapDriverDemo()
 	{
 		cout << "the map is not valid!!" << endl;
 	}
-}*/
+}

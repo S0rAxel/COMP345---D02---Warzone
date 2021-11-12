@@ -7,6 +7,7 @@
 #include "CommandProcessingDriver.h"
 #include "OrderExecutionDriver.h"
 #include "CommandProcessing.h"
+#include "GameEngineDriver2.h"
 
 
 using namespace std;
@@ -46,6 +47,7 @@ int main()
 
 
 	CommandProcessingDemo();
+	startupPhaseDemo();
 	
 	/*/cout << "\n\t- MAP DEMO -\n";
 	system("pause");
