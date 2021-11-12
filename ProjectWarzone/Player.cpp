@@ -6,13 +6,13 @@ Player& Player::operator=(const Player& player) {
 
 vector<territory*> Player::toDefend() {
 	vector<territory*> territoriesToDefend;
-
+	//make randomizer for the to defend generating
 	return territoriesToDefend;
 }
 
 vector<territory*> Player::toAttack() {
 	vector<territory*> territoriesToAttack;
-
+	//make randomizer for the to attack generating
 	return territoriesToAttack;
 }
 
