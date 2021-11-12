@@ -6,7 +6,7 @@
 
 using namespace std;
 
-
+//Represents a command given by the user. Either taken from the console or from a file.
 class Command : public Subject, ILoggable {
 public:
 	Command();
@@ -38,14 +38,15 @@ bool operator==(const string&, const Command&);
 
 
 
+//Processes user input taken from the console. Uses 'Commands' as main commnication object.
 class CommandProcessor : public Subject, ILoggable {
 protected:
-	vector<Command> cmdLog;
-	virtual Command readCommand();
+	vector<Command*> cmdLog;
+	virtual Command* readCommand();
 
 public:
 	//Static members
-	void saveCommand(Command&);
+	void saveCommand(Command*);
 	static CommandProcessor* current;
 	static void startup();
 	static int validate(Command&);
@@ -53,11 +54,11 @@ public:
 
 	CommandProcessor();
 	CommandProcessor(const CommandProcessor&);
-	//Polymorphism is allowed.
+	//Virtual since polymorphism is allowed.
 	virtual ~CommandProcessor();
 
 	//Instance members
-	virtual Command getCommand();
+	virtual Command* getCommand();
 	void printLog();
 
 	//Opeators.
@@ -78,19 +79,20 @@ ostream& operator<<(ostream&, CommandProcessor&);
 
 
 
+//Processes user input taken from files. Uses 'Commands' as main commnication object.
 class FileLineReader {
 private:
-	string targetFile;
+	string fileName;
 	ifstream fileStrm;
 
-	Command readCommand();
+	Command* readCommand();
 
 public:
 	FileLineReader(string);
 	FileLineReader(const FileLineReader&);
 	~FileLineReader();
 
-	Command getCommand();
+	Command* getCommand();
 	bool isOpen();
 
 	void operator=(FileLineReader&);
@@ -100,10 +102,11 @@ ostream& operator<<(ostream&, FileLineReader&);
 
 
 
+//Adapts the 'FileLineReader' class to be used polymorphically as a 'CommandProcessor' followin the Adapter design pattern.
 class FileCommandProcessorAdapter : public CommandProcessor {
 private:
 	FileLineReader* fReader;
-	Command readCommand(string);
+	Command* readCommand(string);
 
 public:
 	FileCommandProcessorAdapter(string);
@@ -111,7 +114,7 @@ public:
 	FileCommandProcessorAdapter(const FileCommandProcessorAdapter&);
 	~FileCommandProcessorAdapter();
 
-	Command getCommand();
+	Command* getCommand();
 	bool isOpen();
 
 	void operator=(FileCommandProcessorAdapter&);

@@ -13,9 +13,10 @@ Command::Command(string value) : value(value), effect("None") { }
 Command::Command() : Command("default") {}
 Command::Command(const Command& toCopy) : Command(toCopy.value) { };
 
+//Saves the command's effect.
 //Should be called right after doing an action in reaction to the command.
 void Command::saveEffect(string effect) {
-	this->effect = this->value;
+	this->effect = effect;
 
 	Notify(*this);
 }
@@ -111,23 +112,24 @@ void CommandProcessor::startup() {
 }
 
 
-Command CommandProcessor::readCommand() {
+//Reads input from console and generates a command.
+Command* CommandProcessor::readCommand() {
 	string input;
 	cout << "\n> ";
 	cin >> input;
 
 	//Create a new command with the given input and save it.
-	Command userCommand(input);
+	Command* userCommand = new Command(input);
 	this->saveCommand(userCommand);
 
 	return userCommand;
 }
-
-Command CommandProcessor::getCommand() {
+Command* CommandProcessor::getCommand() {
 	return this->readCommand();
 }
 
-void CommandProcessor::saveCommand(Command& cmd) {
+//Saves the command to the log.
+void CommandProcessor::saveCommand(Command* cmd) {
 	//Store the command in the command log.
 	this->cmdLog.push_back(cmd);
 
@@ -151,10 +153,11 @@ int CommandProcessor::validate(Command& cmd) {
 	return -1;
 }
 
+//Prints the entirety of the command processor log to the console.
 void CommandProcessor::printLog() {
-	cout << "\n\nCommand Processor Log:\n";
-	for (Command cmd : CommandProcessor::current->cmdLog) {
-		cout << cmd << endl;
+	cout << "\n\nCommand Processor Log:\n\n";
+	for (Command* cmd : CommandProcessor::current->cmdLog) {
+		cout << *cmd << "\nEffect: " << cmd->effect << "\n\n";
 	}
 	cout << "\n\n";
 }
@@ -186,7 +189,7 @@ void CommandProcessor::Notify(ILoggable& log)
 
 string CommandProcessor::StringToLog()
 {
-	return "CommandProcessor::SaveCommand(): Command " + this->cmdLog.back().value + " saved \n";
+	return "CommandProcessor::SaveCommand(): Command " + this->cmdLog.back()->value + " saved \n";
 }
 
 #pragma endregion
@@ -197,58 +200,60 @@ string CommandProcessor::StringToLog()
 
 #pragma region FileLineReader
 //Constructors.
-FileLineReader::FileLineReader(string fileName) : targetFile(fileName), fileStrm(targetFile, ios::in) {
-	if (fileStrm.is_open()) { cout << "File Command Processor attached to: " << targetFile << endl; }
-	else { cout << "Failed to open file '" << targetFile << "'\n"; }
+FileLineReader::FileLineReader(string fileName) : fileName(fileName), fileStrm(fileName, ios::in) {
+	if (fileStrm.is_open()) { cout << "File Command Processor attached to: " << fileName << endl; }
+	else { cout << "Failed to open file '" << fileName << "'\n"; }
 }
 //May result in error.
-FileLineReader::FileLineReader(const FileLineReader& ref) : fileStrm(targetFile, ios::in) { }
+FileLineReader::FileLineReader(const FileLineReader& ref) : fileStrm(fileName, ios::in) { }
 //Destructor.
 FileLineReader::~FileLineReader() {
 	this->fileStrm.close();
 }
 
-
-Command FileLineReader::readCommand() {
+//Reads the next input from the file and generates a command.
+Command* FileLineReader::readCommand() {
 	if (this->fileStrm.is_open()) {
+
 		if (this->fileStrm.good()) {
 			string fInput;
 			this->fileStrm >> fInput;
 
 			cout << "\n> " << fInput << endl;
-			Command fileCmd(fInput);
+			Command* fileCmd = new Command(fInput);
 
 			return fileCmd;
 		}
+		//Abort process when file stream can't be read anymore.
 		else if (this->fileStrm.eof()) {
 			cout << "\nReached end of file.";
 		}
 		else {
 			cout << "Error reading file.";
 		}
-		return Command("$abort");
+		return new Command("$abort");
 	}
 	else {
 		cout << "No input file to read.";
 	}
-	return Command();
+	return new Command();
 }
-
-Command FileLineReader::getCommand() {
+Command* FileLineReader::getCommand() {
 	return this->readCommand();
 }
 
+//Checks if the file reader's stream is open.
 bool FileLineReader::isOpen() {
 	return (this->fileStrm && this->fileStrm.is_open());
 }
 
 //Operators
 void FileLineReader::operator=(FileLineReader& get) {
-	this->targetFile = get.targetFile;
-	this->fileStrm.open(get.targetFile);
+	this->fileName = get.fileName;
+	this->fileStrm.open(get.fileName);
 }
 ostream& operator<<(ostream& out, FileLineReader& fLineRead) {
-	return out << "File Command Processor (" << fLineRead.targetFile << ").";
+	return out << "File Command Processor (" << fLineRead.fileName << ").";
 }
 
 #pragma endregion
@@ -265,18 +270,19 @@ FileCommandProcessorAdapter::FileCommandProcessorAdapter(const FileCommandProces
 FileCommandProcessorAdapter::~FileCommandProcessorAdapter() { delete fReader; }
 
 //This command can't be called outside the class and shouldn't be anyway.
-Command FileCommandProcessorAdapter::readCommand(string query) {
+Command* FileCommandProcessorAdapter::readCommand(string query) {
 	throw std::logic_error("Method not implemented.");
 }
-
-Command FileCommandProcessorAdapter::getCommand() {
+//Reroutes the method call to the file reader and saves the output to log before returning it.
+Command* FileCommandProcessorAdapter::getCommand() {
 	//Re-route the call to the file processor.
-	Command cmd = this->fReader->getCommand();
+	Command* cmd = this->fReader->getCommand();
 	//Add the result to the command log and return.
 	this->saveCommand(cmd);
 	return cmd;
 }
 
+//Used to check if the command processor is able to read from file.
 bool FileCommandProcessorAdapter::isOpen() {
 	return this->fReader->isOpen();
 }

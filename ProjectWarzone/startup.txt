@@ -1,4 +1,12 @@
-loadmap
-loadmap
-loadmap
-fail
+invalidCmd
+loadmap test.txt
+validatemap
+addplayer Bot_James
+addplayer Bot_Alfred
+addplayer Bot_Lucy
+gamestart
+issueorder
+endissueorders
+execorder
+win
+quit
