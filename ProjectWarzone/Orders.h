@@ -18,6 +18,8 @@ public:
     Order();
     Order(string* effect, string* description);
     Order(const Order& ord);
+    virtual void execute() = 0;
+
     ~Order();
 
     string* getEffect();

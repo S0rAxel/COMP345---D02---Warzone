@@ -48,6 +48,12 @@ void Card::play(int i) {
 	}
 }
 
+void Card::createRandomCards(Deck* deck, Hand* hand, int amount) {
+	for (int i = 0; i < amount; i++) {
+		deck->addCard(new Card((ctype)(rand() % 5), hand, deck));
+	}
+}
+
 ostream& operator << (ostream& out, const Card& c) {
 	switch (c.cardType)
 	{
