@@ -4,13 +4,13 @@ Player& Player::operator=(const Player& player) {
 	return *this;
 }
 
-vector<territory*> Player::toDefend() {
+vector<territory*> Player::toDefend(Map m) {
 	vector<territory*> territoriesToDefend;
 	//make randomizer for the to defend generating
 	return territoriesToDefend;
 }
 
-vector<territory*> Player::toAttack() {
+vector<territory*> Player::toAttack(Map m) {
 	vector<territory*> territoriesToAttack;
 	//make randomizer for the to attack generating
 	return territoriesToAttack;

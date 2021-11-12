@@ -56,8 +56,8 @@ public:
 	vector<territory*> getTerritories() { return territories; }
 	void addTerritories(territory* territory) { territories.push_back(territory); }
 	void removeTerritories(territory* territory);
-	vector<territory*> toDefend();
-	vector<territory*> toAttack();
+	vector<territory*> toDefend(Map m);
+	vector<territory*> toAttack(Map m);
 	Hand* getHand() { return hand; }
 	void issueOrder();
 	vector<Order*> getOrders();
