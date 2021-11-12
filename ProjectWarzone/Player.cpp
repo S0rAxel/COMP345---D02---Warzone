@@ -11,49 +11,55 @@ Player& Player::operator=(const Player& player) {
 	return *this;
 }
 
-vector<territory*> Player::toDefend(Map m) {
+vector<territory*> Player::toDefend(Map m) 
+{
 	vector<territory*> territoriesToDefend;
+	for (int i = 0; i < territories.size(); i++)
+	{
+
+	}
 	//make randomizer for the to defend generating
 	return territoriesToDefend;
 }
 
 vector<territory*> Player::toAttack(Map m) {
 	vector<territory*> territoriesToAttack;
+
 	//make randomizer for the to attack generating
 	return territoriesToAttack;
 }
 
 void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck) 
 {
+	//this first if is to ensure that the character doesn't
 	if (reinf > 0)
 	{
 		//reinfordement logic
 		addOrder(new Deploy(1, me, defend[0]));
 	}
-	else if(!havePlayedCard && hand->size()!=0)
+	else if(!havePlayedCard && getHand()->size()!=0)
 	{
 		//play a card and remove it from hand
 		//must make the card making an order or apropriate type
 		Player neutral;
-		switch ((hand->getCards())[0]->getCardType())
+		switch ((getHand()->getCards())[0]->getCardType())
 		{
-		case (0):
+		case (Card::bomb):
 			addOrder(new Bomb(me, attack[0]));
 			break;
-		case (1):
+		case (Card::reinforcement):
 			addReinF(5);
 			break;
-		case (2):
+		case (Card::blockade):
 			addOrder(new Blockade(me, &neutral, defend[0]));
 			break;
-		case (3):
+		case (Card::airlift):
 			addOrder(new Airlift(1, me, defend[0], attack[0]));
 			break;
-		case (4):
+		case (Card::diplomacy):
 			addOrder(new Negotiate(me, attack[0]->getOwner()));
 			break;
 		}
-
 		//removes card form hand
 		(hand->getCards())[0]->play(0);
 		havePlayedCard = true;
@@ -104,6 +110,7 @@ void Player::removeOrder(Order* o)
 		{
 			orders.erase(orders.begin() + i);
 			break;
+			i--;
 		}
 	}
 }
