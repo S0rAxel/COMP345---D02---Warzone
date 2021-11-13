@@ -363,6 +363,7 @@ void mainGameLoop(Map map, vector<Player*> players, Deck* deck)
 		executeOrderPhase(map, participants);
 		ended = reinforcementPhase(map, participants);
 	}
+	cout << "player " << participants[0]->getName() << " won congrats game Over" << endl;
 	//must chage where the victory condition is
 }
 
@@ -374,6 +375,7 @@ bool reinforcementPhase(Map m, vector<Player*>& participants)
 	for (int i = 0; i < participants.size(); i++)
 	{
 		participants[i]->addReinF((participants[i]->getTerritories().size()) / 3);
+		cout << participants[i]->getName() << " recieved " << (participants[i]->getTerritories().size()) / 3 << " troops form their " << participants[i]->getTerritories().size() << " territories owned" << endl;
 	}
 	//to get the continent bonus
 	for (int i = 0; i < m.getNumOfCont(); i++)
@@ -395,6 +397,7 @@ bool reinforcementPhase(Map m, vector<Player*>& participants)
 		if (getBonus)
 		{
 			tempOwner->addReinF(m.getContinent(i)->getBonus());
+			cout << "continent bonus for continent " << i << " has been assignet to player " << tempOwner->getName() << "." << endl;
 		}
 	}
 	//cheking for map ownership as in to see if only one player owns it all
@@ -486,6 +489,7 @@ void executeOrderPhase(Map m, vector<Player*>& participants)
 		{
 			participants.erase(participants.begin() + i);
 			i--;
+			cout << "player " << participants[i]->getName() << "has been eliminated" << endl;
 		}
 	}
 	//move back to the start.. althought his can be handles by the gameloop

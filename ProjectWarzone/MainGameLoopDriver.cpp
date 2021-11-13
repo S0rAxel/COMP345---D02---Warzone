@@ -1,8 +1,8 @@
-#include "GameEngine.h"
+#include "GameEngine.cpp"
 
-
-void runGameLoop()
+void runGameLoop(vector<Player*>* , Deck deck)
 {
+	Map map = readfile("test.txt");
 
-
+	for
 }

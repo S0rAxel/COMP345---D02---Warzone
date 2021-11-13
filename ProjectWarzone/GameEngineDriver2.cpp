@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Cards.h"
 #include "GameEngineDriver2.h"
+#include "MainGameLoop.cpp"
 
 using namespace Engine;
 
@@ -43,4 +44,5 @@ void startupPhaseDemo()
 
 		cout << endl;
 	}
+	runGameLoop(players, deck);
 }
