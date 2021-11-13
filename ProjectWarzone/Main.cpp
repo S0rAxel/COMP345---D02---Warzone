@@ -29,5 +29,4 @@ int main()
 	CommandProcessingDemo(*lObs);
 	OrderExecutionDriverDemo(*lObs);
 	startupPhaseDemo(*lObs);
-	runGameLoop(players, deck);
 }
