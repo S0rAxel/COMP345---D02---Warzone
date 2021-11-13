@@ -1,7 +1,7 @@
-#include "OrderExecutionDriver.h"
+#include "Drivers.h"
 using namespace std;
 
-void OrderExecutionDriverDemo() {
+void OrderExecutionDriverDemo(Observer& obs) {
 	cout << "==========================================\nINDIVIDUAL ORDER SHOWCASE\n==========================================" << endl;
 	territory* t0 = new territory(0, "t0", 0);
 	territory* t1 = new territory(1, "t1", 0);
@@ -57,6 +57,8 @@ void OrderExecutionDriverDemo() {
 	cout << "p1 tries to deploy 5 on t0, 5 on t2. There are currently no armies anywhere on the map." << endl;
 	Order* o = new Deploy(5, p1, t0);
 	Order* o2 = new Deploy(5, p1, t1);
+	o->Attach(&obs);
+	o2->Attach(&obs);
 	cout << "trying to execute deploy 5 on t0" << endl;
 	o->execute();
 	cout << "trying to execute deploy 5 on t1" << endl;

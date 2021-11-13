@@ -39,6 +39,9 @@
     <ClInclude Include="OrderExecutionDriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Drivers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Player.cpp">
