@@ -91,6 +91,8 @@ void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<ter
 		case (Card::diplomacy):
 			addOrder(new Negotiate(me, attack[counter - defend.size()]->getOwner()));
 			break;
+		case (Card::EMPTY):
+			break;
 		}
 		//removes card form hand
 		(hand->getCards())[0]->play(0);
