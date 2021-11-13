@@ -135,3 +135,62 @@ GameState::SwitchState(): State Changed to Win
  - New log created at time: Fri Nov 12 22:52:13 2021
  
 
+
+ - New log created at time: Fri Nov 12 23:39:56 2021
+ 
+
+28:70:9 - Command::saveEffect(): Follow-up of last command.
+GameState::SwitchState(): State Changed to Loaded Map
+28:70:9 - Command::saveEffect(): Loaded map file: test.txt\.
+Switched to other state using 'loadmap'.
+28:70:11 - Command::saveEffect(): None. Command was invalid.
+GameState::SwitchState(): State Changed to Validated Map
+28:70:20 - Command::saveEffect(): Switched to other state using 'validatemap'.
+GameState::SwitchState(): State Changed to Add Players
+28:70:25 - Command::saveEffect(): Added player alex.
+Switched to other state using 'addplayer'.
+GameState::SwitchState(): State Changed to Add Players
+28:70:30 - Command::saveEffect(): Added player celeste.
+Switched to other state using 'addplayer'.
+GameState::SwitchState(): State Changed to Assign Reinforcements
+28:70:33 - Command::saveEffect(): Switched to other state using 'gamestart'.
+GameState::SwitchState(): State Changed to Issue Orders
+28:70:49 - Command::saveEffect(): Switched to other state using 'issueorder'.
+28:70:53 - Command::saveEffect(): None. Command was invalid.
+28:70:58 - Command::saveEffect(): None. Command was invalid.
+GameState::SwitchState(): State Changed to Execute Orders
+28:71:0 - Command::saveEffect(): Switched to other state using 'endissueorders'.
+GameState::SwitchState(): State Changed to Win
+28:71:2 - Command::saveEffect(): Switched to other state using 'win'.
+28:71:3 - Order::Execute() - deploy order has been executed. Effect: The deploy order places some armies on one of the current player's territories. 
+
+ - New log created at time: Fri Nov 12 23:41:29 2021
+ 
+
+28:71:49 - Command::saveEffect(): None. Command was invalid.
+28:71:49 - Command::saveEffect(): Follow-up of last command.
+GameState::SwitchState(): State Changed to Loaded Map
+28:71:49 - Command::saveEffect(): Loaded map file: test.txt.
+Switched to other state using 'loadmap'.
+GameState::SwitchState(): State Changed to Validated Map
+28:71:49 - Command::saveEffect(): Switched to other state using 'validatemap'.
+GameState::SwitchState(): State Changed to Add Players
+28:71:49 - Command::saveEffect(): Added player Bot_James.
+Switched to other state using 'addplayer'.
+GameState::SwitchState(): State Changed to Add Players
+28:71:49 - Command::saveEffect(): Added player Bot_Alfred.
+Switched to other state using 'addplayer'.
+GameState::SwitchState(): State Changed to Add Players
+28:71:49 - Command::saveEffect(): Added player Bot_Lucy.
+Switched to other state using 'addplayer'.
+GameState::SwitchState(): State Changed to Assign Reinforcements
+28:71:49 - Command::saveEffect(): Switched to other state using 'gamestart'.
+GameState::SwitchState(): State Changed to Issue Orders
+28:71:49 - Command::saveEffect(): Switched to other state using 'issueorder'.
+GameState::SwitchState(): State Changed to Execute Orders
+28:71:49 - Command::saveEffect(): Switched to other state using 'endissueorders'.
+GameState::SwitchState(): State Changed to Execute Orders
+28:71:49 - Command::saveEffect(): Switched to other state using 'execorder'.
+GameState::SwitchState(): State Changed to Win
+28:71:49 - Command::saveEffect(): Switched to other state using 'win'.
+28:71:49 - Order::Execute() - deploy order has been executed. Effect: The deploy order places some armies on one of the current player's territories. 
