@@ -345,11 +345,9 @@ void GameState::gamestartCmd(Map map, vector<Player*>* players, Deck* deck)
 		deck->draw(players->at(i)->getHand());
 }
 
-void mainGameLoop()
+void mainGameLoop(Map map, vector<Player*> players, Deck* deck)
 {
-	vector<Player*> participants;
-	Map map;
-	Deck* deck = new Deck();
+	vector<Player*> participants = players;
 	bool ended = reinforcementPhase(map, participants);
 	while (!ended)
 	{

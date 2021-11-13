@@ -102,11 +102,17 @@ void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<ter
 	{
 		if (counter >= defend.size())
 		{
-			addOrder(new Advance(m.getTerritory(attack[counter - defend.size()]->getBorderID(0))->getArmies() - 1, me, m.getTerritory(attack[counter - defend.size()]->getBorderID(0)), attack[counter - defend.size()], deck));
+			addOrder(new Advance(m.getTerritory(attack[counter - defend.size()]->getBorderID(0))->getArmies() - 1,
+				me,
+				m.getTerritory(attack[counter - defend.size()]->getBorderID(0)), 
+				attack[counter - defend.size()], deck));
 		}
 		else
 		{
-			addOrder(new Advance(m.getTerritory(defend[counter]->getBorderID(0))->getArmies() - 1, me, m.getTerritory(defend[counter]->getBorderID(0)), defend[counter], deck));
+			addOrder(new Advance(m.getTerritory(defend[counter]->getBorderID(0))->getArmies() - 1,
+				me,
+				m.getTerritory(defend[counter]->getBorderID(0)),
+				defend[counter], deck));
 		}
 		//move logic
 	}
