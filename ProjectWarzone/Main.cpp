@@ -3,9 +3,6 @@
 #include <iostream>
 #include <fstream>
 #include "LoggingObserver.h"
-//#include "CommandProcessingDriver.h"
-//#include "OrderExecutionDriver.h"
-//#include "CommandProcessing.h"
 #include "GameEngineDriver2.h"
 #include "Drivers.h"
 
@@ -30,6 +27,7 @@ int main()
 
 
 	CommandProcessingDemo(*lObs);
-	OrderExecutionDriverDemo(*lObs); //place somewhere else
+	OrderExecutionDriverDemo(*lObs);
+	startupPhaseDemo();
 	runGameLoop(players, deck);
 }

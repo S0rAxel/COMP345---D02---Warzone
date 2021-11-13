@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Cards.h"
 #include "GameEngineDriver2.h"
-#include "MainGameLoop.cpp"
+#include "Drivers.h"
 
 using namespace Engine;
 
@@ -31,7 +31,7 @@ void startupPhaseDemo()
 	deck->addCard(new Card(diplomacy));
 	deck->addCard(new Card(diplomacy));
 
-	GameState* mainState;
+	GameState* mainState = GameState::current;
 	mainState->startupPhase(players, deck);
 
 	cout << "Verifying that the information has been correctly added..." << endl;
