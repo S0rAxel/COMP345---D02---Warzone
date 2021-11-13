@@ -46,7 +46,7 @@ vector<territory*> Player::toAttack(Map m) {
 	return territoriesToAttack;
 }
 
-void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter) 
+void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral) 
 {
 	bool goOn = false;
 	int armies = rand() % (reinf / 2 + 1) + (reinf / 2 + 1);
@@ -72,7 +72,6 @@ void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<ter
 	{
 		//play a card and remove it from hand
 		//must make the card making an order or apropriate type
-		Player neutral;
 		switch ((getHand()->getCards())[0]->getCardType())
 		{
 		case (Card::bomb):
@@ -82,7 +81,7 @@ void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<ter
 			addReinF(5);
 			break;
 		case (Card::blockade):
-			addOrder(new Blockade(me, &neutral, defend[counter]));
+			addOrder(new Blockade(me, neutral, defend[counter]));
 			break;
 		case (Card::airlift):
 			//at the moment the planes are only good enough for 5 ppl

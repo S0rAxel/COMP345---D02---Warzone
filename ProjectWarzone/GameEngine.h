@@ -145,10 +145,10 @@ namespace Engine {
 	}
 }
 
-void mainGameLoop();
+void mainGameLoop(Map map, vector<Player*> players, Deck* deck);
 
 bool reinforcementPhase(Map m, vector<Player*>& participants);
 
-void issueOrderPhase(Map m, vector<Player*>& participants, Deck* deck);
+void issueOrderPhase(Map m, vector<Player*>& participants, Deck* deck, Player* neutral);
 
 void executeOrderPhase(Map m, vector<Player*>& participants);

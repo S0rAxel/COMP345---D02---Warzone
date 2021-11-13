@@ -348,6 +348,7 @@ void GameState::gamestartCmd(Map map, vector<Player*>* players, Deck* deck)
 void mainGameLoop(Map map, vector<Player*> players, Deck* deck)
 {
 	vector<Player*> participants = players;
+	Player* neutral;
 	bool ended = reinforcementPhase(map, participants);
 	while (!ended)
 	{
@@ -359,7 +360,7 @@ void mainGameLoop(Map map, vector<Player*> players, Deck* deck)
 				participants.erase(participants.begin() + i);
 			}
 		}
-		issueOrderPhase(map, participants, deck);
+		issueOrderPhase(map, participants, deck, neutral);
 		executeOrderPhase(map, participants);
 		ended = reinforcementPhase(map, participants);
 	}
@@ -418,7 +419,7 @@ bool reinforcementPhase(Map m, vector<Player*>& participants)
 	return won;
 }
 
-void issueOrderPhase(Map m, vector<Player*>& participants, Deck* deck)
+void issueOrderPhase(Map m, vector<Player*>& participants, Deck* deck, Player* neutral)
 {
 	vector<int> reinf;
 	vector<vector<territory*>> defend;
@@ -440,7 +441,7 @@ void issueOrderPhase(Map m, vector<Player*>& participants, Deck* deck)
 		{
 			if (participants[i]->ordersComplete)
 			{
-				participants[i]->issueOrder(reinf[i], m, attack[i], defend[i], participants[i], deck, i);
+				participants[i]->issueOrder(reinf[i], m, attack[i], defend[i], participants[i], deck, i, neutral);
 			}
 			else
 			{
