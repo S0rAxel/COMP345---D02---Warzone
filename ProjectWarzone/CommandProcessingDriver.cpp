@@ -1,14 +1,12 @@
 #include "CommandProcessing.h"
 #include "GameEngine.h"
 #include "Map.h"
+#include "Drivers.h"
 
 Map readfile(string);
 
 //Demonstrates the functionality of the command processing part.
-void CommandProcessingDemo() {
-
-	LogObserver* logObs = new LogObserver();
-
+void CommandProcessingDemo(Observer& obs) {
 	Engine::GameState::GameSetup();
 
 	system("pause");
@@ -21,7 +19,7 @@ void CommandProcessingDemo() {
 	int nextStateIndex;
 	do {
 		cmd = CommandProcessor::current->getCommand();
-		cmd->Attach(logObs);
+		cmd->Attach(&obs);
 		cmdEffect = "";
 
 		//Special command, exits. For demo only.
@@ -50,6 +48,7 @@ void CommandProcessingDemo() {
 					cout << "\nEnter the map's file name:";
 
 					followUp = CommandProcessor::current->getCommand();
+					followUp->Attach(&obs);
 					followUp->saveEffect("Follow-up of last command.");
 
 					//Record and print command effect.

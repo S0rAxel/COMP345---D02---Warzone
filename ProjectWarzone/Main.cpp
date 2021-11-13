@@ -3,18 +3,16 @@
 #include <iostream>
 #include <fstream>
 #include "LoggingObserver.h"
-#include "CommandProcessingDriver.h"
-#include "OrderExecutionDriver.h"
-#include "CommandProcessing.h"
+//#include "CommandProcessingDriver.h"
+//#include "OrderExecutionDriver.h"
+//#include "CommandProcessing.h"
 #include "GameEngineDriver2.h"
-
+#include "Drivers.h"
 
 using namespace std;
 
 int main() 
 {
-
-	OrderExecutionDriverDemo(); //place somewhere else
 	
 	cout << "\n\t - WARZONE PROJECT - \n";
 
@@ -26,23 +24,11 @@ int main()
 
 	file.close();
 
+	LogObserver* lObs = new LogObserver();
 
-	Order* order = new Negotiate(new Player("p1"), new Player("p2"));
-	order->Attach(logObs);
-
-	cmd->Attach(logObs);
-	cmdP->Attach(logObs);
-	orderList->Attach(logObs);
-
-	cmdP->saveCommand(cmd);
-	cmd->saveEffect("");
-	orderList->add(order);
-
-	order->execute();
-
-
-	CommandProcessingDemo();
-	startupPhaseDemo();
+	OrderExecutionDriverDemo(*lObs); //place somewhere else
+	CommandProcessingDemo(*lObs);
+	//startupPhaseDemo();
 	
 	/*/cout << "\n\t- MAP DEMO -\n";
 	system("pause");

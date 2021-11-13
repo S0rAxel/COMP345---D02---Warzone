@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "Orders.h"
 #include "MapDriver.h"
+#include <fstream>
 
 using namespace Engine;
 using namespace std;
@@ -16,6 +17,11 @@ void GameState::SwitchState(GameState& newState) {
 	GameState::current->Exit();
 	GameState::current = &newState;
 	GameState::current->Setup();
+
+	//Workaround around to log the transition due to static method
+	ofstream file("gamelog.txt", ios::app);
+	file << "GameState::SwitchState(): State Changed to" << current->name << endl;
+	file.close();
 }
 
 using namespace States;

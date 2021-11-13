@@ -156,6 +156,7 @@
     <ClInclude Include="Cards.h" />
     <ClInclude Include="CommandProcessing.h" />
     <ClInclude Include="CommandProcessingDriver.h" />
+    <ClInclude Include="Drivers.h" />
     <ClInclude Include="LoggingObserver.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="OrderExecutionDriver.h" />
