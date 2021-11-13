@@ -51,6 +51,8 @@ public:
 
 	~Player() { delete this; }
 
+	string getName() { return playerName; }
+
 	Player& operator= (const Player& player);
 
 	friend ostream& operator <<(ostream& stream, const Player& player);
@@ -58,8 +60,8 @@ public:
 	vector<territory*> getTerritories() { return territories; }
 	void addTerritories(territory* territory) { territories.push_back(territory); }
 	void removeTerritories(territory* territory);
-	vector<territory*> toDefend(Map m, int reinf);
-	vector<territory*> toAttack(Map m, int reinf);
+	vector<territory*> toDefend(Map m);
+	vector<territory*> toAttack(Map m);
 	Hand* getHand() { return hand; }
 	void issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter);
 	vector<Order*> getOrders();
