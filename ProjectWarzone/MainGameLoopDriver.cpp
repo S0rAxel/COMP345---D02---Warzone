@@ -1,4 +1,6 @@
-#include "GameEngine.cpp"
+#include "GameEngine.h"
+#include "MapDriver.h"
+#include "Drivers.h"
 
 void runGameLoop(vector<Player*>* players, Deck* deck)
 {

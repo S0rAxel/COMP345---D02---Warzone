@@ -4,3 +4,4 @@
 
 void CommandProcessingDemo(Observer& obs);
 void OrderExecutionDriverDemo(Observer& obs);
+void runGameLoop(vector<Player*>* players, Deck* deck);

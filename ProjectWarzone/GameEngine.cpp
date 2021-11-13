@@ -348,7 +348,7 @@ void GameState::gamestartCmd(Map map, vector<Player*>* players, Deck* deck)
 void mainGameLoop(Map map, vector<Player*> players, Deck* deck)
 {
 	vector<Player*> participants = players;
-	Player* neutral;
+	Player* neutral = new Player();
 	bool ended = reinforcementPhase(map, participants);
 	while (!ended)
 	{

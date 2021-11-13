@@ -86,6 +86,9 @@
     <ClCompile Include="OrderExecutionDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MainGameLoopDriver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDriver.cpp">

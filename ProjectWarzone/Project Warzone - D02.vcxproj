@@ -171,6 +171,7 @@
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="LoggingObserver.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MainGameLoopDriver.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapDriver.cpp" />
     <ClCompile Include="OrderExecutionDriver.cpp" />

@@ -25,28 +25,11 @@ int main()
 	file.close();
 
 	LogObserver* lObs = new LogObserver();
+	vector<Player*>* players = new vector<Player*>;
+	Deck* deck = new Deck();
 
-	OrderExecutionDriverDemo(*lObs); //place somewhere else
+
 	CommandProcessingDemo(*lObs);
-	//startupPhaseDemo();
-	
-	/*/cout << "\n\t- MAP DEMO -\n";
-	system("pause");
-	MapDriverDemo();
-
-	cout << "\n\t- PLAYER DEMO -\n";
-	system("pause");
-	PlayerDriverDemo();
-
-	cout << "\n\t- ORDER DEMO -\n";
-	system("pause");
-	OrderDriverDemo();
-
-	cout << "\n\t- CARD DEMO -\n";
-	system("pause");
-	CardsDriverDemo();
-
-	cout << "\n\t- GAME ENGINE DEMO -\n";
-	system("pause");
-	GameEngineDriverDemo();*/
+	OrderExecutionDriverDemo(*lObs); //place somewhere else
+	runGameLoop(players, deck);
 }
