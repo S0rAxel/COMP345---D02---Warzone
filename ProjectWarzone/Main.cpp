@@ -29,4 +29,5 @@ int main()
 	CommandProcessingDemo(*lObs);
 	OrderExecutionDriverDemo(*lObs);
 	startupPhaseDemo(*lObs);
+	ObserverDriver(*lObs);
 }
