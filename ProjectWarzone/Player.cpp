@@ -46,14 +46,27 @@ vector<territory*> Player::toAttack(Map m) {
 	return territoriesToAttack;
 }
 
-void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter) 
+void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter) 
 {
 	bool goOn = false;
+	int armies = rand() % (reinf / 2 + 1) + (reinf / 2 + 1);
+	reinf -= armies;
 	//this first if is to ensure that the character doesn't
+	if (ordersComplete)
+	{
+		return;
+	}
 	if (reinf > 0)
 	{
 		//reinfordement logic
-		addOrder(new Deploy(rand() % (reinf/2 + 1) + (reinf/2 + 1), me, defend[counter]));
+		if (counter < defend.size())
+		{
+			addOrder(new Deploy(armies, me, defend[counter]));
+		}
+		else
+		{
+			addOrder(new Deploy(armies, me, m.getTerritory(attack[counter]->getBorderID(0))));
+		}
 	}
 	else if(!havePlayedCard && getHand()->size()!=0)
 	{
@@ -69,23 +82,35 @@ void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<terr
 			addReinF(5);
 			break;
 		case (Card::blockade):
-			addOrder(new Blockade(me, &neutral, defend[0]));
+			addOrder(new Blockade(me, &neutral, defend[counter]));
 			break;
 		case (Card::airlift):
-			addOrder(new Airlift(1, me, defend[0], attack[0]));
+			//at the moment the planes are only good enough for 5 ppl
+			addOrder(new Airlift(5, me, defend[0], attack[counter - defend.size()]));
 			break;
 		case (Card::diplomacy):
-			addOrder(new Negotiate(me, attack[0]->getOwner()));
+			addOrder(new Negotiate(me, attack[counter - defend.size()]->getOwner()));
 			break;
 		}
 		//removes card form hand
 		(hand->getCards())[0]->play(0);
 		havePlayedCard = true;
 	}
+	else if (counter - defend.size() <= attack.size())
+	{
+		if (counter >= defend.size())
+		{
+			addOrder(new Advance(m.getTerritory(attack[counter - defend.size()]->getBorderID(0))->getArmies() - 1, me, m.getTerritory(attack[counter - defend.size()]->getBorderID(0)), attack[counter - defend.size()], deck));
+		}
+		else
+		{
+			addOrder(new Advance(m.getTerritory(defend[counter]->getBorderID(0))->getArmies() - 1, me, m.getTerritory(defend[counter]->getBorderID(0)), defend[counter], deck));
+		}
+		//move logic
+	}
 	else
 	{
-		addOrder(new Advance(1, me, defend[0], attack[0], deck));
-		//move logic
+		ordersComplete = true;
 	}
 }
 
