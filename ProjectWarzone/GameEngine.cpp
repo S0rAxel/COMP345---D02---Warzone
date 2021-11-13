@@ -20,7 +20,7 @@ void GameState::SwitchState(GameState& newState) {
 
 	//Workaround around to log the transition due to static method
 	ofstream file("gamelog.txt", ios::app);
-	file << "GameState::SwitchState(): State Changed to" << current->name << endl;
+	file << "GameState::SwitchState(): State Changed to " << current->name << endl;
 	file.close();
 }
 
