@@ -100,3 +100,38 @@ GameState::SwitchState(): State Changed toExecute Orders
 25:30:22 - Command::saveEffect(): Switched to other state using 'execorder'.
 GameState::SwitchState(): State Changed toWin
 25:30:25 - Command::saveEffect(): Switched to other state using 'win'.
+
+ - New log created at time: Fri Nov 12 22:51:22 2021
+ 
+
+27:81:47 - Command::saveEffect(): None. Command was invalid.
+27:81:47 - Command::saveEffect(): Follow-up of last command.
+GameState::SwitchState(): State Changed to Loaded Map
+27:81:47 - Command::saveEffect(): Loaded map file: test.txt.
+Switched to other state using 'loadmap'.
+GameState::SwitchState(): State Changed to Validated Map
+27:81:47 - Command::saveEffect(): Switched to other state using 'validatemap'.
+GameState::SwitchState(): State Changed to Add Players
+27:81:47 - Command::saveEffect(): Added player Bot_James.
+Switched to other state using 'addplayer'.
+GameState::SwitchState(): State Changed to Add Players
+27:81:47 - Command::saveEffect(): Added player Bot_Alfred.
+Switched to other state using 'addplayer'.
+GameState::SwitchState(): State Changed to Add Players
+27:81:47 - Command::saveEffect(): Added player Bot_Lucy.
+Switched to other state using 'addplayer'.
+GameState::SwitchState(): State Changed to Assign Reinforcements
+27:81:47 - Command::saveEffect(): Switched to other state using 'gamestart'.
+GameState::SwitchState(): State Changed to Issue Orders
+27:81:47 - Command::saveEffect(): Switched to other state using 'issueorder'.
+GameState::SwitchState(): State Changed to Execute Orders
+27:81:47 - Command::saveEffect(): Switched to other state using 'endissueorders'.
+GameState::SwitchState(): State Changed to Execute Orders
+27:81:47 - Command::saveEffect(): Switched to other state using 'execorder'.
+GameState::SwitchState(): State Changed to Win
+27:81:47 - Command::saveEffect(): Switched to other state using 'win'.
+27:81:47 - Order::Execute() - deploy order has been executed. Effect: The deploy order places some armies on one of the current player's territories. 
+
+ - New log created at time: Fri Nov 12 22:52:13 2021
+ 
+
