@@ -430,8 +430,8 @@ void issueOrderPhase(Map m, vector<Player*>& participants, Deck* deck)
 		participants[i]->setDrawn(false);
 		participants[i]->clearOrders();
 		reinf.push_back(participants[i]->getReinF());
-		attack.push_back(participants[i]->toAttack(m, reinf[i]));
-		defend.push_back(participants[i]->toDefend(m, reinf[i]));
+		attack.push_back(participants[i]->toAttack(m));
+		defend.push_back(participants[i]->toDefend(m));
 	}
 	do {
 		playersDone = participants.size();

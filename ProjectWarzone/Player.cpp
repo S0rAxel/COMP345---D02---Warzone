@@ -11,12 +11,11 @@ Player& Player::operator=(const Player& player) {
 	return *this;
 }
 
-vector<territory*> Player::toDefend(Map m, int reinf) 
+vector<territory*> Player::toDefend(Map m) 
 {
-	int limit = rand() % getTerritories().size();
 	vector<territory*> territoriesToDefend;
 	//TLDR the player assigns a random number of territories to defend
-	for (int i = 0; i < limit; i++)
+	for (int i = 0; i < rand() % (getTerritories().size() - 1, 1); i++)
 	{
 		territoriesToDefend.push_back(getTerritories()[rand() % (getTerritories().size())]);
 	}
@@ -24,10 +23,25 @@ vector<territory*> Player::toDefend(Map m, int reinf)
 	return territoriesToDefend;
 }
 
-vector<territory*> Player::toAttack(Map m, int reinf) {
+vector<territory*> Player::toAttack(Map m) {
 	vector<territory*> territoriesToAttack;
-	int limit = rand() % reinf;
-
+	territory *temp;
+	int limit = rand() % (territories.size()/2);
+	int counter = 0;
+	int i = 0;
+	while (counter < limit)
+	{
+		temp = getTerritories()[rand() % (getTerritories().size())];
+		for (int i = 0; i < temp->getNumOfBorders(); i++);
+		{
+			if (m.getTerritory(temp->getBorderID(i))->getOwner()->getName() != getName())
+			{
+				territoriesToAttack.push_back(temp);
+				break;
+			}
+		}
+		counter++;
+	}
 	//make randomizer for the to attack generating
 	return territoriesToAttack;
 }
@@ -49,7 +63,7 @@ void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<terr
 		switch ((getHand()->getCards())[0]->getCardType())
 		{
 		case (Card::bomb):
-			addOrder(new Bomb(me, attack[0]));
+			addOrder(new Bomb(me, attack[counter - defend.size()]));
 			break;
 		case (Card::reinforcement):
 			addReinF(5);
