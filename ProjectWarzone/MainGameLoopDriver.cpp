@@ -7,6 +7,7 @@ void runGameLoop(vector<Player*>* players, Deck* deck)
 	Map map = readfile("test.txt");
 	vector<Player*> participants;
 	string stuff;
+	cout << "enter any string to start" << endl;
 	cin >> stuff;
 	for (int i = 0; i < players->size(); i++)
 	{
