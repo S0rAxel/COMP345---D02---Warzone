@@ -54,7 +54,11 @@ void createRandomCards(Deck* deck, Hand* hand, int amount) {
 	mt19937 rng(dev());
 	uniform_int_distribution<std::mt19937::result_type> dist(0, 4);
 	for (int i = 0; i < amount; i++) {
-		deck->addCard(new Card((Card::ctype)(dist(rng)), hand, deck));
+		Card* card = new Card((Card::ctype)(dist(rng)), hand, deck);
+		deck->addCard(card);
+		if (hand) {
+			hand->addCard(card);
+		}
 	}
 }
 
