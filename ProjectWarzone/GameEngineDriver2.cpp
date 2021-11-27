@@ -6,7 +6,7 @@
 
 using namespace Engine;
 
-void startupPhaseDemo()
+void startupPhaseDemo(Observer& obs)
 {
     vector<Player*>* players = new vector<Player*>();
 
@@ -32,6 +32,7 @@ void startupPhaseDemo()
 	deck->addCard(new Card(diplomacy));
 
 	GameState* mainState = GameState::current;
+	//mainState->Attach(&obs);
 	mainState->startupPhase(players, deck);
 
 	cout << "Verifying that the information has been correctly added..." << endl;

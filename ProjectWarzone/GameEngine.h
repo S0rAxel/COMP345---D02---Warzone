@@ -13,7 +13,7 @@ namespace Engine {
 	*/
 
 	//Abstract class representing a state the game can be in.
-	class GameState {
+	class GameState : Subject, ILoggable {
 	public:
 		//STATIC
 
@@ -60,6 +60,13 @@ namespace Engine {
 
 		//Gets values of right hand side.
 		void operator=(GameState&);
+
+#pragma region Subject and ILoggable implementation
+		void Attach(Observer* obs);
+		void Detach(Observer* obs);
+		void Notify(ILoggable& log);
+		string StringToLog();
+#pragma endregion
 
 	};
 	

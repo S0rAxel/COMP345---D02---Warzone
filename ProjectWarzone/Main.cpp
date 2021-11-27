@@ -28,6 +28,6 @@ int main()
 
 	CommandProcessingDemo(*lObs);
 	OrderExecutionDriverDemo(*lObs);
-	startupPhaseDemo();
-	runGameLoop(players, deck);
+	startupPhaseDemo(*lObs);
+	ObserverDriver(*lObs);
 }

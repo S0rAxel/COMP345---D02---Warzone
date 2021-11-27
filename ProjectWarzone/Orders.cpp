@@ -233,6 +233,7 @@ bool Deploy::validate()
 // Executes the order, provided that the order is valid
 void Deploy::execute()
 {
+    cout << "Validating deploy order..." << endl;
     if (validate())
     {
         Order::execute();
@@ -265,6 +266,7 @@ bool Advance::validate()
 
 void Advance::execute()
 {
+    cout << "Validating advance order..." << endl;
     if (validate())
     {
         Order::execute();
@@ -363,6 +365,7 @@ bool Bomb::validate()
 
 void Bomb::execute()
 {
+    cout << "Validating Bomb order..." << endl;
     if (validate())
     {
         Order::execute();
@@ -392,6 +395,7 @@ bool Blockade::validate()
 
 void Blockade::execute()
 {
+    cout << "Validating Blockade order..." << endl;
     if (validate())
     {
         Order::execute();
@@ -424,6 +428,7 @@ bool Airlift::validate()
 
 void Airlift::execute()
 {
+    cout << "Validating Airlift order..." << endl;
     if (validate())
     {
         Order::execute();
@@ -452,6 +457,7 @@ bool Negotiate::validate()
 
 void Negotiate::execute()
 {
+    cout << "Validating Negotiate order..." << endl;
     if (validate())
     {
         Order::execute();

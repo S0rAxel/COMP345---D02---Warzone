@@ -138,6 +138,28 @@ string GameState::cmdList() {
 	return toReturn;
 }
 
+#pragma region Subject and ILoggable
+void GameState::Attach(Observer* obs)
+{
+	Subject::Attach(obs);
+}
+
+void GameState::Detach(Observer* obs)
+{
+	Subject::Detach(obs);
+}
+
+void GameState::Notify(ILoggable& log)
+{
+	Subject::Notify(log);
+}
+
+string GameState::StringToLog()
+{
+	return "GameState::SwitchState(): State Changed to " + current->name + "\n";
+}
+
+
 
 //These will allow for custom behavior for every state on transition.
 //Nothing for now.
