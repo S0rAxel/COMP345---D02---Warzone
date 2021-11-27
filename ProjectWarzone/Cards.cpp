@@ -7,26 +7,26 @@ using namespace std;
 /// </summary>
 Card::Card() {
 	cardType = EMPTY;
-	hand = NULL;
-	deck = NULL;
+	handR = NULL;
+	deckR = NULL;
 }
 
 Card::Card(ctype type) {
 	cardType = type;
-	hand = NULL;
-	deck = NULL;
+	handR = NULL;
+	deckR = NULL;
 }
 
 Card::Card(ctype type, Hand* hand, Deck* deck) {
 	cardType = type;
-	this->hand = hand;
-	this->deck = deck;
+	this->handR = hand;
+	this->deckR = deck;
 }
 
 Card::Card(const Card& card) {
 	cardType = card.cardType;
-	hand = card.hand;
-	deck = card.deck;
+	handR = card.handR;
+	deckR = card.deckR;
 }
 
 Card::ctype Card::getCardType() {
@@ -34,18 +34,18 @@ Card::ctype Card::getCardType() {
 }
 
 void Card::setDeck(Deck* deck) {
-	this->deck = deck;
+	this->deckR = deck;
 }
 
 void Card::setHand(Hand* hand) {
-	this->hand = hand;
+	this->handR = hand;
 }
 
 //Plays the card at index i in hand, then returns it to bottom of deck
 void Card::play(int i) {
-	if (hand != NULL) {
-		hand->removeCard(i);
-		deck->addCard(this);
+	if (handR != NULL) {
+		handR->removeCard(i);
+		deckR->addCard(this);
 	}
 }
 

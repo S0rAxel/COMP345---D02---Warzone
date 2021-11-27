@@ -52,7 +52,7 @@ private:
 
 class Card {
 public:
-	static Deck deckR;
+	static Deck deck;
 	typedef enum {
 		bomb = 0,
 		reinforcement = 1,
@@ -78,8 +78,8 @@ public:
 	void setHand(Hand* hand);
 
 private:
-	Hand* hand;
-	Deck* deck;
+	Hand* handR;
+	Deck* deckR;
 	Card::ctype cardType;
 };
 
