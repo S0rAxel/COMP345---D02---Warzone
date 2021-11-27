@@ -15,6 +15,7 @@ namespace Engine {
 	//Abstract class representing a state the game can be in.
 	class GameState {
 	public:
+		static vector<Player> players;
 		//STATIC
 
 		//Keeps track of the current game state.
