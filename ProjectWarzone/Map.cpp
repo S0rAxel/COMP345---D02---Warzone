@@ -1,5 +1,5 @@
-#pragma once
 #include "Map.h"
+#include <algorithm>
 #include <string>
 #include <iostream>
 using namespace std;
@@ -235,4 +235,3 @@ void validateContinent(Map m, int c, vector<int>& memory, int reference)
 
 	}
 }
-
