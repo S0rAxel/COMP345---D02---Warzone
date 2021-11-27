@@ -52,6 +52,7 @@ private:
 
 class Card {
 public:
+	static Deck deckR;
 	typedef enum {
 		bomb = 0,
 		reinforcement = 1,
@@ -80,7 +81,6 @@ private:
 	Hand* hand;
 	Deck* deck;
 	Card::ctype cardType;
-	
 };
 
 void createRandomCards(Deck* deck, Hand* hand, int amount);

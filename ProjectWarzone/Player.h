@@ -36,6 +36,9 @@ class territory;
 class Player
 {
 public:
+
+	static vector<Player> players;
+
 	Player() {};
 	
 	Player(string name);
