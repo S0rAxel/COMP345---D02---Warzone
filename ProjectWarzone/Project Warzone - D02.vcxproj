@@ -163,6 +163,7 @@
     <ClInclude Include="OrderExecutionDriver.h" />
     <ClInclude Include="Orders.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerStrategies.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cards.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="OrdersDriver.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerDriver.cpp" />
+    <ClCompile Include="PlayerStrategies.cpp" />
     <ClInclude Include="GameEngine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
