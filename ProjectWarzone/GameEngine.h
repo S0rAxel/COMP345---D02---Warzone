@@ -29,11 +29,10 @@ namespace Engine {
 		//Safely switches from the current state to another.
 		static void SwitchState(GameState&);
 
-		void startupPhase(vector<Player*>* players, Deck* deck);
-		Map loadmapCmd();
-		void validatemapCmd(Map map);
-		void addplayerCmd(vector<Player*>* players);
-		void gamestartCmd(Map map, vector<Player*>* players, Deck* deck);
+		static Map loadmapCmd(string filename);
+		static bool validatemapCmd(Map map);
+		static void addplayerCmd(string playerName);
+		static void gamestartCmd(Map map, Deck* deck);
 
 		//INSTANCE
 

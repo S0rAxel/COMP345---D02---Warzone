@@ -4,8 +4,14 @@
 Player::Player(string playerName)
 {
 	this->playerName = playerName;
-	playOrder = new int(-1);
+	playOrder = -1;
 	hand = new Hand();
+}
+
+Player::~Player()
+{
+	//delete hand;
+	//delete playOrder;
 }
 
 Player& Player::operator=(const Player& player) {
@@ -170,17 +176,19 @@ int Player::getTerritorySize()
 	return territories.size();
 }
 
-int* Player::getPlayOrder()
+int Player::getPlayOrder()
 {
 	return playOrder;
 }
 
-void Player::setPlayOrder(int* playOrder)
+void Player::setPlayOrder(int playOrder)
 {
-	*this->playOrder = *playOrder;
+	this->playOrder = playOrder;
 }
 
 void Player::setReinF(int numOfReinF)
 {
 	this->numOfReinF = numOfReinF;
 }
+
+vector<Player> Player::players;

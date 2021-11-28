@@ -52,7 +52,7 @@ public:
 		orders = otherPlayer.orders;
 	};
 
-	~Player() { delete this; }
+	~Player();
 
 	string getName() { return playerName; }
 
@@ -89,8 +89,8 @@ public:
 	void setHand(Hand* hand) { this->hand = hand; }
 
 	int getTerritorySize();
-	int* getPlayOrder();
-	void setPlayOrder(int* playOrder);
+	int getPlayOrder();
+	void setPlayOrder(int playOrder);
 
 private:
 	vector<territory*> territories;
@@ -100,7 +100,7 @@ private:
 	vector<Player*> negotiate; //vector of players that cannot be attacked. Clear after every turn
 	bool drawn; //player has drawn card. Set to false after every turn
 
-	int* playOrder;
+	int playOrder;
 
 public:
 	string playerName;
