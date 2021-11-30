@@ -73,30 +73,88 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 				cout << "Bad index. Try again." << endl;
 				continue;
 			}
+			bool invalid = false;
 			switch (me->getHand()->getCards()[index]->getCardType())
 			{
 			case (Card::bomb):
-				me->addOrder(new Bomb(me, attack[counter - defend.size()]));
+				cout << "Playing bomb card. Enter target territory ID: ";
+				int id;
+				cin >> id;
+				if (id >= m.getTerritories().size() || id < 0) {
+					cout << "Territory does not exist. Please try again." << endl;
+					invalid = true;
+					break;
+				}
+				me->addOrder(new Bomb(me, m.getTerritory(id)));
 				break;
 			case (Card::reinforcement):
+				cout << "Playing reinforcment card." << endl;
 				me->addReinF(5);
 				break;
 			case (Card::blockade):
-				me->addOrder(new Blockade(me, neutral, defend[counter]));
+				cout << "Playing blockade card. Enter target territory ID: ";
+				int id;
+				cin >> id;
+				if (id >= m.getTerritories().size() || id < 0) {
+					cout << "Territory does not exist. Please try again." << endl;
+					invalid = true;
+					break;
+				}
+				me->addOrder(new Blockade(me, neutral, m.getTerritory(id)));
 				break;
 			case (Card::airlift):
-				//at the moment the planes are only good enough for 5 ppl
-				me->addOrder(new Airlift(5, me, defend[0], attack[counter - defend.size()]));
+				cout << "Playing airlift card. Enter source territory ID: ";
+				int id, id2, armies;
+				cin >> id;
+				if (id >= m.getTerritories().size() || id < 0) {
+					cout << "Territory does not exist. Please try again." << endl;
+					invalid = true;
+					break;
+				}
+				cout << "Enter target territory ID: ";
+				cin >> id2;
+				if (id2 >= m.getTerritories().size() || id2 < 0) {
+					cout << "Territory does not exist. Please try again." << endl;
+					invalid = true;
+					break;
+				}
+				cout << "Enter number of armies to airlift: ";
+				cin >> armies;
+				if (armies <= 0)
+				{
+					cout << "Invalid number of armies. Please try again" << endl;
+					invalid = true;
+					break;
+				}
+				me->addOrder(new Airlift(armies, me, m.getTerritory(id), m.getTerritory(id2)));
 				break;
 			case (Card::diplomacy):
-				me->addOrder(new Negotiate(me, attack[counter - defend.size()]->getOwner()));
+				cout << "Playing negotiate card. Enter target player name: ";
+				string name;
+				cin >> name;
+				Player* target = NULL;
+				for (int i = 0; i < participants.size(); i++) {
+					if (participants[i]->getName() == name) {
+						target = participants[i];
+					}
+				}
+				if (target == NULL) {
+					cout << "Player does not exist. Please try again." << endl;
+					invalid = true;
+					break;
+				}
+				me->addOrder(new Negotiate(me, target));
 				break;
 			case (Card::EMPTY):
 				break;
 			}
 			//removes card form hand
-			(me->getHand()->getCards())[index]->play(index);
-			me->havePlayedCard = true;
+			if (!invalid) {
+				(me->getHand()->getCards())[index]->play(index);
+				me->havePlayedCard = true;
+				break;
+			}
+
 		}
 		else if (ans == "n" || ans == "N") {
 			cout << "Skipping cards. " << endl;
@@ -208,7 +266,7 @@ void AgressivePlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, v
 	}
 
 	//cards, bomb only
-	if (!me->havePlayedCard) {
+	if (!me->havePlayedCard && me->getHand()->size() > 0) {
 		for (int i = 0; i < me->getHand()->size(); i++) {
 			if (me->getHand()->getCards()[i]->getCardType() == Card::bomb) {
 				me->addOrder(new Bomb(me, bombprio));
