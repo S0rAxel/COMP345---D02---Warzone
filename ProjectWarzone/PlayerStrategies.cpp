@@ -22,7 +22,7 @@ HumanPlayer& HumanPlayer::operator=(const HumanPlayer& hPlayer)
 	return *this;
 }
 
-void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral)
+void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral, vector<Player*> participants)
 {
 	//reinf orders
 	while (reinf > 0) {
@@ -194,7 +194,7 @@ AgressivePlayer& AgressivePlayer::operator=(const AgressivePlayer& aPlayer)
 	return *this;
 }
 
-void AgressivePlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral)
+void AgressivePlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral, vector<Player*> participants)
 {
 	//reinf
 	territory* strongest = defend[0];
@@ -279,19 +279,34 @@ BenevolentPlayer& BenevolentPlayer::operator=(const BenevolentPlayer& bPlayer)
 	return *this;
 }
 
-void BenevolentPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral)
+void BenevolentPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral, vector<Player*> participants)
 {
 
 }
 
 vector<territory*> BenevolentPlayer::toAttack(Player* p, Map m)
 {
-
+	//attacks no one.
+	return vector<territory*>();
 }
 
 vector<territory*> BenevolentPlayer::toDefend(Player* p, Map m)
 {
-
+	//weakest territories
+	territory* weakest = p->getTerritories()[0];
+	for (int i = 0; i < p->getTerritories().size(); i++) {
+		if (weakest->getArmies() > p->getTerritories()[i]->getArmies()) {
+			weakest = p->getTerritories()[i];
+		}
+	}
+	vector<territory*> defend;
+	defend.push_back(weakest);
+	for (int i = 0; i < p->getTerritories().size(); i++) {
+		if (weakest->getArmies() == p->getTerritories()[i]->getArmies()) {
+			defend.push_back(p->getTerritories()[i]);
+		}
+	}
+	return defend;
 }
 
 NeutralPlayer::NeutralPlayer()
@@ -315,19 +330,21 @@ NeutralPlayer& NeutralPlayer::operator=(const NeutralPlayer& nPlayer)
 	return *this;
 }
 
-void NeutralPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral)
+void NeutralPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral, vector<Player*> participants)
 {
 
 }
 
 vector<territory*> NeutralPlayer::toAttack(Player* p, Map m)
 {
-
+	//attacks no one.
+	return vector<territory*>();
 }
 
 vector<territory*> NeutralPlayer::toDefend(Player* p, Map m)
 {
-
+	//defends nothing.
+	return vector<territory*>();
 }
 
 CheaterPlayer::CheaterPlayer()
@@ -351,17 +368,36 @@ CheaterPlayer& CheaterPlayer::operator=(const CheaterPlayer& cPlayer)
 	return *this;
 }
 
-void CheaterPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral)
+void CheaterPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral, vector<Player*> participants)
 {
 
 }
 
 vector<territory*> CheaterPlayer::toAttack(Player* p, Map m)
 {
-
+	//all adjacent territories
+	vector<territory*> attack;
+	for (int i = 0; i < p->getTerritories().size(); i++) {
+		for (int j = 0; j < m.getTerritories().size(); j++) {
+			if (p->getTerritories()[i]->isAdjacentTerritory(m.getTerritory(j))) {
+				bool inAttack = false;
+				for (int k = 0; k < attack.size(); k++) {
+					if (m.getTerritory(j) == attack[k]) {
+						inAttack = true;
+						break;
+					}
+				}
+				if (!inAttack) {
+					attack.push_back(m.getTerritory(j));
+				}
+			}
+		}
+	}
+	return attack;
 }
 
 vector<territory*> CheaterPlayer::toDefend(Player* p, Map m)
 {
-
+	//defends nothing.
+	return vector<territory*>();
 }
