@@ -77,6 +77,7 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 			switch (me->getHand()->getCards()[index]->getCardType())
 			{
 			case (Card::bomb):
+			{
 				cout << "Playing bomb card. Enter target territory ID: ";
 				int id;
 				cin >> id;
@@ -87,11 +88,13 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 				}
 				me->addOrder(new Bomb(me, m.getTerritory(id)));
 				break;
+			}
 			case (Card::reinforcement):
 				cout << "Playing reinforcment card." << endl;
 				me->addReinF(5);
 				break;
 			case (Card::blockade):
+			{
 				cout << "Playing blockade card. Enter target territory ID: ";
 				int id;
 				cin >> id;
@@ -102,7 +105,9 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 				}
 				me->addOrder(new Blockade(me, neutral, m.getTerritory(id)));
 				break;
+			}
 			case (Card::airlift):
+			{
 				cout << "Playing airlift card. Enter source territory ID: ";
 				int id, id2, armies;
 				cin >> id;
@@ -128,7 +133,9 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 				}
 				me->addOrder(new Airlift(armies, me, m.getTerritory(id), m.getTerritory(id2)));
 				break;
+			}
 			case (Card::diplomacy):
+			{
 				cout << "Playing negotiate card. Enter target player name: ";
 				string name;
 				cin >> name;
@@ -145,6 +152,7 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 				}
 				me->addOrder(new Negotiate(me, target));
 				break;
+			}
 			case (Card::EMPTY):
 				break;
 			}
