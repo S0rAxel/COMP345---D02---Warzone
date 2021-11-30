@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "Orders.h"
 #include "Cards.h"
+#include "PlayerStrategies.h"
 
 using namespace std;
 
@@ -87,6 +88,8 @@ public:
 	bool ordersComplete;
 	bool havePlayedCard;
 	void setHand(Hand* hand) { this->hand = hand; }
+	PlayerStrategy* getStrategy() { return strat; }
+	void setStrategy(PlayerStrategy* strat) { this->strat = strat; }
 
 	int getTerritorySize();
 	int getPlayOrder();
@@ -99,7 +102,7 @@ private:
 	int numOfReinF;
 	vector<Player*> negotiate; //vector of players that cannot be attacked. Clear after every turn
 	bool drawn; //player has drawn card. Set to false after every turn
-
+	PlayerStrategy* strat;
 	int playOrder;
 
 public:

@@ -55,6 +55,7 @@ public:
 	void addContinent(string n, int id, int bonus);
 	continent* getContinent(int id);
 	territory* getTerritory(int id);
+	vector<territory> getTerritories() { return land; }
 	void addBorders(int territory, int border);
 	int getNumOfTerr();
 	int getNumOfCont();

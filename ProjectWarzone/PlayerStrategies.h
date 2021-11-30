@@ -1,4 +1,5 @@
 #pragma once
+#include "Player.h"
 
 class Player;
 
@@ -7,8 +8,8 @@ class PlayerStrategy
 public:
 	Player* player;
 	virtual void issueOrder() = 0;
-	virtual void toAttack() = 0;
-	virtual void toDefend() = 0;
+	virtual vector<territory*> toAttack() = 0;
+	virtual vector<territory*> toDefend() = 0;
 };
 
 class HumanPlayer : public PlayerStrategy
@@ -19,9 +20,9 @@ public:
 	
 	HumanPlayer& operator= (const HumanPlayer& hPlayer);
 
-	void issueOrder();
-	void toAttack();
-	void toDefend();
+	void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral);
+	vector<territory*> toAttack(Player* p, Map m);
+	vector<territory*> toDefend(Player* p, Map m);
 };
 
 class AgressivePlayer : public PlayerStrategy
@@ -32,9 +33,9 @@ public:
 
 	AgressivePlayer& operator= (const AgressivePlayer& aPlayer);
 
-	void issueOrder();
-	void toAttack();
-	void toDefend();
+	void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral);
+	vector<territory*> toAttack(Player* p, Map m);
+	vector<territory*> toDefend(Player* p, Map m);
 };
 
 
@@ -46,9 +47,9 @@ public:
 
 	BenevolentPlayer& operator= (const BenevolentPlayer& bPlayer);
 
-	void issueOrder();
-	void toAttack();
-	void toDefend();
+	void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral);
+	vector<territory*> toAttack(Player* p, Map m);
+	vector<territory*> toDefend(Player* p, Map m);
 };
 
 
@@ -60,9 +61,9 @@ public:
 
 	 NeutralPlayer& operator= (const NeutralPlayer& nPlayer);
 
-	void issueOrder();
-	void toAttack();
-	void toDefend();
+	void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral);
+	vector<territory*> toAttack(Player* p, Map m);
+	vector<territory*> toDefend(Player* p, Map m);
 };
 
 
@@ -74,7 +75,7 @@ public:
 
 	CheaterPlayer& operator= (const CheaterPlayer& cPlayer);
 
-	void issueOrder();
-	void toAttack();
-	void toDefend();
+	void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral);
+	vector<territory*> toAttack(Player* p, Map m);
+	vector<territory*> toDefend(Player* p, Map m);
 };
