@@ -22,7 +22,7 @@ HumanPlayer& HumanPlayer::operator=(const HumanPlayer& hPlayer)
 	return *this;
 }
 
-void HumanPlayer::issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
+void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
 	//reinf orders
 	while (reinf > 0) {
@@ -260,7 +260,7 @@ AgressivePlayer& AgressivePlayer::operator=(const AgressivePlayer& aPlayer)
 	return *this;
 }
 
-void AgressivePlayer::issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
+void AgressivePlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
 	//reinf
 	territory* strongest = defend[0];
@@ -345,7 +345,7 @@ BenevolentPlayer& BenevolentPlayer::operator=(const BenevolentPlayer& bPlayer)
 	return *this;
 }
 
-void BenevolentPlayer::issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
+void BenevolentPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
 
 }
@@ -396,7 +396,7 @@ NeutralPlayer& NeutralPlayer::operator=(const NeutralPlayer& nPlayer)
 	return *this;
 }
 
-void NeutralPlayer::issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
+void NeutralPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
 
 }
@@ -434,7 +434,7 @@ CheaterPlayer& CheaterPlayer::operator=(const CheaterPlayer& cPlayer)
 	return *this;
 }
 
-void CheaterPlayer::issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
+void CheaterPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
 
 }

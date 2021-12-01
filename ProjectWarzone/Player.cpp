@@ -18,7 +18,7 @@ Player& Player::operator=(const Player& player) {
 	return *this;
 }
 
-vector<territory*> Player::toDefend(Map m) 
+vector<territory*> Player::toDefend(Map m)
 {
 	strat->toDefend(m);
 }
@@ -27,11 +27,7 @@ vector<territory*> Player::toAttack(Map m) {
 	strat->toAttack(m);
 }
 
-<<<<<<< HEAD
-void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player neutral) 
-=======
-void Player::issueOrder(int reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants) 
->>>>>>> dfce499c83c447c52e985069db80540c54a4c363
+void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
 	strat->issueOrder(reinf, m, attack, defend, me, deck, neutral, participants);
 }

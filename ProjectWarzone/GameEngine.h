@@ -68,7 +68,7 @@ namespace Engine {
 #pragma endregion
 
 	};
-	
+
 	//Passes state name and command list to the stream.
 	ostream& operator<<(ostream&, GameState&);
 
@@ -78,7 +78,7 @@ namespace Engine {
 		* copy constructor, destructor, assignment and stream insertion operator
 		* but since none of derived classes declare new members, defining these for each
 		* would be useless (they would either be empty or just call the base classe's version).
-		* 
+		*
 		* Instead, the above base class defines everything required such that the derived
 		* classes inherit the functionality. The base classe's copy constructor, destructor
 		* and operators will implicitly be called when used on derived class instances.
@@ -150,11 +150,11 @@ namespace Engine {
 		};
 	}
 }
-//copy no need to reinitiaete players
-void mainGameLoop(Map map, vector<Player>& players, Deck* deck);
 
-bool reinforcementPhase(Map m, vector<Player>& participants);
+void mainGameLoop(Map& map, vector<Player*> players, Deck* deck);
 
-void issueOrderPhase(Map m, vector<Player>& participants, Deck* deck, Player* neutral);
+bool reinforcementPhase(Map& m, vector<Player*>& participants);
 
-void executeOrderPhase(Map m, vector<Player>& participants);
+void issueOrderPhase(Map& m, vector<Player*>& participants, Deck* deck, Player* neutral);
+
+void executeOrderPhase(Map& m, vector<Player*>& participants);

@@ -11,22 +11,17 @@
 using namespace std;
 
 /*#pragma region Extra Classes
-
 //As is this is a temporary class is does not have the copy constructor, nor the stream or assignment operators
 class Territory
 {
 public:
 	Territory(string name) : name(name) { }
-
 	string name;
 };
-
 //As is this is a temporary class is does not have the copy constructor, nor the stream or assignment operators
 class Order { };
-
 //As is this is a temporary class is does not have the copy constructor, nor the stream or assignment operators
 class Card { };
-
 #pragma endregion
 */
 
@@ -41,7 +36,7 @@ public:
 	static vector<Player> players;
 
 	Player() {};
-	
+
 	Player(string name);
 
 	Player(string name, Hand* hand) { playerName = name; this->hand = hand; };
@@ -69,7 +64,7 @@ public:
 	vector<territory*> toAttack(int ammount);
 	vector<territory*> toDefend(int ammount);
 	Hand* getHand() { return hand; }
-	void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player me, Deck* deck, int counter, Player* neutral);
+	void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants);
 	vector<Order*> getOrders();
 	void addOrder(Order* o) { orders.push_back(o); }
 	void removeOrder(Order* o);
