@@ -154,3 +154,13 @@ public:
     Player* player;
     Player* target;
 };
+
+class Conquer : public Order
+{
+public:
+    Conquer(Player* player, territory* target);
+    bool validate();
+    void execute();
+    Player* player;
+    territory* target;
+};

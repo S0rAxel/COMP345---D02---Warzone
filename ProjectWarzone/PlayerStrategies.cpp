@@ -1,4 +1,4 @@
-#include "PlayerStrategies.h"
+﻿#include "PlayerStrategies.h"
 #include <iostream>
 
 HumanPlayer::HumanPlayer() 
@@ -278,6 +278,16 @@ void AgressivePlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, v
 		for (int i = 0; i < me->getHand()->size(); i++) {
 			if (me->getHand()->getCards()[i]->getCardType() == Card::bomb) {
 				me->addOrder(new Bomb(me, bombprio));
+				me->getHand()->getCards()[i]->play(i);
+				me->havePlayedCard = true;
+			}
+		}
+		if (!me->havePlayedCard) {
+			for (int i = 0; i < me->getHand()->size(); i++) {
+				if (me->getHand()->getCards()[i]->getCardType() == Card::reinforcement) {
+					me->addReinF(5);
+					me->havePlayedCard = true;
+				}
 			}
 		}
 	}
@@ -346,8 +356,42 @@ BenevolentPlayer& BenevolentPlayer::operator=(const BenevolentPlayer& bPlayer)
 }
 
 void BenevolentPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
-{
+{	
+	//reinf
+	int remainder = reinf % defend.size();
+	for (int i = 0; i < defend.size(); i++) {
+		me->addOrder(new Deploy(reinf / defend.size(), me, defend[i]));
+	}
+	me->addOrder(new Deploy(remainder, me, defend[0]));
 
+	//cards
+	if (!me->havePlayedCard && me->getHand()->size() > 0) {
+		for (int i = 0; i < me->getHand()->size(); i++) {
+			if (me->getHand()->getCards()[i]->getCardType() == Card::diplomacy) {
+				for (int j = 0; j < participants.size(); j++) {
+					if (!participants[j]->isNegotiate(me)) {
+						me->addOrder(new Negotiate(me, participants[j]));
+						me->getHand()->getCards()[i]->play(i);
+						me->havePlayedCard = true;
+					}
+				}
+			}
+		}
+		if (!me->havePlayedCard) {
+			for (int i = 0; i < me->getHand()->size(); i++) {
+				if (me->getHand()->getCards()[i]->getCardType() == Card::reinforcement) {
+					me->addReinF(5);
+					me->getHand()->getCards()[i]->play(i);
+					me->havePlayedCard = true;
+				}
+			}
+		}
+	}
+
+	//defend advance
+	//TODO
+
+	//does not attack anyone
 }
 
 vector<territory*> BenevolentPlayer::toAttack(Player* p, Map m)
@@ -398,7 +442,7 @@ NeutralPlayer& NeutralPlayer::operator=(const NeutralPlayer& nPlayer)
 
 void NeutralPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
-
+	//does nothing ¯\_(ツ)_/¯
 }
 
 vector<territory*> NeutralPlayer::toAttack(Player* p, Map m)
@@ -436,7 +480,11 @@ CheaterPlayer& CheaterPlayer::operator=(const CheaterPlayer& cPlayer)
 
 void CheaterPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
-
+	//reinforce whatever
+	me->addOrder(new Deploy(reinf, me, me->getTerritories()[0]));
+	for (int i = 0; i < attack.size(); i++) {
+		me->addOrder(new Conquer(me, attack[i]));
+	}
 }
 
 vector<territory*> CheaterPlayer::toAttack(Player* p, Map m)

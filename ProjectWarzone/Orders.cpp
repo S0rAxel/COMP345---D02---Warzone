@@ -469,3 +469,35 @@ void Negotiate::execute()
         setHasBeenExecuted(new bool(true));
     }
 }
+
+Conquer::Conquer(Player* player, territory* target) : Order(new string("conquer"), new string("Cheat conquer.")) {
+    this->player = player;
+    this->target = target;
+}
+
+bool Conquer::validate()
+{
+    for (int i = 0; i < player->getTerritories().size(); i++) {
+        if (target->isAdjacentTerritory(player->getTerritories()[i])) {
+            if (target->getOwner() != player) {
+                return true;
+            }
+        }
+    }
+    cout << "Invalid Conquer order." << endl;
+    return false;
+}
+
+void Conquer::execute()
+{
+    cout << "Validating Conquer order..." << endl;
+    if (validate())
+    {
+        Order::execute();
+        target->getOwner()->removeTerritories(target);
+        target->setOwner(player);
+        player->addTerritories(target);
+        cout << "Cheat conquer order success." << endl;
+        setHasBeenExecuted(new bool(true));
+    }
+}
