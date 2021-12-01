@@ -291,9 +291,9 @@ void GameState::gamestartCmd(Map map, Deck* deck)
 		deck->draw(Player::players.at(i).getHand());
 }
 
-void mainGameLoop(Map map, vector<Player*> players, Deck* deck)
+void mainGameLoop(Map map, vector<Player>& players, Deck* deck)
 {
-	vector<Player*> participants = players;
+	vector<Player> participants = players;
 	Player* neutral = new Player();
 	bool ended = reinforcementPhase(map, participants);
 	while (!ended)
@@ -301,7 +301,7 @@ void mainGameLoop(Map map, vector<Player*> players, Deck* deck)
 		//removing empty player if there is one
 		for (int i = 0; i < participants.size(); i++)
 		{
-			if (participants[i]->getTerritories().size() == 0)
+			if (participants[i].getTerritories().size() == 0)
 			{
 				participants.erase(participants.begin() + i);
 			}
@@ -310,19 +310,19 @@ void mainGameLoop(Map map, vector<Player*> players, Deck* deck)
 		executeOrderPhase(map, participants);
 		ended = reinforcementPhase(map, participants);
 	}
-	cout << "player " << participants[0]->getName() << " won congrats game Over" << endl;
+	cout << "player " << participants[0].getName() << " won congrats game Over" << endl;
 	//must chage where the victory condition is
 }
 
 
-bool reinforcementPhase(Map m, vector<Player*>& participants)
+bool reinforcementPhase(Map m, vector<Player>& participants)
 {
 	Player* tempOwner;
 	//loop for all players to give players appropriate reinforcements base on territories owned / 3
 	for (int i = 0; i < participants.size(); i++)
 	{
-		participants[i]->addReinF((participants[i]->getTerritories().size()) / 3);
-		cout << participants[i]->getName() << " recieved " << (participants[i]->getTerritories().size()) / 3 << " troops form their " << participants[i]->getTerritories().size() << " territories owned" << endl;
+		participants[i].addReinF((participants[i].getTerritories().size()) / 3);
+		cout << participants[i].getName() << " recieved " << (participants[i].getTerritories().size()) / 3 << " troops form their " << participants[i].getTerritories().size() << " territories owned" << endl;
 	}
 	//to get the continent bonus
 	for (int i = 0; i < m.getNumOfCont(); i++)
@@ -365,7 +365,7 @@ bool reinforcementPhase(Map m, vector<Player*>& participants)
 	return won;
 }
 
-void issueOrderPhase(Map m, vector<Player*>& participants, Deck* deck, Player* neutral)
+void issueOrderPhase(Map m, vector<Player>& participants, Deck* deck, Player* neutral)
 {
 	vector<int> reinf;
 	vector<vector<territory*>> defend;
@@ -373,21 +373,21 @@ void issueOrderPhase(Map m, vector<Player*>& participants, Deck* deck, Player* n
 	int playersDone;
 	for (int i = 0; i < participants.size(); i++)
 	{
-		participants[i]->ordersComplete = false;
-		participants[i]->clearNegotiate();
-		participants[i]->setDrawn(false);
-		participants[i]->clearOrders();
-		reinf.push_back(participants[i]->getReinF());
-		attack.push_back(participants[i]->toAttack(m));
-		defend.push_back(participants[i]->toDefend(m));
+		participants[i].ordersComplete = false;
+		participants[i].clearNegotiate();
+		participants[i].setDrawn(false);
+		participants[i].clearOrders();
+		reinf.push_back(participants[i].getReinF());
+		attack.push_back(participants[i].toAttack(m));
+		defend.push_back(participants[i].toDefend(m));
 	}
 	do {
 		playersDone = participants.size();
 		for (int i = 0; i < participants.size(); i++)
 		{
-			if (participants[i]->ordersComplete)
+			if (participants[i].ordersComplete)
 			{
-				participants[i]->issueOrder(reinf[i], m, attack[i], defend[i], participants[i], deck, i, neutral);
+				participants[i].issueOrder(reinf[i], m, attack[i], defend[i], participants[i], deck, i, neutral);
 			}
 			else
 			{
@@ -398,7 +398,7 @@ void issueOrderPhase(Map m, vector<Player*>& participants, Deck* deck, Player* n
 	//TODO make the order making sequence
 }
 
-void executeOrderPhase(Map m, vector<Player*>& participants)
+void executeOrderPhase(Map m, vector<Player>& participants)
 {
 	int j = 0;
 	int maxSize = 0;
@@ -407,11 +407,11 @@ void executeOrderPhase(Map m, vector<Player*>& participants)
 		for (int i = 0; i < participants.size(); i++)
 		{
 			maxSize = 0;
-			if (j < participants[i]->getOrders().size())
+			if (j < participants[i].getOrders().size())
 			{
-				(participants[i]->getOrders())[j]->execute();
+				(participants[i].getOrders())[j]->execute();
 				//since the orders are kept on the heap i remove the object here directly
-				delete (participants[i]->getOrders())[j];
+				delete (participants[i].getOrders())[j];
 			}
 			else
 			{
@@ -427,16 +427,16 @@ void executeOrderPhase(Map m, vector<Player*>& participants)
 	for (int i = 0; i < participants.size(); i++)
 	{
 		//removing dangling pointers
-		participants[i]->clearOrders();
+		participants[i].clearOrders();
 	}
 	//removing any empty players (can be done better with lamda functions but that will come later)
 	for (int i = 0; i < participants.size(); i++)
 	{
-		if (participants[i]->getTerritories().size() == 0)
+		if (participants[i].getTerritories().size() == 0)
 		{
 			participants.erase(participants.begin() + i);
 			i--;
-			cout << "player " << participants[i]->getName() << "has been eliminated" << endl;
+			cout << "player " << participants[i].getName() << "has been eliminated" << endl;
 		}
 	}
 	//move back to the start.. althought his can be handles by the gameloop

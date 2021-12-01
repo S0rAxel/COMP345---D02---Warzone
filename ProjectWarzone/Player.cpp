@@ -53,7 +53,7 @@ vector<territory*> Player::toAttack(Map m) {
 	return territoriesToAttack;
 }
 
-void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player* neutral) 
+void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, int counter, Player neutral) 
 {
 	bool goOn = false;
 	int armies = rand() % (reinf / 2 + 1) + (reinf / 2 + 1);

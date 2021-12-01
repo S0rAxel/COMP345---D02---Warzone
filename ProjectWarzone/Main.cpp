@@ -137,7 +137,7 @@ int main()
 						cout << endl;
 					}
 				}
-
+				//adding the main game loop comands
 				Engine::GameState::SwitchState(*Engine::GameState::current->links.at(nextStateIndex));
 				cmdEffect += "Switched to other state using '" + cmd->value + "'.";
 			}
