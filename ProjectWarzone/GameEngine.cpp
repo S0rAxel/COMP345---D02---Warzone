@@ -388,7 +388,7 @@ void issueOrderPhase(Map& m, vector<Player*>& participants, Deck* deck, Player* 
 		{
 			if (participants[i]->ordersComplete)
 			{
-				participants[i]->issueOrder(reinf[i], m, attack[i], defend[i], participants[i], deck, neutral);
+				participants[i]->issueOrder(reinf[i], m, attack[i], defend[i], participants[i], deck, neutral, participants);
 			}
 			else
 			{
