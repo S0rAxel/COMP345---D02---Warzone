@@ -155,9 +155,7 @@
   <ItemGroup>
     <ClInclude Include="Cards.h" />
     <ClInclude Include="CommandProcessing.h" />
-    <ClInclude Include="CommandProcessingDriver.h" />
     <ClInclude Include="Drivers.h" />
-    <ClInclude Include="GameEngineDriver2.h" />
     <ClInclude Include="LoggingObserver.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="OrderExecutionDriver.h" />
@@ -169,9 +167,7 @@
     <ClCompile Include="Cards.cpp" />
     <ClCompile Include="CardsDriver.cpp" />
     <ClCompile Include="CommandProcessing.cpp" />
-    <ClCompile Include="CommandProcessingDriver.cpp" />
     <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="GameEngineDriver2.cpp" />
     <ClCompile Include="LoggingObserver.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainGameLoopDriver.cpp" />

@@ -33,16 +33,10 @@
     <ClInclude Include="CommandProcessing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CommandProcessingDriver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OrderExecutionDriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Drivers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineDriver2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayerStrategies.h">
@@ -86,16 +80,10 @@
     <ClCompile Include="CommandProcessing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CommandProcessingDriver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OrderExecutionDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MainGameLoopDriver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineDriver2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Observer.cpp">
