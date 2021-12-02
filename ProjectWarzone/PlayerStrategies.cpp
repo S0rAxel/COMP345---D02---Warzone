@@ -1,5 +1,6 @@
 ﻿#include "PlayerStrategies.h"
 #include <iostream>
+#include "Player.h"
 
 HumanPlayer::HumanPlayer() 
 {

@@ -1,5 +1,6 @@
 #pragma once
-#include "Player.h"
+#include "Map.h"
+#include "Cards.h"
 
 class Player;
 

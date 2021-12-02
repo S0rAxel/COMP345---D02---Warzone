@@ -20,11 +20,11 @@ Player& Player::operator=(const Player& player) {
 
 vector<territory*> Player::toDefend(Map m)
 {
-	strat->toDefend(m);
+	return strat->toDefend(m);
 }
 
 vector<territory*> Player::toAttack(Map m) {
-	strat->toAttack(m);
+	return strat->toAttack(m);
 }
 
 void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
