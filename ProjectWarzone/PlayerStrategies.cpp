@@ -25,7 +25,7 @@ HumanPlayer& HumanPlayer::operator=(const HumanPlayer& hPlayer)
 
 void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
-	//reinf orders
+	//create reinf orders by input
 	while (reinf > 0) {
 		cout << "Reinforcement phase. You have " << me->getReinF() << " reinforcements to deploy. Please enter which territory to reinforce and how many to deploy." << endl;
 		cout << "Here is a list of territory by their ID which you own:" << endl;
@@ -61,7 +61,7 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 		
 	}
 
-	//card orders
+	//create card orders
 	while (!me->havePlayedCard && me->getHand()->size() > 0) {
 		string ans = "";
 		cout << "You have cards available to play: " << me->getHand() << "would you like to play a card? y/n: ";
@@ -174,7 +174,7 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 		}
 	}
 
-	//advance orders
+	//create advance orders
 	{
 		cout << "You may now issue advance orders. Enter \"-1\" anytime to stop issuing more advance orders." << endl;
 		while (true) {
@@ -263,18 +263,19 @@ AgressivePlayer& AgressivePlayer::operator=(const AgressivePlayer& aPlayer)
 
 void AgressivePlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
-	//reinf
+	//reinf, just reinforces its strongest territory
 	territory* strongest = defend[0];
 	me->addOrder(new Deploy(reinf, me, strongest));
 	territory* bombprio = attack[0];
 
+	//find strongest enemy territory adjacent to strongest owned territory to bomb and dump remainder armies
 	for (int i = 0; i < attack.size(); i++) {
 		if (attack[i]->getArmies() > bombprio->getArmies()) {
 			bombprio = attack[i];
 		}
 	}
 
-	//cards, bomb only
+	//cards, will prioritize bombing, then reinforcing. Will never play diplomatic or airlift.
 	if (!me->havePlayedCard && me->getHand()->size() > 0) {
 		for (int i = 0; i < me->getHand()->size(); i++) {
 			if (me->getHand()->getCards()[i]->getCardType() == Card::bomb) {
@@ -293,11 +294,16 @@ void AgressivePlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, v
 		}
 	}
 
-	//defend advance
-	//TODO
+	//defend strongest territory
+	for (int i = 0; i < me->getTerritories().size(); i++) {
+		if (me->getTerritories()[i]->isAdjacentTerritory(strongest) && me->getTerritories()[i]->getArmies() > 0) {
+			//moves all armies adjacent to strongest onto strongest
+			me->addOrder(new Advance(me->getTerritories()[i]->getArmies(), me, me->getTerritories()[i], strongest, deck));
+		}
+	}
 
 	//attack advance
-	//split attack equally with bordering territories. Remainder to strongest enemy territory.
+	//split attack equally with bordering territories. Remainder to strongest enemy territory regardless of bombed or not.
 	int totalArmies = strongest->getArmies() + reinf;
 	int remainder = totalArmies % attack.size();
 	for (int i = 0; i < attack.size(); i++) {
@@ -358,14 +364,14 @@ BenevolentPlayer& BenevolentPlayer::operator=(const BenevolentPlayer& bPlayer)
 
 void BenevolentPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {	
-	//reinf
+	//reinforces weakest territory or multiple equally weak territories
 	int remainder = reinf % defend.size();
 	for (int i = 0; i < defend.size(); i++) {
 		me->addOrder(new Deploy(reinf / defend.size(), me, defend[i]));
 	}
 	me->addOrder(new Deploy(remainder, me, defend[0]));
 
-	//cards
+	//cards, will prioritize playing diplomacy with every player, then reinforce card. Will never bomb or airlift.
 	if (!me->havePlayedCard && me->getHand()->size() > 0) {
 		for (int i = 0; i < me->getHand()->size(); i++) {
 			if (me->getHand()->getCards()[i]->getCardType() == Card::diplomacy) {
@@ -388,9 +394,6 @@ void BenevolentPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, 
 			}
 		}
 	}
-
-	//defend advance
-	//TODO
 
 	//does not attack anyone
 }
@@ -483,6 +486,8 @@ void CheaterPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vec
 {
 	//reinforce whatever
 	me->addOrder(new Deploy(reinf, me, me->getTerritories()[0]));
+
+	//Sends conquer order to all adjacent territories
 	for (int i = 0; i < attack.size(); i++) {
 		me->addOrder(new Conquer(me, attack[i]));
 	}

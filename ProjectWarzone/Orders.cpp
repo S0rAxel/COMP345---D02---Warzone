@@ -479,15 +479,14 @@ bool Conquer::validate()
 {
     for (int i = 0; i < player->getTerritories().size(); i++) {
         if (target->isAdjacentTerritory(player->getTerritories()[i])) {
-            if (target->getOwner() != player) {
-                return true;
-            }
+            return true;
         }
     }
     cout << "Invalid Conquer order." << endl;
     return false;
 }
 
+//Cheat order that transfers ownership of the target territory to the player that gives the order.
 void Conquer::execute()
 {
     cout << "Validating Conquer order..." << endl;
@@ -497,7 +496,7 @@ void Conquer::execute()
         target->getOwner()->removeTerritories(target);
         target->setOwner(player);
         player->addTerritories(target);
-        cout << "Cheat conquer order success." << endl;
+        cout << "Conquer order success." << endl;
         setHasBeenExecuted(new bool(true));
     }
 }
