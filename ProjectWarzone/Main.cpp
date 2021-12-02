@@ -138,6 +138,12 @@ int main()
 					}
 				}
 				//adding the main game loop comands
+				vector<Player*> participants;
+				for (int i = 0; i < Player::players.size(); i++)
+				{
+					participants.push_back(&Player::players[i]);
+				}
+				mainGameLoop(loadedMap, participants, deck);
 				Engine::GameState::SwitchState(*Engine::GameState::current->links.at(nextStateIndex));
 				cmdEffect += "Switched to other state using '" + cmd->value + "'.";
 			}

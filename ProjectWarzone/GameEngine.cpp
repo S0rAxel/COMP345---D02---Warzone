@@ -311,7 +311,6 @@ void mainGameLoop(Map& map, vector<Player*> players, Deck* deck)
 		ended = reinforcementPhase(map, participants);
 	}
 	cout << "player " << participants[0]->getName() << " won congrats game Over" << endl;
-	//must chage where the victory condition is
 }
 
 
