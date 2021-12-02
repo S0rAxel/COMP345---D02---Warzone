@@ -43,7 +43,7 @@ void GameState::GameSetup() {
 
 	cout << "\tEstablishing state links...\n";
 	//Establish links between states.
-	states[0]->links = { states[1], states[3] };
+	states[0]->links = { states[1], states[4] };
 	states[1]->links = { states[1], states[2] };
 	states[2]->links = { states[3] };
 	states[3]->links = { states[3], states[4] };
@@ -164,9 +164,7 @@ string GameState::StringToLog()
 //These will allow for custom behavior for every state on transition.
 //Nothing for now.
 
-void Start::Setup() {
-	cout << *this << endl;
-}
+void Start::Setup() { }
 void Start::Exit() { }
 
 void LoadMap::Setup() {

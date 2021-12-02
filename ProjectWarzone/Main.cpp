@@ -63,6 +63,8 @@ int main()
 
 			//If the state index isn't -1, switches to the state received by 'validate()'.
 			if (nextStateIndex >= 0) {
+				//Keep track of if there were any error with the current command.
+				bool noError = true;
 
 				//If 'quit' was valid, then terminate the control flow.
 				if (*cmd == "quit") {
@@ -70,8 +72,6 @@ int main()
 				}
 
 				else if (*cmd == "tournament") {
-					bool noError = true;
-
 					int numOfGames;
 					int numOfTurns;
 					//Is used for both list of maps & player strategies to make sure not to many are passed.
@@ -196,10 +196,10 @@ int main()
 				}
 				else if (*cmd == "validatemap") {
 					// Executing the validatemap command
-					bool isMapValid = Engine::GameState::validatemapCmd(loadedMap);
+					noError = Engine::GameState::validatemapCmd(loadedMap);
 
 					//Record and print command effect.
-					if (isMapValid)
+					if (noError)
 					{
 						cmdEffect += "The map was valid.\n";
 						cout << "The map was valid." << endl;
@@ -216,6 +216,7 @@ int main()
 					if (Player::players.size() >= 6)
 					{
 						cout << "You have added the maximum amount of players. Please execute the gamestart command." << endl;
+						noError = false;
 						break;
 					}
 
@@ -248,16 +249,24 @@ int main()
 
 						cout << endl;
 					}
+
+					//TODO add success condition
+					noError = false;
+					cout << "TODO: Add verification before starting game." << endl;
+
+					//adding the main game loop comands
+					vector<Player*> participants;
+					for (int i = 0; i < Player::players.size(); i++)
+					{
+						participants.push_back(&Player::players[i]);
+					}
+					mainGameLoop(loadedMap, participants, deck);
 				}
-				//adding the main game loop comands
-				vector<Player*> participants;
-				for (int i = 0; i < Player::players.size(); i++)
-				{
-					participants.push_back(&Player::players[i]);
+
+				if (noError) {
+					Engine::GameState::SwitchState(*Engine::GameState::current->links.at(nextStateIndex));
+					cmdEffect += "Switched to other state using '" + cmd->value + "'.";
 				}
-				mainGameLoop(loadedMap, participants, deck);
-				Engine::GameState::SwitchState(*Engine::GameState::current->links.at(nextStateIndex));
-				cmdEffect += "Switched to other state using '" + cmd->value + "'.";
 			}
 			else {
 				cmdEffect = "None. Command was invalid.";
