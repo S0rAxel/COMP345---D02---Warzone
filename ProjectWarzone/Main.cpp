@@ -68,6 +68,118 @@ int main()
 				if (*cmd == "quit") {
 					break;
 				}
+
+				else if (*cmd == "tournament") {
+					bool noError = true;
+
+					int numOfGames;
+					int numOfTurns;
+					//Is used for both list of maps & player strategies to make sure not to many are passed.
+					int amount;
+
+					//Makes sure that first command is map breakpoint.
+					noError = CommandProcessor::current->getCommand()->value == "-M";
+					if (noError) cout << "-M breakpoint.";
+
+					//List of maps.
+					amount = 0;
+					while (noError) {
+						followUp = CommandProcessor::current->getCommand();
+
+						//Expected breakpoint to start listing player strategies.
+						if (followUp->value == "-P") {
+							if (amount < 1) {
+								cout << "Provide at least 1 map.";
+								noError = false;
+							}
+							else cout << "-P breakpoint.";
+							break;
+						}
+						//Stop if too many maps are given.
+						else if (++amount > 5) {
+							cout << "Too many maps!";
+							noError = false;
+						}
+						else {
+							cout << "Added map " << followUp->value;
+							//Add given map file to array to validate.
+						}
+					}
+
+					//List of players.
+					amount = 0;
+					while (noError) {
+						followUp = CommandProcessor::current->getCommand();
+
+						//Expected breakpoint to give number of games.
+						if (followUp->value == "-G") {
+							if (amount < 2) {
+								cout << "Provide at least 2 players.";
+								noError = false;
+							}
+							else cout << "-G breakpoint.";
+							break;
+						}
+						//Stops if too many players are given.
+						else if (++amount > 4) {
+							cout << "Too many players!";
+							noError = false;
+						}
+						else {
+							cout << "Added player " << followUp->value;
+							//Add to players vector.
+						}
+					}
+
+					//Number of games per map.
+					if (noError) {
+						followUp = CommandProcessor::current->getCommand();
+						try {
+							numOfGames = stoi(followUp->value);
+							if (numOfGames < 1 || numOfGames > 5)
+								throw invalid_argument("Number of games is too low / high.");
+						}
+						catch (invalid_argument err) {
+							cout << "Invalid number of games per map.";
+							noError = false;
+						}
+						if (noError) {
+							cout << "Games per map: " << numOfGames;
+							//Makes sure next command is max number of turn breakpoint.
+							noError = CommandProcessor::current->getCommand()->value == "-D";
+						}
+					}
+
+					//Max number of turns per game.
+					if (noError) {
+						cout << "-D breakpoint.";
+						followUp = CommandProcessor::current->getCommand();
+						try {
+							numOfTurns = stoi(followUp->value);
+							if (numOfTurns < 10 || numOfTurns > 50)
+								throw invalid_argument("Max number of turns is too low / high.");
+						}
+						catch (invalid_argument err) {
+							cout << "Invalid max number of turns per game.";
+							noError = false;
+						}
+						if (noError)
+							cout << "Turns per game: " << numOfTurns;
+					}
+
+					//Final validity check.
+					if (noError) {
+						cout << "\nStarting Tournament..." << endl;
+						//Engine::GameState::current->SwitchState(*Engine::GameState::current->links.at(nextStateIndex));
+
+						//Need to pass array of maps.
+						//gamestartCmd(mapToLoad, players, deck);
+					}
+					else {
+						cout << "\nTournament command is invalid." << endl;
+					}
+				}
+
 				else if (*cmd == "loadmap") {
 					cout << "\nEnter the map's file name:";
 

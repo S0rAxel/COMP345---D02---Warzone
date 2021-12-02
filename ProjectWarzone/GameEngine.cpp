@@ -43,7 +43,7 @@ void GameState::GameSetup() {
 
 	cout << "\tEstablishing state links...\n";
 	//Establish links between states.
-	states[0]->links = { states[1] };
+	states[0]->links = { states[1], states[3] };
 	states[1]->links = { states[1], states[2] };
 	states[2]->links = { states[3] };
 	states[3]->links = { states[3], states[4] };
@@ -93,7 +93,7 @@ GameState::~GameState() {
 
 //Derived class default constructors.
 //Funky table indentation. Hopefully easier to read.
-Start::Start() : GameState("Start", { "loadmap" }) { }
+Start::Start() : GameState("Start", { "loadmap", "tournament" }) { }
 LoadMap::LoadMap() : GameState("Loaded Map", { "loadmap", "validatemap" }) { }
 ValidMap::ValidMap() : GameState("Validated Map", { "addplayer" }) { }
 AddPlayers::AddPlayers() : GameState("Add Players", { "addplayer", "gamestart" }) { }
