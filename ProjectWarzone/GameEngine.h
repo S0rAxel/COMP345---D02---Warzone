@@ -32,7 +32,7 @@ namespace Engine {
 		static Map loadmapCmd(string filename);
 		static bool validatemapCmd(Map map);
 		static void addplayerCmd(string playerName);
-		static void gamestartCmd(Map map, Deck* deck);
+		static void gamestartCmd(Map* map, Deck* deck);
 
 		//INSTANCE
 
@@ -153,10 +153,10 @@ namespace Engine {
 
 void tournamentLoop(vector<Map>& mapRotation, int numGames, int maxTurns);
 
-void mainGameLoop(Map& map, Deck* deck, int maxTurns);
+void mainGameLoop(Map* map, Deck* deck, int maxTurns);
 
-bool reinforcementPhase(Map& m, vector<Player*>& participants);
+bool reinforcementPhase(Map* m, vector<Player*> participants);
 
-void issueOrderPhase(Map& m, vector<Player*>& participants, Deck* deck, Player* neutral);
+void issueOrderPhase(Map* m, vector<Player*> participants, Deck* deck, Player* neutral);
 
-void executeOrderPhase(Map& m, vector<Player*>& participants);
+void executeOrderPhase(Map* m, vector<Player*> participants);

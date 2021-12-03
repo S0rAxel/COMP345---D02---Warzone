@@ -29,7 +29,7 @@ HumanPlayer& HumanPlayer::operator=(const HumanPlayer& hPlayer)
 	return *this;
 }
 
-void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
+void HumanPlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
 	cout << ">> HumanPlayer::issueOrder()" << endl;
 	//create reinf orders by input
@@ -44,11 +44,11 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 		territory* territory;
 		cout << "Enter the territory ID:";
 		cin >> territoryID;
-		if (territoryID >= m.getTerritories().size() || territoryID < 0) {
+		if (territoryID >= m->getTerritories().size() || territoryID < 0) {
 			cout << "Territory does not exist. Please try again." << endl;
 			continue;
 		}
-		territory = m.getTerritory(territoryID);
+		territory = m->getTerritory(territoryID);
 		cout << "Enter reinforcements to deploy:";
 		cin >> reinfToDeploy;
 		if (reinfToDeploy <= 0)
@@ -89,12 +89,12 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 					cout << "Playing bomb card. Enter target territory ID: ";
 					int id;
 					cin >> id;
-					if (id >= m.getTerritories().size() || id < 0) {
+					if (id >= m->getTerritories().size() || id < 0) {
 						cout << "Territory does not exist. Please try again." << endl;
 						invalid = true;
 						break;
 					}
-					me->addOrder(new Bomb(me, m.getTerritory(id)));
+					me->addOrder(new Bomb(me, m->getTerritory(id)));
 					break;
 				}
 				case (Card::reinforcement):
@@ -106,12 +106,12 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 					cout << "Playing blockade card. Enter target territory ID: ";
 					int id;
 					cin >> id;
-					if (id >= m.getTerritories().size() || id < 0) {
+					if (id >= m->getTerritories().size() || id < 0) {
 						cout << "Territory does not exist. Please try again." << endl;
 						invalid = true;
 						break;
 					}
-					me->addOrder(new Blockade(me, neutral, m.getTerritory(id)));
+					me->addOrder(new Blockade(me, neutral, m->getTerritory(id)));
 					break;
 				}
 				case (Card::airlift):
@@ -119,14 +119,14 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 					cout << "Playing airlift card. Enter source territory ID: ";
 					int id, id2, armies;
 					cin >> id;
-					if (id >= m.getTerritories().size() || id < 0) {
+					if (id >= m->getTerritories().size() || id < 0) {
 						cout << "Territory does not exist. Please try again." << endl;
 						invalid = true;
 						break;
 					}
 					cout << "Enter target territory ID: ";
 					cin >> id2;
-					if (id2 >= m.getTerritories().size() || id2 < 0) {
+					if (id2 >= m->getTerritories().size() || id2 < 0) {
 						cout << "Territory does not exist. Please try again." << endl;
 						invalid = true;
 						break;
@@ -139,7 +139,7 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 						invalid = true;
 						break;
 					}
-					me->addOrder(new Airlift(armies, me, m.getTerritory(id), m.getTerritory(id2)));
+					me->addOrder(new Airlift(armies, me, m->getTerritory(id), m->getTerritory(id2)));
 					break;
 				}
 				case (Card::diplomacy):
@@ -199,11 +199,11 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 				cout << "Ending orders." << endl;
 				break;
 			}
-			if (territoryID >= m.getTerritories().size() || territoryID < 0) {
+			if (territoryID >= m->getTerritories().size() || territoryID < 0) {
 				cout << "Territory does not exist. Please try again." << endl;
 				continue;
 			}
-			sTerritory = m.getTerritory(territoryID);
+			sTerritory = m->getTerritory(territoryID);
 
 			cout << "Enter the target territory ID: " << endl;
 			cin >> territoryID;
@@ -211,11 +211,11 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 				cout << "Ending orders." << endl;
 				break;
 			}
-			if (territoryID >= m.getTerritories().size() || territoryID < 0) {
+			if (territoryID >= m->getTerritories().size() || territoryID < 0) {
 				cout << "Territory does not exist. Please try again." << endl;
 				continue;
 			}
-			tTerritory = m.getTerritory(territoryID);
+			tTerritory = m->getTerritory(territoryID);
 
 			cout << "Enter the number of armies to advance with." << endl;
 			cin >> armies;
@@ -233,14 +233,14 @@ void HumanPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vecto
 	}
 }
 
-vector<territory*> HumanPlayer::toAttack(Map m)
+vector<territory*> HumanPlayer::toAttack(Map* m)
 {
 	//decided by a human during issueORder().
 	cout << ">> HumanPlayer::toAttack()" << endl;
 	return vector<territory*>();
 }
 
-vector<territory*> HumanPlayer::toDefend(Map m)
+vector<territory*> HumanPlayer::toDefend(Map* m)
 {
 	//decided by a human during issueOrder().
 	cout << ">> HumanPlayer::toDefend()" << endl;
@@ -274,7 +274,7 @@ AggressivePlayer& AggressivePlayer::operator=(const AggressivePlayer& aPlayer)
 	return *this;
 }
 
-void AggressivePlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
+void AggressivePlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
 	cout << ">> AggressivePlayer::issueOrder()" << endl;
 	//reinf, just reinforces its strongest territory
@@ -326,22 +326,22 @@ void AggressivePlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, 
 	me->addOrder(new Advance(remainder, me, strongest, bombprio, deck));
 }
 
-vector<territory*> AggressivePlayer::toAttack(Map m)
+vector<territory*> AggressivePlayer::toAttack(Map* m)
 {
 	cout << ">> AggresivePlayer::toAttack()" << endl;
 
 	//returns all bordering territories to the strongest territory
 	territory* strongest = toDefend(m)[0];
 	vector<territory*> attack;
-	for (int i = 0; i < m.getTerritories().size(); i++) {
-		if (strongest->isAdjacentTerritory(&m.getTerritories()[i]) && m.getTerritories()[i].getOwner() != player) {
-			attack.push_back(&m.getTerritories()[i]);
+	for (int i = 0; i < m->getTerritories().size(); i++) {
+		if (strongest->isAdjacentTerritory(&m->getTerritories()[i]) && m->getTerritories()[i].getOwner() != player) {
+			attack.push_back(&m->getTerritories()[i]);
 		}
 	}
 	return attack;
 }
 
-vector<territory*> AggressivePlayer::toDefend(Map m)
+vector<territory*> AggressivePlayer::toDefend(Map* m)
 {
 	cout << ">> AggresivePlayer::toDefend()" << endl;
 
@@ -386,7 +386,7 @@ BenevolentPlayer& BenevolentPlayer::operator=(const BenevolentPlayer& bPlayer)
 	return *this;
 }
 
-void BenevolentPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
+void BenevolentPlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {	
 	cout << ">> BenevolentPlayer::issueOrder()" << endl;
 	//reinforces weakest territory or multiple equally weak territories
@@ -423,7 +423,7 @@ void BenevolentPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, 
 	//does not attack anyone
 }
 
-vector<territory*> BenevolentPlayer::toAttack(Map m)
+vector<territory*> BenevolentPlayer::toAttack(Map* m)
 {
 	//attacks no one.
 	cout << ">> BenevolentPlayer::toAttack()" << endl;
@@ -431,7 +431,7 @@ vector<territory*> BenevolentPlayer::toAttack(Map m)
 	return vector<territory*>();
 }
 
-vector<territory*> BenevolentPlayer::toDefend(Map m)
+vector<territory*> BenevolentPlayer::toDefend(Map* m)
 {
 	cout << ">> BenevolentPlayer::toDefend()" << endl;
 
@@ -479,14 +479,14 @@ NeutralPlayer& NeutralPlayer::operator=(const NeutralPlayer& nPlayer)
 	return *this;
 }
 
-void NeutralPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
+void NeutralPlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
 	//does nothing ¯\_(ツ)_/¯
 	cout << ">> NeutralPlayer::issueOrder()" << endl;
 	cout << "It does nothing..." << endl;
 }
 
-vector<territory*> NeutralPlayer::toAttack(Map m)
+vector<territory*> NeutralPlayer::toAttack(Map* m)
 {
 	//attacks no one.
 	cout << ">> NeutralPlayer::toAttack()" << endl;
@@ -494,7 +494,7 @@ vector<territory*> NeutralPlayer::toAttack(Map m)
 	return vector<territory*>();
 }
 
-vector<territory*> NeutralPlayer::toDefend(Map m)
+vector<territory*> NeutralPlayer::toDefend(Map* m)
 {
 	cout << ">> NeutralPlayer::toDefend()" << endl;
 	//defends nothing.
@@ -528,7 +528,7 @@ CheaterPlayer& CheaterPlayer::operator=(const CheaterPlayer& cPlayer)
 	return *this;
 }
 
-void CheaterPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
+void CheaterPlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
 	cout << ">> CheaterPlayer::issueOrder()" << endl;
 
@@ -541,24 +541,24 @@ void CheaterPlayer::issueOrder(int& reinf, Map m, vector<territory*> attack, vec
 	}
 }
 
-vector<territory*> CheaterPlayer::toAttack(Map m)
+vector<territory*> CheaterPlayer::toAttack(Map* m)
 {
 	cout << ">> CheaterPlayer::toAttack()" << endl;
 
 	//all adjacent territories
 	vector<territory*> attack;
 	for (int i = 0; i < player->getTerritories().size(); i++) {
-		for (int j = 0; j < m.getTerritories().size(); j++) {
-			if (player->getTerritories()[i]->isAdjacentTerritory(m.getTerritory(j))) {
+		for (int j = 0; j < m->getTerritories().size(); j++) {
+			if (player->getTerritories()[i]->isAdjacentTerritory(m->getTerritory(j))) {
 				bool inAttack = false;
 				for (int k = 0; k < attack.size(); k++) {
-					if (m.getTerritory(j) == attack[k]) {
+					if (m->getTerritory(j) == attack[k]) {
 						inAttack = true;
 						break;
 					}
 				}
 				if (!inAttack) {
-					attack.push_back(m.getTerritory(j));
+					attack.push_back(m->getTerritory(j));
 				}
 			}
 		}
@@ -566,7 +566,7 @@ vector<territory*> CheaterPlayer::toAttack(Map m)
 	return attack;
 }
 
-vector<territory*> CheaterPlayer::toDefend(Map m)
+vector<territory*> CheaterPlayer::toDefend(Map* m)
 {
 	cout << ">> CheaterPlayer::toDefend()" << endl;
 	//defends nothing.

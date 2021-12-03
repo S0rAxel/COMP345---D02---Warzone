@@ -301,7 +301,7 @@ int main()
 					//Copy the deck as not to modify static one.
 					Deck deckCopy(Card::deck);
 					// Executing the gamestart command
-					Engine::GameState::gamestartCmd(loadedMaps.front(), &deckCopy);
+					Engine::GameState::gamestartCmd(&loadedMaps.front(), &deckCopy);
 
 					cmdEffect += "Gamestart command executed.\n";
 					cout << "Gamestart command executed." << endl;
@@ -319,9 +319,8 @@ int main()
 					}
 
 					cout << "TODO: Add verification before starting game." << endl;
-
 					//Play the first map in the set, then remove it.
-					mainGameLoop(loadedMaps.front(), &deckCopy, -1);
+					mainGameLoop(&loadedMaps.front(), &deckCopy, -1);
 					//Simulates .pop_front().
 					loadedMaps.erase(loadedMaps.begin());
 				}

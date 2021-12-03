@@ -229,13 +229,13 @@ void GameState::addplayerCmd(string playerName)
 	Player::players.push_back(player);
 }
 
-void GameState::gamestartCmd(Map map, Deck* deck)
+void GameState::gamestartCmd(Map* map, Deck* deck)
 {
 	cout << "\nPerforming game setup..." << endl;
 
 	// Distributing the territories to the players
-	int numOfTerrPerPlayer = map.getNumOfTerr() / Player::players.size();
-	int remainderOfTerrs = map.getNumOfTerr() - (numOfTerrPerPlayer * Player::players.size());
+	int numOfTerrPerPlayer = map->getNumOfTerr() / Player::players.size();
+	int remainderOfTerrs = map->getNumOfTerr() - (numOfTerrPerPlayer * Player::players.size());
 
 	// This gives territories to the players but it's possible that there are still some unallocated territories
 	// This happens if the remainder is not zero
@@ -243,12 +243,20 @@ void GameState::gamestartCmd(Map map, Deck* deck)
 	// Note however that this is still quite fair since maps have a lot of territories (which means players have many territories overall as well)
 	for (int i = 0; i < Player::players.size(); i++)
 		for (int j = 0; j < numOfTerrPerPlayer; j++)
-			Player::players.at(i).addTerritories(map.getTerritory(j));
+			Player::players.at(i).addTerritories(map->getTerritory(j + i*numOfTerrPerPlayer));
 
 	if (remainderOfTerrs != 0)
 	{
 		for (int i = 0; i < remainderOfTerrs; i++)
-			Player::players.at(i).addTerritories(map.getTerritory((numOfTerrPerPlayer * Player::players.size()) + i));
+			Player::players.at(i).addTerritories(map->getTerritory((numOfTerrPerPlayer * Player::players.size()) + i));
+	}
+	//linking the territories back to the players
+	for (int i = Player::players.size()-1; i >= 0; i--)
+	{
+		for (int j = 0; j < Player::players[i].getTerritories().size(); j++)
+		{
+			Player::players[i].getTerritories()[j]->setOwner(&Player::players[i]);
+		}
 	}
 
 	// Randomly determining the order of play
@@ -295,21 +303,20 @@ void tournamentLoop(vector<Map>& mapRotation, int numGames, int turnLimit) {
 			//Make a copy of the static deck as not to modify it.
 			Deck* deckCopy = new Deck(Card::deck);
 			//Do setup and play the game until winner or draw.
-			GameState::gamestartCmd(map, deckCopy);
-			mainGameLoop(map, deckCopy, turnLimit);
+			GameState::gamestartCmd(&map, deckCopy);
+			mainGameLoop(&map, deckCopy, turnLimit);
 		}
 	}
 }
 
-void mainGameLoop(Map& map, Deck* deck, int turnLimit)
+void mainGameLoop(Map* map, Deck* deck, int turnLimit)
 {
 	//Copy all current players, put them in a new vector. 
 	//This new vector can be modified without at will without fear of altering the static player vector.
 	vector<Player*> participants;
 	for (int i = 0; i < Player::players.size(); i++)
 	{
-		Player pCopy(Player::players[i]);
-		participants.push_back(&pCopy);
+		participants.push_back(&Player::players[i]);
 	}
 
 	//This player doesn't participate in the turn order, it simply acts as a holder for hidden territories where 'blockade' is used.
@@ -322,7 +329,8 @@ void mainGameLoop(Map& map, Deck* deck, int turnLimit)
 		cout << "  -- Turn " << turnCounter << " --  " << endl;
 
 		//removing empty player if there is one
-		for (int i = 0; i < Player::players.size(); i++)
+		//needs to be the manipulatable vector as to not change the actual players
+		for (int i = 0; i < participants.size(); i++)
 		{
 			if (participants[i]->getTerritories().size() == 0)
 			{
@@ -344,7 +352,7 @@ void mainGameLoop(Map& map, Deck* deck, int turnLimit)
 }
 
 
-bool reinforcementPhase(Map& m, vector<Player*>& participants)
+bool reinforcementPhase(Map* m, vector<Player*> participants)
 {
 	Player* tempOwner;
 	//loop for all players to give players appropriate reinforcements base on territories owned / 3
@@ -354,13 +362,13 @@ bool reinforcementPhase(Map& m, vector<Player*>& participants)
 		cout << participants[i]->getName() << " recieved " << (participants[i]->getTerritories().size()) / 3 << " troops form their " << participants[i]->getTerritories().size() << " territories owned" << endl;
 	}
 	//to get the continent bonus
-	for (int i = 0; i < m.getNumOfCont(); i++)
+	for (int i = 0; i < m->getNumOfCont(); i++)
 	{
-		tempOwner = m.getTerritory(m.getContinent(i)->getTerrID(0))->getOwner();
+		//tempOwner = m->getTerritory(m->getContinent(i)->getTerrID(0))->getOwner();
 		bool getBonus = false;
-		for (int j = 1; j < m.getContinent(i)->getLength(); j++)
+		for (int j = 1; j < m->getContinent(i)->getLength(); j++)
 		{
-			if (m.getTerritory(m.getContinent(i)->getTerrID(j))->getOwner() != tempOwner)
+			if (m->getTerritory(m->getContinent(i)->getTerrID(j))->getOwner() != m->getTerritory(m->getContinent(i)->getTerrID(0))->getOwner())
 			{
 				getBonus = false;
 				break;
@@ -372,29 +380,23 @@ bool reinforcementPhase(Map& m, vector<Player*>& participants)
 		}
 		if (getBonus)
 		{
-			tempOwner->addReinF(m.getContinent(i)->getBonus());
-			cout << "continent bonus for continent " << i << " has been assignet to player " << tempOwner->getName() << "." << endl;
+			m->getTerritory(m->getContinent(i)->getTerrID(0))->getOwner()->addReinF(m->getContinent(i)->getBonus());
+			cout << "continent bonus for continent " << i <<", " << m->getContinent(i)->getBonus() << " has been assignet to player " << m->getTerritory(m->getContinent(i)->getTerrID(0))->getOwner()->getName() << "." << endl;
 		}
 	}
-	//cheking for map ownership as in to see if only one player owns it all
-	tempOwner = m.getTerritory(0)->getOwner();
-	bool won = false;
-	for (int i = 1; i < m.getNumOfTerr(); i++)
+	//cheking if only one player remains and if that one player owns all the territories
+	if (participants.size() == 1 && participants[0]->getTerritories().size() == m->getNumOfTerr())
 	{
-		if (m.getTerritory(i)->getOwner() != tempOwner)
-		{
-			won = false;
-			break;
-		}
-		else
-		{
-			won = true;
-		}
+		return true;
 	}
-	return won;
+	else
+	{
+		return false;
+	}
+
 }
 
-void issueOrderPhase(Map& m, vector<Player*>& participants, Deck* deck, Player* neutral)
+void issueOrderPhase(Map* m, vector<Player*> participants, Deck* deck, Player* neutral)
 {
 	vector<int> reinf;
 	vector<vector<territory*>> defend;
@@ -428,7 +430,7 @@ void issueOrderPhase(Map& m, vector<Player*>& participants, Deck* deck, Player* 
 	//TODO make the order making sequence
 }
 
-void executeOrderPhase(Map& m, vector<Player*>& participants)
+void executeOrderPhase(Map* m, vector<Player*> participants)
 {
 	int j = 0;
 	int maxSize = 0;

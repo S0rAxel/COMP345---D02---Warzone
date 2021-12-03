@@ -8,9 +8,9 @@ class PlayerStrategy
 {
 public:
 	Player* player;
-	virtual void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants) = 0;
-	virtual vector<territory*> toAttack(Map m) = 0;
-	virtual vector<territory*> toDefend(Map m) = 0;
+	virtual void issueOrder(int& reinf, Map* m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants) = 0;
+	virtual vector<territory*> toAttack(Map* m) = 0;
+	virtual vector<territory*> toDefend(Map* m) = 0;
 };
 
 class HumanPlayer : public PlayerStrategy
@@ -22,9 +22,9 @@ public:
 
 	HumanPlayer& operator= (const HumanPlayer& hPlayer);
 
-	void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants);
-	vector<territory*> toAttack(Map m);
-	vector<territory*> toDefend(Map m);
+	void issueOrder(int& reinf, Map* m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants);
+	vector<territory*> toAttack(Map* m);
+	vector<territory*> toDefend(Map* m);
 };
 
 class AggressivePlayer : public PlayerStrategy
@@ -36,9 +36,9 @@ public:
 
 	AggressivePlayer& operator= (const AggressivePlayer& aPlayer);
 
-	void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants);
-	vector<territory*> toAttack(Map m);
-	vector<territory*> toDefend(Map m);
+	void issueOrder(int& reinf, Map* m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants);
+	vector<territory*> toAttack(Map* m);
+	vector<territory*> toDefend(Map* m);
 };
 
 class BenevolentPlayer : public PlayerStrategy
@@ -50,9 +50,9 @@ public:
 
 	BenevolentPlayer& operator= (const BenevolentPlayer& bPlayer);
 
-	void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants);
-	vector<territory*> toAttack(Map m);
-	vector<territory*> toDefend(Map m);
+	void issueOrder(int& reinf, Map* m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants);
+	vector<territory*> toAttack(Map* m);
+	vector<territory*> toDefend(Map* m);
 };
 
 class NeutralPlayer : public PlayerStrategy
@@ -64,9 +64,9 @@ public:
 
 	NeutralPlayer& operator= (const NeutralPlayer& nPlayer);
 
-	void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants);
-	vector<territory*> toAttack(Map m);
-	vector<territory*> toDefend(Map m);
+	void issueOrder(int& reinf, Map* m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants);
+	vector<territory*> toAttack(Map* m);
+	vector<territory*> toDefend(Map* m);
 };
 
 class CheaterPlayer : public PlayerStrategy
@@ -78,7 +78,7 @@ public:
 
 	CheaterPlayer& operator= (const CheaterPlayer& cPlayer);
 
-	void issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants);
-	vector<territory*> toAttack(Map m);
-	vector<territory*> toDefend(Map m);
+	void issueOrder(int& reinf, Map* m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants);
+	vector<territory*> toAttack(Map* m);
+	vector<territory*> toDefend(Map* m);
 };
