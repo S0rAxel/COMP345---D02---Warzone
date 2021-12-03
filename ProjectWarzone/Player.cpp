@@ -27,6 +27,7 @@ vector<territory*> Player::toAttack(Map m) {
 	return strat->toAttack(m);
 }
 
+
 void Player::issueOrder(int& reinf, Map m, vector<territory*> attack, vector<territory*> defend, Player* me, Deck* deck, Player* neutral, vector<Player*> participants)
 {
 	strat->issueOrder(reinf, m, attack, defend, me, deck, neutral, participants);

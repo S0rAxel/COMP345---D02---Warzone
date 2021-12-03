@@ -7,6 +7,9 @@ Map readfile(string);
 
 int main()
 {
+	PlayerStrategyDriver();
+
+	system("pause");
 	// TODO fix log observer stuff
 
 	Engine::GameState::GameSetup();
@@ -76,9 +79,10 @@ int main()
 					//Is used for both list of maps & player strategies to make sure not to many are passed.
 					int amount;
 
+					cout << "Commands: (-M) ";
 					//Makes sure that first command is map breakpoint.
 					noError = CommandProcessor::current->getCommand()->value == "-M";
-					if (noError) cout << "-M breakpoint.";
+					if (noError) cout << "\n-M Add name of MAP file (1 to 5)";
 
 					//List of maps.
 					amount = 0;
@@ -91,7 +95,7 @@ int main()
 								cout << "Provide at least 1 map.";
 								noError = false;
 							}
-							else cout << "-P breakpoint.";
+							else cout << "-P : Add Type of player (2 to 4) \nTypes to add (aggresive, neutral, cheater, human, benevolent)";
 							break;
 						}
 						//Stop if too many maps are given.
@@ -100,7 +104,22 @@ int main()
 							noError = false;
 						}
 						else {
-							cout << "Added map " << followUp->value;
+							loadedMap = Engine::GameState::loadmapCmd(followUp->value);
+							bool isMapValid = Engine::GameState::validatemapCmd(loadedMap);
+							//Record and print command effect.
+							if (isMapValid)
+							{
+
+								cout << "The map was loaded and validated." << endl;
+								cout << "Added map " << followUp->value << " ..." << endl;
+								cout << "Commands: (<Map file name>, -P)";
+							}
+							else
+							{
+								cout << "The map was invalid." << endl;
+								amount--;
+							}
+
 							//Add given map file to array to validate.
 						}
 					}
@@ -125,7 +144,9 @@ int main()
 							noError = false;
 						}
 						else {
-							cout << "Added player " << followUp->value;
+							cout << "Added player " << followUp->value << " ..." << endl;
+							cout << "Commands: (<Type of player>, -G) \nTypes to add (aggresive, neutral, cheater, human, benevolent)";
+
 							//Add to players vector.
 						}
 					}
@@ -178,7 +199,6 @@ int main()
 						cout << "\nTournament command is invalid." << endl;
 					}
 				}
-
 				else if (*cmd == "loadmap") {
 					cout << "\nEnter the map's file name:";
 
@@ -295,37 +315,3 @@ int main()
 	Engine::GameState::GameExit();
 
 }
-
-/*#define _CRT_SECURE_NO_DEPRECATE
-
-#include <iostream>
-#include <fstream>
-#include "LoggingObserver.h"
-#include "GameEngineDriver2.h"
-#include "Drivers.h"
-
-using namespace std;
-
-int main()
-{
-
-	cout << "\n\t - WARZONE PROJECT - \n";
-
-	ofstream file("gamelog.txt", ios::app);
-
-	time_t t = time(0);
-
-	file << "\n - New log created at time: " << ctime(&t) << " \n" << endl;
-
-	file.close();
-
-	LogObserver* lObs = new LogObserver();
-	vector<Player*>* players = new vector<Player*>;
-	Deck* deck = new Deck();
-
-
-	CommandProcessingDemo(*lObs);
-	OrderExecutionDriverDemo(*lObs);
-	startupPhaseDemo(*lObs);
-	ObserverDriver(*lObs);
-}*/

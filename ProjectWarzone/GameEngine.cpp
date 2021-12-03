@@ -90,7 +90,6 @@ GameState::~GameState() {
 	cout << "\t\tDeleted state: " << this->name << "\n";
 }
 
-
 //Derived class default constructors.
 //Funky table indentation. Hopefully easier to read.
 Start::Start() : GameState("Start", { "loadmap", "tournament" }) { }
@@ -106,7 +105,6 @@ GameOver::GameOver() : GameState("Win", { "replay", "quit" }) { }
 //classes since they define no members (see header file).
 
 #pragma endregion
-
 
 #pragma region State Behavior
 
@@ -159,7 +157,7 @@ string GameState::StringToLog()
 	return "GameState::SwitchState(): State Changed to " + current->name + "\n";
 }
 
-
+#pragma endregion
 
 //These will allow for custom behavior for every state on transition.
 //Nothing for now.
@@ -439,4 +437,3 @@ void executeOrderPhase(Map& m, vector<Player*>& participants)
 	}
 	//move back to the start.. althought his can be handles by the gameloop
 }
-#pragma endregion

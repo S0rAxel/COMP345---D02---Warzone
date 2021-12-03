@@ -111,7 +111,6 @@ void CommandProcessor::startup() {
 	} while (true);
 }
 
-
 //Reads input from console and generates a command.
 Command* CommandProcessor::readCommand() {
 	string input;
@@ -196,8 +195,6 @@ string CommandProcessor::StringToLog()
 
 #pragma endregion
 
-
-
 #pragma region FileLineReader
 //Constructors.
 FileLineReader::FileLineReader(string fileName) : fileName(fileName), fileStrm(fileName, ios::in) {
@@ -257,8 +254,6 @@ ostream& operator<<(ostream& out, FileLineReader& fLineRead) {
 }
 
 #pragma endregion
-
-
 
 #pragma region Adapter
 
