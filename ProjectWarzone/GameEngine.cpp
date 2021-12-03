@@ -288,7 +288,7 @@ void GameState::gamestartCmd(Map map, Deck* deck)
 		deck->draw(Player::players.at(i).getHand());
 }
 
-void mainGameLoop(Map& map)
+void mainGameLoop(Map& map, Deck* deck)
 {
 	//Copy all current players, put them in a new vector. 
 	//This new vector can be modified without at will without fear of altering the static player vector.
@@ -298,8 +298,6 @@ void mainGameLoop(Map& map)
 		Player pCopy(Player::players[i]);
 		participants.push_back(&pCopy);
 	}
-	//Copy the deck as not to modify the static one.
-	Deck* gameDeck = new Deck(Card::deck);
 
 	//This player doesn't participate in the turn order, it simply acts as a holder for hidden territories where 'blockade' is used.
 	Player* blockadeManager = new Player();
@@ -315,7 +313,7 @@ void mainGameLoop(Map& map)
 				participants.erase(participants.begin() + i);
 			}
 		}
-		issueOrderPhase(map, participants, gameDeck, blockadeManager);
+		issueOrderPhase(map, participants, deck, blockadeManager);
 		executeOrderPhase(map, participants);
 		ended = reinforcementPhase(map, participants);
 	}

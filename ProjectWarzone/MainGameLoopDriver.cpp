@@ -20,5 +20,5 @@ void runGameLoop(vector<Player*>* players, Deck* deck)
 			map.getTerritory((participants[i]->getTerritories()[j])->getID())->setOwner(participants[i]);
 		}
 	}
-	mainGameLoop(map);
+	mainGameLoop(map, deck);
 }

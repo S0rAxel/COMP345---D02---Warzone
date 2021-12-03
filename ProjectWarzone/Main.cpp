@@ -145,22 +145,35 @@ int main()
 						}
 						else {
 							cout << "Commands: (<Type of player>, -G)" << endl;
+							//Since names aren't provided in tournament command, players are named after
+							//their strategy along with a unique number to distinguish between two of the same.
+							//Ex: "Neutral 4" would be the 4th player if they had the neutral strategy.
 
 							//Emulate switch staement as it doesn't work with strings.
 							if (*followUp == "human") {
-								//TODO: Add human player to players vector.
+								Player toAdd("Human " + (Player::players.size() + 1));
+								Player::players.push_back(toAdd);
+								Player::players.back().setStrategy(new HumanPlayer(&toAdd));
 							}
 							else if (*followUp == "benevolent") {
-								//TODO: Add benevolent player to players vector.
+								Player toAdd("Benevolent " + (Player::players.size() + 1));
+								Player::players.push_back(toAdd);
+								Player::players.back().setStrategy(new BenevolentPlayer(&toAdd));
 							}
 							else if (*followUp == "neutral") {
-								//TODO: Add neutral player to players vector.
+								Player toAdd("Neutral " + (Player::players.size() + 1));
+								Player::players.push_back(toAdd);
+								Player::players.back().setStrategy(new NeutralPlayer(&toAdd));
 							}
 							else if (*followUp == "aggressive") {
-								//TODO: Add aggressive player to players vector.
+								Player toAdd("Aggressive " + (Player::players.size() + 1));
+								Player::players.push_back(toAdd);
+								Player::players.back().setStrategy(new AggressivePlayer(&toAdd));
 							}
 							else if (*followUp == "cheater") {
-								//TODO: Add cheater player to players vector.
+								Player toAdd("Cheater " + (Player::players.size() + 1));
+								Player::players.push_back(toAdd);
+								Player::players.back().setStrategy(new CheaterPlayer(&toAdd));
 							}
 							else {
 								noError = false;
@@ -287,8 +300,10 @@ int main()
 					cout << "Added player " + followUp->value << endl;
 				}
 				else if (*cmd == "gamestart") {
+					//Copy the deck as not to modify static one.
+					Deck deckCopy(Card::deck);
 					// Executing the gamestart command
-					Engine::GameState::gamestartCmd(loadedMaps.front(), &Card::deck);
+					Engine::GameState::gamestartCmd(loadedMaps.front(), &deckCopy);
 
 					cmdEffect += "Gamestart command executed.\n";
 					cout << "Gamestart command executed." << endl;
@@ -308,7 +323,7 @@ int main()
 					cout << "TODO: Add verification before starting game." << endl;
 
 					//Play the first map in the set, then remove it.
-					mainGameLoop(loadedMaps.front());
+					mainGameLoop(loadedMaps.front(), &deckCopy);
 					//Simulates .pop_front().
 					loadedMaps.erase(loadedMaps.begin());
 				}

@@ -151,7 +151,7 @@ namespace Engine {
 	}
 }
 
-void mainGameLoop(Map& map);
+void mainGameLoop(Map& map, Deck* deck);
 
 bool reinforcementPhase(Map& m, vector<Player*>& participants);
 
