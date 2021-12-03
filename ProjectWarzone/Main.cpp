@@ -222,13 +222,11 @@ int main()
 							cout << "Turns per game: " << numOfTurns;
 					}
 
-					//Final validity check.
+					//If all were valid, start the tournament.
 					if (noError) {
-						cout << "\nStarting Tournament..." << endl;
-						//Engine::GameState::current->SwitchState(*Engine::GameState::current->links.at(nextStateIndex));
-
-						//Need to make a method to pass multiple maps that will call gamestartCmd.
-						//torunamentCmd(loadedMaps, players, deck, numGames, maxTurns);
+						cout << "\n\nStarting tournament..." << endl;
+						system("pause");
+						tournamentLoop(loadedMaps, numOfGames, numOfTurns);
 					}
 					else {
 						cout << "\nTournament command is invalid." << endl;
@@ -323,7 +321,7 @@ int main()
 					cout << "TODO: Add verification before starting game." << endl;
 
 					//Play the first map in the set, then remove it.
-					mainGameLoop(loadedMaps.front(), &deckCopy);
+					mainGameLoop(loadedMaps.front(), &deckCopy, -1);
 					//Simulates .pop_front().
 					loadedMaps.erase(loadedMaps.begin());
 				}

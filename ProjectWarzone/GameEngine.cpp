@@ -288,7 +288,20 @@ void GameState::gamestartCmd(Map map, Deck* deck)
 		deck->draw(Player::players.at(i).getHand());
 }
 
-void mainGameLoop(Map& map, Deck* deck)
+void tournamentLoop(vector<Map>& mapRotation, int numGames, int turnLimit) {
+	//Play 'numGames' games for each map in 'mapRotation'.
+	for (Map map : mapRotation) {
+		for (int i = 0; i < numGames; i++) {
+			//Make a copy of the static deck as not to modify it.
+			Deck* deckCopy = new Deck(Card::deck);
+			//Do setup and play the game until winner or draw.
+			GameState::gamestartCmd(map, deckCopy);
+			mainGameLoop(map, deckCopy, turnLimit);
+		}
+	}
+}
+
+void mainGameLoop(Map& map, Deck* deck, int turnLimit)
 {
 	//Copy all current players, put them in a new vector. 
 	//This new vector can be modified without at will without fear of altering the static player vector.
@@ -301,10 +314,13 @@ void mainGameLoop(Map& map, Deck* deck)
 
 	//This player doesn't participate in the turn order, it simply acts as a holder for hidden territories where 'blockade' is used.
 	Player* blockadeManager = new Player();
+	int turnCounter = 0;
 
 	bool ended = reinforcementPhase(map, participants);
 	while (!ended)
 	{
+		cout << "  -- Turn " << turnCounter << " --  " << endl;
+
 		//removing empty player if there is one
 		for (int i = 0; i < Player::players.size(); i++)
 		{
@@ -316,6 +332,13 @@ void mainGameLoop(Map& map, Deck* deck)
 		issueOrderPhase(map, participants, deck, blockadeManager);
 		executeOrderPhase(map, participants);
 		ended = reinforcementPhase(map, participants);
+
+		//Stop game if reached turn limit.
+		//A max turn count of anything less than zero makes this never trigger.
+		if (++turnCounter == turnLimit) {
+			cout << "\n\nThe game reached the turn limit (" << turnLimit << ") without a winner.\nThe game is declared as a draw!" << endl;
+			return;
+		}
 	}
 	cout << "player " << participants[0]->getName() << " won congrats game Over" << endl;
 }

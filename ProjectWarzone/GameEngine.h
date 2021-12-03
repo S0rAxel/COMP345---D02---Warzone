@@ -151,7 +151,9 @@ namespace Engine {
 	}
 }
 
-void mainGameLoop(Map& map, Deck* deck);
+void tournamentLoop(vector<Map>& mapRotation, int numGames, int maxTurns);
+
+void mainGameLoop(Map& map, Deck* deck, int maxTurns);
 
 bool reinforcementPhase(Map& m, vector<Player*>& participants);
 
