@@ -51,6 +51,7 @@ class Map
 {
 public:
 	Map();
+	Map(string name);
 	void addTerritory(int id,string n, int c);
 	void addContinent(string n, int id, int bonus);
 	continent* getContinent(int id);
@@ -60,7 +61,9 @@ public:
 	int getNumOfTerr();
 	int getNumOfCont();
 	void addToContinent(int c, int t);
+	string getName() { return name; }
 private:
+	string name;
 	vector<territory> land;
 	vector<continent> continents;
 };

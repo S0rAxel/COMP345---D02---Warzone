@@ -21,7 +21,7 @@ Map readfile(string filename)
 	size_t pos;
 	input.open(filename);
 	input >> fileText;
-	Map map;
+	Map map(filename);
 	//reading the file line by line
 	while (getline(input, fileText))
 	{

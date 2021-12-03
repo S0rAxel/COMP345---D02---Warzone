@@ -19,6 +19,9 @@ Map::Map()
 	land; 
 	continents;
 }
+Map::Map(string fileName) : Map() {
+	name = fileName;
+}
 //the terriroty object is generated within the Map object that way it stays within scope while on the stack
 void Map::addTerritory(int id, string n, int c)
 {

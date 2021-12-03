@@ -18,7 +18,7 @@ int main()
 	Command* followUp;
 	string cmdEffect;
 
-	Map loadedMap;
+	vector<Map> loadedMaps;
 
 	Card::ctype bomb = Card::bomb;
 	Card::ctype reinforcement = Card::reinforcement;
@@ -45,7 +45,6 @@ int main()
 	int nextStateIndex;
 	do {
 		cmd = CommandProcessor::current->getCommand();
-		//cmd->Attach(&obs);
 		cmdEffect = "";
 
 		//Special command, exits. For demo only.
@@ -172,8 +171,8 @@ int main()
 						cout << "\nStarting Tournament..." << endl;
 						//Engine::GameState::current->SwitchState(*Engine::GameState::current->links.at(nextStateIndex));
 
-						//Need to pass array of maps.
-						//gamestartCmd(mapToLoad, players, deck);
+						//Need to make a method to pass multiple maps that will call gamestartCmd.
+						//torunamentCmd(loadedMaps, players, deck, numGames, maxTurns);
 					}
 					else {
 						cout << "\nTournament command is invalid." << endl;
@@ -188,26 +187,35 @@ int main()
 					followUp->saveEffect("Follow-up of last command.");
 
 					// Executing the loadmap command
-					loadedMap = Engine::GameState::loadmapCmd(followUp->value);
+					loadedMaps.push_back(Engine::GameState::loadmapCmd(followUp->value));
 
 					//Record and print command effect.
 					cmdEffect += "Loaded map file: " + followUp->value + ".\n";
 					cout << "Loaded map file: " << followUp->value << endl;
 				}
 				else if (*cmd == "validatemap") {
-					// Executing the validatemap command
-					noError = Engine::GameState::validatemapCmd(loadedMap);
+					// Executing the validatemap command. Check if each map is correctly defined.
+					for (Map map : loadedMaps) {
+						if (Engine::GameState::validatemapCmd(map)) {
+							cout << map.getName() << " is valid." << endl;
+						}
+						else {
+							noError = false;
+							Engine::GameState::current = Engine::GameState::states[1];
+							cout << map.getName() << " is invalid, returning to load map state";
+						}
+					}
 
 					//Record and print command effect.
 					if (noError)
 					{
-						cmdEffect += "The map was valid.\n";
-						cout << "The map was valid." << endl;
+						cmdEffect += "All maps were validated.\n";
+						cout << "All maps were validated." << endl;
 					}
 					else
 					{
-						cmdEffect += "The map was invalid.\n";
-						cout << "The map was invalid." << endl;
+						cmdEffect += "At least 1 map was invalid.\n";
+						cout << "At least 1 map was invalid." << endl;
 					}
 				}
 				else if (*cmd == "addplayer") {
@@ -233,7 +241,7 @@ int main()
 				}
 				else if (*cmd == "gamestart") {
 					// Executing the gamestart command
-					Engine::GameState::gamestartCmd(loadedMap, deck);
+					Engine::GameState::gamestartCmd(loadedMaps.front(), deck);
 
 					cmdEffect += "Gamestart command executed.\n";
 					cout << "Gamestart command executed." << endl;
@@ -260,7 +268,10 @@ int main()
 					{
 						participants.push_back(&Player::players[i]);
 					}
-					mainGameLoop(loadedMap, participants, deck);
+					//Play the first map in the set, then remove it.
+					mainGameLoop(loadedMaps.front(), participants, deck);
+					//Simulates .pop_front().
+					loadedMaps.erase(loadedMaps.begin());
 				}
 
 				if (noError) {
