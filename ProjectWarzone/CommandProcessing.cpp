@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -27,10 +28,10 @@ void Command::operator=(const Command& get) {
 	this->effect = get.effect;
 }
 bool operator==(const Command& cmd, const string& str) {
-	return cmd.value == str;
+	return _strcmpi((cmd.value.c_str()), str.c_str()) == 0;
 }
 bool operator==(const string& str, const Command& cmd) {
-	return cmd.value == str;
+	return cmd == str;
 }
 ostream& operator<<(ostream& out, Command& cmd) {
 	return out << "Command: " << cmd.value;
@@ -85,6 +86,7 @@ void CommandProcessor::startup() {
 		if (input == "-console") {
 			//Assign Console Processor to static Command Processor.
 			current = new CommandProcessor();
+			cout << "Command processor attached to: console.\n";
 			break;
 		}
 		else if (input == "-file") {
@@ -97,6 +99,7 @@ void CommandProcessor::startup() {
 
 				//Check if the File Processor found the given file.
 				if ((dynamic_cast<FileCommandProcessorAdapter*>(current))->isOpen()) {
+					cout << "Command processor attached to: " << input << ".\n";
 					break;
 				}
 

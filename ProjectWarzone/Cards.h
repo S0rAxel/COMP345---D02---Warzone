@@ -29,11 +29,9 @@ private:
 class Deck {
 public:
 	Deck();
-	~Deck() {
-		delete this;
-	}
+	~Deck();
 	Deck(const Deck &deck);
-	Deck& operator=(const Deck& other);
+	//Deck& operator=(const Deck& other);
 
 	friend ostream& operator << (ostream& out, const Deck& c);
 
@@ -62,9 +60,7 @@ public:
 		EMPTY
 	} ctype;
 	Card();
-	~Card() {
-		delete this;
-	}
+	~Card();
 	Card(ctype type);
 	Card(ctype type, Hand* hand, Deck* deck);
 	Card(const Card& card);

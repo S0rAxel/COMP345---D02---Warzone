@@ -5,6 +5,8 @@ using namespace std;
 /// <summary>
 /// Card Class implementation
 /// </summary>
+Deck Card::deck;
+
 Card::Card() {
 	cardType = EMPTY;
 	handR = NULL;
@@ -28,6 +30,8 @@ Card::Card(const Card& card) {
 	handR = card.handR;
 	deckR = card.deckR;
 }
+
+Card::~Card() {}
 
 Card::ctype Card::getCardType() {
 	return cardType;
@@ -131,6 +135,10 @@ Deck::Deck() {
 
 Deck::Deck(const Deck &deck) {
 	cards = deck.cards;
+}
+
+Deck::~Deck() {
+	for (Card* c : cards) delete c;
 }
 
 int Deck::size() {

@@ -76,6 +76,9 @@ void PlayerStrategyDriver()
 	cout << ">> Name:" << *humPlayer << "\t\t| Strat: " << typeid(*humPlayer->getStrategy()).name() << "\t| Type: " << typeid(*humPlayer).name() << endl;
 
 	Engine::GameState::gamestartCmd(map, deck);
+
+	//Remove the added players.
+	Player::players.clear();
 }
 
 /*#include <iostream>

@@ -36,7 +36,7 @@ Map readfile(string filename)
 		{
 			orderOperation = 1;
 			counter = 0;
-			cout << "continent" << endl;
+
 			while (getline(input, fileText))
 			{
 				counter++;
@@ -70,7 +70,7 @@ Map readfile(string filename)
 			//cheking if the order is correct
 			if (orderOperation != 1)
 			{
-				cout << "invalid file submitted, pleas input a valid Map file" << endl;
+				throw invalid_argument("Map is invalid");
 				orderOperation = 4;
 				break;
 			}
@@ -134,7 +134,7 @@ Map readfile(string filename)
 			//cheking if the order is correct
 			if (orderOperation != 2)
 			{
-				cout << "invalid file submitted, pleas input a valid Map file" << endl;
+				throw invalid_argument("Map is invalid");
 				orderOperation = 4;
 				break;
 			}
@@ -185,9 +185,7 @@ Map readfile(string filename)
 		}
 	}
 	if (orderOperation !=3)
-	{
-		cout << "Incorrect file submitted, pleas submit a valid file"<<endl;
-	}
+		throw invalid_argument("Map is invalid");
 	input.close();
 	return map;
 }

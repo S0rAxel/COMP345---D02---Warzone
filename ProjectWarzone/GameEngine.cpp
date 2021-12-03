@@ -1,5 +1,6 @@
 #include "GameEngine.h"
 #include <vector>
+#include "Cards.h"
 #include "Player.h"
 #include "Map.h"
 #include "Orders.h"
@@ -110,7 +111,7 @@ GameOver::GameOver() : GameState("Win", { "replay", "quit" }) { }
 
 //Base class stream insertion operator.
 ostream& Engine::operator<<(ostream& out, GameState& state) {
-	out << state.name << " state.\nCommands: " << state.cmdList();
+	out << endl << state.name << " state.\nCommands: " << state.cmdList();
 	return out;
 }
 //Base class assignment operator.
@@ -202,7 +203,7 @@ void GameOver::Exit() { }
 
 Map GameState::loadmapCmd(string filename)
 {
-	cout << "Now executing loadmap command..." << endl;
+	cout << "\nLoading map " << filename << "...\n";
 
 	Map map = readfile(filename);
 
@@ -211,7 +212,7 @@ Map GameState::loadmapCmd(string filename)
 
 bool GameState::validatemapCmd(Map map)
 {
-	cout << "Now executing validatemap command..." << endl;
+	cout << "\nValidating map " << map.getName() <<"...\n";
 	if (validate(map))
 		return true;
 	else
@@ -220,7 +221,7 @@ bool GameState::validatemapCmd(Map map)
 
 void GameState::addplayerCmd(string playerName)
 {
-	cout << "Now executing addplayer command..." << endl;
+	cout << "\nAdding player " << playerName <<"...\n";
 
 	cout << "You can add between 2 and 6 players to the game" << endl;
 	cout << "Adding player " << (Player::players.size() + 1) << "..." << endl;
@@ -230,7 +231,7 @@ void GameState::addplayerCmd(string playerName)
 
 void GameState::gamestartCmd(Map map, Deck* deck)
 {
-	cout << "Now executing gamestart command..." << endl;
+	cout << "\nPerforming game setup..." << endl;
 
 	// Distributing the territories to the players
 	int numOfTerrPerPlayer = map.getNumOfTerr() / Player::players.size();
@@ -287,22 +288,34 @@ void GameState::gamestartCmd(Map map, Deck* deck)
 		deck->draw(Player::players.at(i).getHand());
 }
 
-void mainGameLoop(Map& map, vector<Player*> players, Deck* deck)
+void mainGameLoop(Map& map)
 {
-	vector<Player*> participants = players;
-	Player* neutral = new Player();
+	//Copy all current players, put them in a new vector. 
+	//This new vector can be modified without at will without fear of altering the static player vector.
+	vector<Player*> participants;
+	for (int i = 0; i < Player::players.size(); i++)
+	{
+		Player pCopy(Player::players[i]);
+		participants.push_back(&pCopy);
+	}
+	//Copy the deck as not to modify the static one.
+	Deck* gameDeck = new Deck(Card::deck);
+
+	//This player doesn't participate in the turn order, it simply acts as a holder for hidden territories where 'blockade' is used.
+	Player* blockadeManager = new Player();
+
 	bool ended = reinforcementPhase(map, participants);
 	while (!ended)
 	{
 		//removing empty player if there is one
-		for (int i = 0; i < participants.size(); i++)
+		for (int i = 0; i < Player::players.size(); i++)
 		{
 			if (participants[i]->getTerritories().size() == 0)
 			{
 				participants.erase(participants.begin() + i);
 			}
 		}
-		issueOrderPhase(map, participants, deck, neutral);
+		issueOrderPhase(map, participants, gameDeck, blockadeManager);
 		executeOrderPhase(map, participants);
 		ended = reinforcementPhase(map, participants);
 	}

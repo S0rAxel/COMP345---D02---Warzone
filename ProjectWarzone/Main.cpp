@@ -29,21 +29,20 @@ int main()
 	Card::ctype airlift = Card::airlift;
 	Card::ctype diplomacy = Card::diplomacy;
 
-	// TODO possibly have the deck as a static member of the Deck class
-	Deck* deck = new Deck();
-
-	deck->addCard(new Card(bomb));
-	deck->addCard(new Card(blockade));
-	deck->addCard(new Card(airlift));
-	deck->addCard(new Card(reinforcement));
-	deck->addCard(new Card(diplomacy));
-	deck->addCard(new Card(bomb));
-	deck->addCard(new Card(reinforcement));
-	deck->addCard(new Card(airlift));
-	deck->addCard(new Card(airlift));
-	deck->addCard(new Card(diplomacy));
-	deck->addCard(new Card(diplomacy));
-	deck->addCard(new Card(diplomacy));
+	//Create the card deck.
+	Card::deck = Deck();
+	Card::deck.addCard(new Card(bomb));
+	Card::deck.addCard(new Card(blockade));
+	Card::deck.addCard(new Card(airlift));
+	Card::deck.addCard(new Card(reinforcement));
+	Card::deck.addCard(new Card(diplomacy));
+	Card::deck.addCard(new Card(bomb));
+	Card::deck.addCard(new Card(reinforcement));
+	Card::deck.addCard(new Card(airlift));
+	Card::deck.addCard(new Card(airlift));
+	Card::deck.addCard(new Card(diplomacy));
+	Card::deck.addCard(new Card(diplomacy));
+	Card::deck.addCard(new Card(diplomacy));
 
 	int nextStateIndex;
 	do {
@@ -92,7 +91,7 @@ int main()
 						//Expected breakpoint to start listing player strategies.
 						if (followUp->value == "-P") {
 							if (amount < 1) {
-								cout << "Provide at least 1 map.";
+								cout << "Provide at least 1 valid map.";
 								noError = false;
 							}
 							else cout << "-P : Add Type of player (2 to 4) \nTypes to add (aggresive, neutral, cheater, human, benevolent)";
@@ -104,23 +103,24 @@ int main()
 							noError = false;
 						}
 						else {
-							loadedMap = Engine::GameState::loadmapCmd(followUp->value);
-							bool isMapValid = Engine::GameState::validatemapCmd(loadedMap);
-							//Record and print command effect.
-							if (isMapValid)
-							{
+							bool mapIsValid = true;
+							cout << "Checking " << followUp->value << "...";
+							try {
+								loadedMaps.push_back(Engine::GameState::loadmapCmd(followUp->value));
 
-								cout << "The map was loaded and validated." << endl;
-								cout << "Added map " << followUp->value << " ..." << endl;
-								cout << "Commands: (<Map file name>, -P)";
+								//Record and print command effect.
+								if (Engine::GameState::validatemapCmd(loadedMaps.back())) {
+									cout << "Loaded map " << followUp->value << " ..." << endl;
+									cout << "Commands: (<Map file name>, -P)";
+								}
+								else {
+									throw invalid_argument("Map is not valid.");
+								}
 							}
-							else
-							{
-								cout << "The map was invalid." << endl;
+							catch (invalid_argument e) {
+								cout << followUp->value << " is invalid." << endl;
 								amount--;
 							}
-
-							//Add given map file to array to validate.
 						}
 					}
 
@@ -144,10 +144,32 @@ int main()
 							noError = false;
 						}
 						else {
-							cout << "Added player " << followUp->value << " ..." << endl;
-							cout << "Commands: (<Type of player>, -G) \nTypes to add (aggresive, neutral, cheater, human, benevolent)";
+							cout << "Commands: (<Type of player>, -G)" << endl;
 
-							//Add to players vector.
+							//Emulate switch staement as it doesn't work with strings.
+							if (*followUp == "human") {
+								//TODO: Add human player to players vector.
+							}
+							else if (*followUp == "benevolent") {
+								//TODO: Add benevolent player to players vector.
+							}
+							else if (*followUp == "neutral") {
+								//TODO: Add neutral player to players vector.
+							}
+							else if (*followUp == "aggressive") {
+								//TODO: Add aggressive player to players vector.
+							}
+							else if (*followUp == "cheater") {
+								//TODO: Add cheater player to players vector.
+							}
+							else {
+								noError = false;
+								cout << '\'' << followUp->value << "' is not a valid player strategy.";
+							}
+
+							if (noError) {
+								cout << "Added " << followUp->value <<" player.";
+							}
 						}
 					}
 
@@ -203,15 +225,21 @@ int main()
 					cout << "\nEnter the map's file name:";
 
 					followUp = CommandProcessor::current->getCommand();
-					//followUp->Attach(&obs);
 					followUp->saveEffect("Follow-up of last command.");
 
 					// Executing the loadmap command
-					loadedMaps.push_back(Engine::GameState::loadmapCmd(followUp->value));
+					try {
+						loadedMaps.push_back(Engine::GameState::loadmapCmd(followUp->value));
 
-					//Record and print command effect.
-					cmdEffect += "Loaded map file: " + followUp->value + ".\n";
-					cout << "Loaded map file: " << followUp->value << endl;
+						cout << "Loaded map: " << followUp->value << endl;
+						//Record and print command effect.
+						cmdEffect += "Loaded map file: " + followUp->value + ".\n";
+					}
+					catch(invalid_argument e) {
+						noError = false;
+						cmdEffect += "Map file: " + followUp->value + " was invalid.\n";
+						cout << "Provided file is not a map.";
+					}
 				}
 				else if (*cmd == "validatemap") {
 					// Executing the validatemap command. Check if each map is correctly defined.
@@ -245,7 +273,6 @@ int main()
 					{
 						cout << "You have added the maximum amount of players. Please execute the gamestart command." << endl;
 						noError = false;
-						break;
 					}
 
 					cout << "\nEnter the player's name";
@@ -261,7 +288,7 @@ int main()
 				}
 				else if (*cmd == "gamestart") {
 					// Executing the gamestart command
-					Engine::GameState::gamestartCmd(loadedMaps.front(), deck);
+					Engine::GameState::gamestartCmd(loadedMaps.front(), &Card::deck);
 
 					cmdEffect += "Gamestart command executed.\n";
 					cout << "Gamestart command executed." << endl;
@@ -278,18 +305,10 @@ int main()
 						cout << endl;
 					}
 
-					//TODO add success condition
-					noError = false;
 					cout << "TODO: Add verification before starting game." << endl;
 
-					//adding the main game loop comands
-					vector<Player*> participants;
-					for (int i = 0; i < Player::players.size(); i++)
-					{
-						participants.push_back(&Player::players[i]);
-					}
 					//Play the first map in the set, then remove it.
-					mainGameLoop(loadedMaps.front(), participants, deck);
+					mainGameLoop(loadedMaps.front());
 					//Simulates .pop_front().
 					loadedMaps.erase(loadedMaps.begin());
 				}
@@ -310,8 +329,6 @@ int main()
 	} while (true);
 
 
-	delete CommandProcessor::current;
-
+	delete CommandProcessor::current;	
 	Engine::GameState::GameExit();
-
 }
