@@ -7,9 +7,9 @@ HumanPlayer::HumanPlayer()
 
 }
 
-HumanPlayer::HumanPlayer(Player* player)
+HumanPlayer::HumanPlayer(Player& player)
 {
-	this->player = player;
+	this->player = &player;
 }
 
 HumanPlayer::HumanPlayer(const HumanPlayer& hPlayer)
@@ -255,9 +255,9 @@ AggressivePlayer::AggressivePlayer()
 
 }
 
-AggressivePlayer::AggressivePlayer(Player* player)
+AggressivePlayer::AggressivePlayer(Player& player)
 {
-	this->player = player;
+	this->player = &player;
 }
 
 AggressivePlayer::AggressivePlayer(const AggressivePlayer& aPlayer)
@@ -386,9 +386,9 @@ BenevolentPlayer::BenevolentPlayer()
 
 }
 
-BenevolentPlayer::BenevolentPlayer(Player* player)
+BenevolentPlayer::BenevolentPlayer(Player& player)
 {
-	this->player = player;
+	this->player = &player;
 }
 
 BenevolentPlayer::BenevolentPlayer(const BenevolentPlayer& bPlayer)
@@ -489,9 +489,9 @@ NeutralPlayer::NeutralPlayer()
 
 }
 
-NeutralPlayer::NeutralPlayer(Player* player)
+NeutralPlayer::NeutralPlayer(Player& player)
 {
-	this->player = player;
+	this->player = &player;
 }
 
 NeutralPlayer::NeutralPlayer(const NeutralPlayer& nPlayer)
@@ -542,9 +542,9 @@ CheaterPlayer::CheaterPlayer()
 
 }
 
-CheaterPlayer::CheaterPlayer(Player* player)
+CheaterPlayer::CheaterPlayer(Player& player)
 {
-	this->player = player;
+	this->player = &player;
 }
 
 CheaterPlayer::CheaterPlayer(const CheaterPlayer& cPlayer)

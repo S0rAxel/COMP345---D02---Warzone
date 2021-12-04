@@ -40,12 +40,12 @@ void PlayerStrategyDriver()
 	humPlayer = new Player("Human");		// Human player that will demonstrate that he can intake input from user.
 	chaPlayer = new Player("Random");		// Player that will change strategies througout the demo.
 
-	humPlayer->setStrategy(new HumanPlayer(humPlayer));
-	aggPlayer->setStrategy(new AggressivePlayer(aggPlayer));
-	neuPlayer->setStrategy(new NeutralPlayer(neuPlayer));
-	benPlayer->setStrategy(new BenevolentPlayer(benPlayer));
-	chePlayer->setStrategy(new CheaterPlayer(chePlayer));
-	chaPlayer->setStrategy(new BenevolentPlayer(chaPlayer)); // Setting the changing player to benevolent 
+	humPlayer->setStrategy(*(new HumanPlayer(*humPlayer)));
+	aggPlayer->setStrategy(*(new AggressivePlayer(*aggPlayer)));
+	neuPlayer->setStrategy(*(new NeutralPlayer(*neuPlayer)));
+	benPlayer->setStrategy(*(new BenevolentPlayer(*benPlayer)));
+	chePlayer->setStrategy(*(new CheaterPlayer(*chePlayer)));
+	chaPlayer->setStrategy(*(new BenevolentPlayer(*chaPlayer))); // Setting the changing player to benevolent 
 
 	// Adding the players to the static vector
 	Player::players.push_back(*humPlayer);
@@ -82,15 +82,17 @@ void PlayerStrategyDriver()
 	PrintPlayers();
 
 	cout << "\n>> Random player Changes from " << typeid(*chaPlayer->getStrategy()).name() << " to Human player\n" << endl;
-	chaPlayer->setStrategy(new HumanPlayer(chaPlayer));
+	HumanPlayer* huStrat = new HumanPlayer(*chaPlayer);
+	//chaPlayer->setStrategy(*huStrat);
 
 	cout << ">> Printing again all players..." << endl;
 
 	PrintPlayers();
 		
 	Engine::GameState::gamestartCmd(&map, deck);
-	mainGameLoop(&map, deck, 1);
+	mainGameLoop(&map, deck, 5);
 
+	system("Pause");
 	//Remove the added players for rest of demo.
 	Player::players.clear();
 }

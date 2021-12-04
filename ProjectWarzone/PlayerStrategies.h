@@ -17,7 +17,7 @@ class HumanPlayer : public PlayerStrategy
 {
 public:
 	HumanPlayer();
-	HumanPlayer(Player* player);
+	HumanPlayer(Player& player);
 	HumanPlayer(const HumanPlayer& hPlayer);
 
 	HumanPlayer& operator= (const HumanPlayer& hPlayer);
@@ -31,7 +31,7 @@ class AggressivePlayer : public PlayerStrategy
 {
 public:
 	AggressivePlayer();
-	AggressivePlayer(Player* player);
+	AggressivePlayer(Player& player);
 	AggressivePlayer(const AggressivePlayer& aPlayer);
 
 	AggressivePlayer& operator= (const AggressivePlayer& aPlayer);
@@ -45,7 +45,7 @@ class BenevolentPlayer : public PlayerStrategy
 {
 public:
 	BenevolentPlayer();
-	BenevolentPlayer(Player* player);
+	BenevolentPlayer(Player& player);
 	BenevolentPlayer(const BenevolentPlayer& bPlayer);
 
 	BenevolentPlayer& operator= (const BenevolentPlayer& bPlayer);
@@ -59,7 +59,7 @@ class NeutralPlayer : public PlayerStrategy
 {
 public:
 	NeutralPlayer();
-	NeutralPlayer(Player* player);
+	NeutralPlayer(Player& player);
 	NeutralPlayer(const NeutralPlayer& nPlayer);
 
 	NeutralPlayer& operator= (const NeutralPlayer& nPlayer);
@@ -73,7 +73,7 @@ class CheaterPlayer : public PlayerStrategy
 {
 public:
 	CheaterPlayer();
-	CheaterPlayer(Player* player);
+	CheaterPlayer(Player& player);
 	CheaterPlayer(const CheaterPlayer& cPlayer);
 
 	CheaterPlayer& operator= (const CheaterPlayer& cPlayer);

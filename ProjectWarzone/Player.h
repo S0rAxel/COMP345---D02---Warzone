@@ -86,7 +86,7 @@ public:
 	bool havePlayedCard;
 	void setHand(Hand* hand) { this->hand = hand; }
 	PlayerStrategy* getStrategy() { return strat; }
-	void setStrategy(PlayerStrategy* strat);
+	void setStrategy(PlayerStrategy& strat);
 
 	int getTerritorySize();
 	int getPlayOrder();
