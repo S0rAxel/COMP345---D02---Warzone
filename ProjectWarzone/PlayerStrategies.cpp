@@ -34,7 +34,7 @@ void HumanPlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack, vect
 	cout << ">> HumanPlayer::issueOrder()" << endl;
 	//create reinf orders by input
 	while (reinf > 0) {
-		cout << "Reinforcement phase. You have " << me->getReinF() << " reinforcements to deploy. Please enter which territory to reinforce and how many to deploy." << endl;
+		cout << "Reinforcement phase. You have " << reinf << " reinforcements to deploy. Please enter which territory to reinforce and how many to deploy." << endl;
 		cout << "Here is a list of territory by their ID which you own:" << endl;
 		for (int i = 0; i < me->getTerritories().size(); i++) {
 			cout << me->getTerritories()[i]->getID() << endl;
@@ -287,32 +287,40 @@ void AggressivePlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack,
 	//reinf, just reinforces its strongest territory
 	territory* strongest = defend[0];
 	me->addOrder(new Deploy(reinf, me, strongest));
-	territory* bombprio = attack[0];
+	territory* bombprio = NULL;
+	if (attack.size() > 0) {
+		bombprio = attack[0];
 
-	//find strongest enemy territory adjacent to strongest owned territory to bomb and dump remainder armies
-	for (int i = 0; i < attack.size(); i++) {
-		if (attack[i]->getArmies() > bombprio->getArmies()) {
-			bombprio = attack[i];
-		}
-	}
-
-	//cards, will prioritize bombing, then reinforcing. Will never play diplomatic or airlift.
-	if (!me->havePlayedCard && me->getHand()->size() > 0) {
-		for (int i = 0; i < me->getHand()->size(); i++) {
-			if (me->getHand()->getCards()[i]->getCardType() == Card::bomb) {
-				me->addOrder(new Bomb(me, bombprio));
-				me->getHand()->getCards()[i]->play(i);
-				me->havePlayedCard = true;
+		//find strongest enemy territory adjacent to strongest owned territory to bomb and dump remainder armies
+		for (int i = 0; i < attack.size(); i++) {
+			if (attack[i]->getArmies() > bombprio->getArmies()) {
+				bombprio = attack[i];
 			}
 		}
-		if (!me->havePlayedCard) {
+
+		//bomb card
+		if (!me->havePlayedCard && me->getHand()->size() > 0) {
 			for (int i = 0; i < me->getHand()->size(); i++) {
-				if (me->getHand()->getCards()[i]->getCardType() == Card::reinforcement) {
-					me->addReinF(5);
+				if (me->getHand()->getCards()[i]->getCardType() == Card::bomb) {
+					me->addOrder(new Bomb(me, bombprio));
+					me->getHand()->getCards()[i]->play(i);
 					me->havePlayedCard = true;
 				}
 			}
 		}
+	}
+	
+
+	//cards, will prioritize bombing, then reinforcing. Will never play diplomatic or airlift.
+	if (!me->havePlayedCard && me->getHand()->size() > 0) {
+		
+		for (int i = 0; i < me->getHand()->size(); i++) {
+			if (me->getHand()->getCards()[i]->getCardType() == Card::reinforcement) {
+				me->addReinF(5);
+				me->havePlayedCard = true;
+			}
+		}
+		
 	}
 
 	//defend strongest territory
@@ -325,12 +333,16 @@ void AggressivePlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack,
 
 	//attack advance
 	//split attack equally with bordering territories. Remainder to strongest enemy territory regardless of bombed or not.
-	int totalArmies = strongest->getArmies() + reinf;
-	int remainder = totalArmies % attack.size();
-	for (int i = 0; i < attack.size(); i++) {
-		me->addOrder(new Advance(totalArmies / attack.size(), me, strongest, attack[i], deck));
+	if (attack.size() > 1)
+	{
+		int totalArmies = strongest->getArmies() + reinf;
+		int remainder = totalArmies % attack.size();
+		for (int i = 0; i < attack.size(); i++) {
+			me->addOrder(new Advance(totalArmies / attack.size(), me, strongest, attack[i], deck));
+		}
+
+			me->addOrder(new Advance(remainder, me, strongest, bombprio, deck));
 	}
-	me->addOrder(new Advance(remainder, me, strongest, bombprio, deck));
 }
 
 vector<territory*> AggressivePlayer::toAttack(Player* me, Map* m)
@@ -344,7 +356,7 @@ vector<territory*> AggressivePlayer::toAttack(Player* me, Map* m)
 	if (strongest != nullptr)
 	{
 		for (int i = 0; i < m->getTerritories().size(); i++) {
-			if (strongest->isAdjacentTerritory(&m->getTerritories()[i]) && m->getTerritories()[i].getOwner() != player) {
+			if (strongest->isAdjacentTerritory(&m->getTerritories()[i]) && m->getTerritories()[i].getOwner() != me) {
 				attack.push_back(&m->getTerritories()[i]);
 			}
 		}
@@ -360,7 +372,7 @@ vector<territory*> AggressivePlayer::toDefend(Player* me, Map* m)
 	cout << ">> AggressivePlayer::toDefend()" << endl;
 
 	vector<territory*> defend;
-	defend.push_back(new territory(2, "Canada", 1));
+	//defend.push_back(new territory(2, "Canada", 1));
 	//returns the player's single strongest territory
 	if (me->getTerritories().size() > 0)
 	{
