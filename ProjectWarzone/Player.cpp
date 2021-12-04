@@ -20,11 +20,11 @@ Player& Player::operator=(const Player& player) {
 
 vector<territory*> Player::toDefend(Map* m)
 {
-	return strat->toDefend(m);
+	return strat->toDefend(this, m);
 }
 
 vector<territory*> Player::toAttack(Map* m) {
-	return strat->toAttack(m);
+	return strat->toAttack(this, m);
 }
 
 

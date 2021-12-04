@@ -417,7 +417,7 @@ void issueOrderPhase(Map* m, vector<Player*> participants, Deck* deck, Player* n
 		playersDone = participants.size();
 		for (int i = 0; i < participants.size(); i++)
 		{
-			if (participants[i]->ordersComplete)
+			if (!participants[i]->ordersComplete)
 			{
 				participants[i]->issueOrder(reinf[i], m, attack[i], defend[i], participants[i], deck, neutral, participants);
 			}
