@@ -90,6 +90,7 @@ void PlayerStrategyDriver()
 	PrintPlayers();
 		
 	Engine::GameState::gamestartCmd(&map, deck);
+
 	mainGameLoop(&map, deck, 5);
 
 	system("Pause");

@@ -372,7 +372,6 @@ vector<territory*> AggressivePlayer::toDefend(Player* me, Map* m)
 	cout << ">> AggressivePlayer::toDefend()" << endl;
 
 	vector<territory*> defend;
-	//defend.push_back(new territory(2, "Canada", 1));
 	//returns the player's single strongest territory
 	if (me->getTerritories().size() > 0)
 	{
