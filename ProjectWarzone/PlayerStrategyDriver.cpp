@@ -10,6 +10,15 @@
 
 using namespace std;
 
+void PrintPlayers();
+
+Player* aggPlayer;
+Player* neuPlayer;
+Player* benPlayer;
+Player* chePlayer;
+Player* humPlayer;
+Player* chaPlayer;
+
 void PlayerStrategyDriver()
 {
 	cout << "\t - PLAYER STRATEGY DRIVER - " << endl;
@@ -24,12 +33,12 @@ void PlayerStrategyDriver()
 		return;
 	}
 
-	Player* aggPlayer = new Player("Aggresive");	// Aggresive player that will demonstrate that it will attack as much as it can.
-	Player* neuPlayer = new Player("Neutral");		// Neutral player that will demonstrate that it will not issue any order, but if attacked it will become aggresive.
-	Player* benPlayer = new Player("Benevolent");	// Benevolent player that will demonstrate that it will only defend its weakest territories and never attack.
-	Player* chePlayer = new Player("Cheater");		// Cheater player that will demonstrate it can take territories once per turn.
-	Player* humPlayer = new Player("Human");		// Human player that will demonstrate that he can intake input from user.
-	Player* chaPlayer = new Player("Random");		// Player that will change strategies througout the demo.
+	aggPlayer = new Player("Aggresive");	// Aggresive player that will demonstrate that it will attack as much as it can.
+	neuPlayer = new Player("Neutral");		// Neutral player that will demonstrate that it will not issue any order, but if attacked it will become aggresive.
+	benPlayer = new Player("Benevolent");	// Benevolent player that will demonstrate that it will only defend its weakest territories and never attack.
+	chePlayer = new Player("Cheater");		// Cheater player that will demonstrate it can take territories once per turn.
+	humPlayer = new Player("Human");		// Human player that will demonstrate that he can intake input from user.
+	chaPlayer = new Player("Random");		// Player that will change strategies througout the demo.
 
 	aggPlayer->setStrategy(new AggressivePlayer(aggPlayer));
 	neuPlayer->setStrategy(new NeutralPlayer(neuPlayer));
@@ -38,7 +47,7 @@ void PlayerStrategyDriver()
 	humPlayer->setStrategy(new HumanPlayer(humPlayer));
 	chaPlayer->setStrategy(new BenevolentPlayer(chaPlayer)); // Setting the changing player to benevolent 
 
-	//vector<Player*> players;
+	// Adding the players to the static vector
 	Player::players.push_back(*aggPlayer);
 	Player::players.push_back(*neuPlayer);
 	Player::players.push_back(*benPlayer);
@@ -52,8 +61,10 @@ void PlayerStrategyDriver()
 	Card::ctype airlift = Card::airlift;
 	Card::ctype diplomacy = Card::diplomacy;
 
+	// Instantiating a deck
 	Deck* deck = new Deck();
 
+	// Adding different cards to the Deck
 	deck->addCard(new Card(bomb));
 	deck->addCard(new Card(blockade));
 	deck->addCard(new Card(airlift));
@@ -68,17 +79,25 @@ void PlayerStrategyDriver()
 	deck->addCard(new Card(diplomacy));
 	
 	// Printing all players, showing their name, the strategy class they are implementing and the type they belong to. It should always display player, as they are all players.
+	PrintPlayers();
+
+	Engine::GameState::gamestartCmd(map, deck);
+
+	mainGameLoop(map, deck, 100);
+
+	//Remove the added players for rest of demo.
+	Player::players.clear();
+}
+
+void PrintPlayers()
+{
+	// Printing each one individually as some take specific indententation so it is easy to look at.
 	cout << ">> Name:" << *chaPlayer << "\t\t| Strat: " << typeid(*chaPlayer->getStrategy()).name() << "\t| Type: " << typeid(*chaPlayer).name() << endl;
 	cout << ">> Name:" << *aggPlayer << "\t| Strat: " << typeid(*aggPlayer->getStrategy()).name() << "\t| Type: " << typeid(*aggPlayer).name() << endl;
 	cout << ">> Name:" << *neuPlayer << "\t| Strat: " << typeid(*neuPlayer->getStrategy()).name() << "\t| Type: " << typeid(*neuPlayer).name() << endl;
 	cout << ">> Name:" << *benPlayer << "\t| Strat: " << typeid(*benPlayer->getStrategy()).name() << "\t| Type: " << typeid(*benPlayer).name() << endl;
 	cout << ">> Name:" << *chePlayer << "\t| Strat: " << typeid(*chePlayer->getStrategy()).name() << "\t| Type: " << typeid(*chePlayer).name() << endl;
 	cout << ">> Name:" << *humPlayer << "\t\t| Strat: " << typeid(*humPlayer->getStrategy()).name() << "\t| Type: " << typeid(*humPlayer).name() << endl;
-
-	Engine::GameState::gamestartCmd(&map, deck);
-
-	//Remove the added players.
-	Player::players.clear();
 }
 
 /*#include <iostream>

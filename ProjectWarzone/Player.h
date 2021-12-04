@@ -46,6 +46,7 @@ public:
 		hand = otherPlayer.hand;
 		territories = otherPlayer.territories;
 		orders = otherPlayer.orders;
+		strat = otherPlayer.strat;
 	};
 
 	~Player();
