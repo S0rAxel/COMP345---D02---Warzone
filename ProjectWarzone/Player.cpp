@@ -86,6 +86,12 @@ int Player::getPlayOrder()
 	return playOrder;
 }
 
+void Player::setStrategy(PlayerStrategy* strat)
+{
+	//delete this->strat;
+	this->strat = strat;
+}
+
 void Player::setPlayOrder(int playOrder)
 {
 	this->playOrder = playOrder;
