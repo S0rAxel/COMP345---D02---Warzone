@@ -444,17 +444,20 @@ void issueOrderPhase(Map* m, vector<Player*> participants, Deck* deck, Player* n
 void executeOrderPhase(Map* m, vector<Player*> participants)
 {
 	int j = 0;
-	int maxSize = 0;
 	while (true)
 	{
+
+		int maxSize = 0;
 		for (int i = 0; i < participants.size(); i++)
 		{
-			maxSize = 0;
 			if (j < participants[i]->getOrders().size())
 			{
-				(participants[i]->getOrders())[j]->execute();
-				//since the orders are kept on the heap i remove the object here directly
-				delete (participants[i]->getOrders())[j];
+				if (participants[i]->getOrders().size() > 0) {
+					(participants[i]->getOrders())[j]->execute();
+					//since the orders are kept on the heap i remove the object here directly
+					delete (participants[i]->getOrders())[j];
+				}
+
 			}
 			else
 			{

@@ -234,6 +234,8 @@ void HumanPlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack, vect
 		}
 		me->addOrder(new Advance(armies, me, sTerritory, tTerritory, deck));
 	}
+
+	me->ordersComplete = true;
 }
 
 vector<territory*> HumanPlayer::toAttack(Player* me, Map* m)
@@ -343,6 +345,8 @@ void AggressivePlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack,
 
 			me->addOrder(new Advance(remainder, me, strongest, bombprio, deck));
 	}
+
+	me->ordersComplete = true;
 }
 
 vector<territory*> AggressivePlayer::toAttack(Player* me, Map* m)
@@ -455,6 +459,7 @@ void BenevolentPlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack,
 	}
 
 	//does not attack anyone
+	me->ordersComplete = true;
 }
 
 vector<territory*> BenevolentPlayer::toAttack(Player* me, Map* m)
@@ -527,6 +532,7 @@ void NeutralPlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack, ve
 	//does nothing ¯\_(ツ)_/¯
 	cout << ">> NeutralPlayer::issueOrder()" << endl;
 	cout << ">> He does nothing..." << endl;
+	me->ordersComplete = true;
 }
 
 vector<territory*> NeutralPlayer::toAttack(Player* me, Map* m)
@@ -586,6 +592,7 @@ void CheaterPlayer::issueOrder(int& reinf, Map* m, vector<territory*> attack, ve
 	for (int i = 0; i < attack.size(); i++) {
 		me->addOrder(new Conquer(me, attack[i]));
 	}
+	me->ordersComplete = true;
 }
 
 vector<territory*> CheaterPlayer::toAttack(Player* me, Map* m)
