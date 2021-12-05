@@ -7,7 +7,7 @@ Map readfile(string);
 
 int main()
 {
-	//PlayerStrategyDriver();
+	PlayerStrategyDriver();
 
 	system("pause");
 	// TODO fix log observer stuff
