@@ -20,11 +20,13 @@ Player& Player::operator=(const Player& player) {
 
 vector<territory*> Player::toDefend(Map* m)
 {
-	return strat->toDefend(this, m);
+	return strat->toDefend(m);
 }
 
-vector<territory*> Player::toAttack(Map* m) {
-	return strat->toAttack(this, m);
+vector<territory*> Player::toAttack(Map* m) 
+{
+
+	return strat->toAttack(m);
 }
 
 
@@ -86,10 +88,9 @@ int Player::getPlayOrder()
 	return playOrder;
 }
 
-void Player::setStrategy(PlayerStrategy& strat)
+void Player::setStrategy(PlayerStrategy* strat)
 {
-	delete this->strat;
-	this->strat = &strat;
+	this->strat = strat;
 }
 
 void Player::setPlayOrder(int playOrder)

@@ -153,27 +153,27 @@ int main()
 							if (*followUp == "human") {
 								Player toAdd("Human " + (Player::players.size() + 1));
 								Player::players.push_back(toAdd);
-								Player::players.back().setStrategy(*(new HumanPlayer(toAdd)));
+								Player::players.back().setStrategy(new HumanPlayer(toAdd));
 							}
 							else if (*followUp == "benevolent") {
 								Player toAdd("Benevolent " + (Player::players.size() + 1));
 								Player::players.push_back(toAdd);
-								Player::players.back().setStrategy(*(new BenevolentPlayer(toAdd)));
+								Player::players.back().setStrategy(new BenevolentPlayer(toAdd));
 							}
 							else if (*followUp == "neutral") {
 								Player toAdd("Neutral " + (Player::players.size() + 1));
 								Player::players.push_back(toAdd);
-								Player::players.back().setStrategy(*(new NeutralPlayer(toAdd)));
+								Player::players.back().setStrategy(new NeutralPlayer(toAdd));
 							}
 							else if (*followUp == "aggressive") {
 								Player toAdd("Aggressive " + (Player::players.size() + 1));
 								Player::players.push_back(toAdd);
-								Player::players.back().setStrategy(*(new AggressivePlayer(toAdd)));
+								Player::players.back().setStrategy(new AggressivePlayer(toAdd));
 							}
 							else if (*followUp == "cheater") {
 								Player toAdd("Cheater " + (Player::players.size() + 1));
 								Player::players.push_back(toAdd);
-								Player::players.back().setStrategy(*(new CheaterPlayer(toAdd)));
+								Player::players.back().setStrategy(new CheaterPlayer(toAdd));
 							}
 							else {
 								noError = false;

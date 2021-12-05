@@ -245,11 +245,6 @@ void GameState::gamestartCmd(Map* map, Deck* deck)
 		for (int j = 0; j < numOfTerrPerPlayer; j++)
 			Player::players.at(i).addTerritories(map->getTerritory(j + i*numOfTerrPerPlayer));
 
-	for (Player player : Player::players)
-	{
-		cout << player << " territories: " << player.getTerritories().size() << endl;
-	}
-
 	if (remainderOfTerrs != 0)
 	{
 		for (int i = 0; i < remainderOfTerrs; i++)
@@ -323,12 +318,6 @@ void mainGameLoop(Map* map, Deck* deck, int turnLimit)
 	{
 		participants.push_back(&Player::players[i]);
 	}
-
-	for (Player* player : participants)
-	{
-		cout << *player << " territories: " << player->getTerritories().size() << endl;
-	}
-
 
 	//This player doesn't participate in the turn order, it simply acts as a holder for hidden territories where 'blockade' is used.
 	Player* blockadeManager = new Player();

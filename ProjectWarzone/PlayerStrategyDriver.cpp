@@ -33,19 +33,12 @@ void PlayerStrategyDriver()
 		return;
 	}
 
-	aggPlayer = new Player("Aggresive");	// Aggresive player that will demonstrate that it will attack as much as it can.
+	aggPlayer = new Player("Aggressive");	// Aggresive player that will demonstrate that it will attack as much as it can.
 	neuPlayer = new Player("Neutral");		// Neutral player that will demonstrate that it will not issue any order, but if attacked it will become aggresive.
 	benPlayer = new Player("Benevolent");	// Benevolent player that will demonstrate that it will only defend its weakest territories and never attack.
 	chePlayer = new Player("Cheater");		// Cheater player that will demonstrate it can take territories once per turn.
 	humPlayer = new Player("Human");		// Human player that will demonstrate that he can intake input from user.
 	chaPlayer = new Player("Random");		// Player that will change strategies througout the demo.
-
-	humPlayer->setStrategy(*(new HumanPlayer(*humPlayer)));
-	aggPlayer->setStrategy(*(new AggressivePlayer(*aggPlayer)));
-	neuPlayer->setStrategy(*(new NeutralPlayer(*neuPlayer)));
-	benPlayer->setStrategy(*(new BenevolentPlayer(*benPlayer)));
-	chePlayer->setStrategy(*(new CheaterPlayer(*chePlayer)));
-	chaPlayer->setStrategy(*(new BenevolentPlayer(*chaPlayer))); // Setting the changing player to benevolent 
 
 	// Adding the players to the static vector
 	Player::players.push_back(*humPlayer);
@@ -55,45 +48,69 @@ void PlayerStrategyDriver()
 	Player::players.push_back(*benPlayer);
 	Player::players.push_back(*chaPlayer);
 
-	Card::ctype bomb = Card::bomb;
-	Card::ctype reinforcement = Card::reinforcement;
-	Card::ctype blockade = Card::blockade;
-	Card::ctype airlift = Card::airlift;
-	Card::ctype diplomacy = Card::diplomacy;
+	for (size_t i = 0; i < Player::players.size(); i++)
+	{
+		if (Player::players[i].getName() == "Aggressive")
+		{
+			Player::players[i].setStrategy(new AggressivePlayer(Player::players[i]));
+		}
+		else if (Player::players[i].getName() == "Neutral")
+		{
+			Player::players[i].setStrategy(new NeutralPlayer(Player::players[i]));
+		}
+		else if (Player::players[i].getName() == "Benevolent")
+		{
+			Player::players[i].setStrategy(new BenevolentPlayer(Player::players[i]));
+		}
+		else if (Player::players[i].getName() == "Cheater")
+		{
+			Player::players[i].setStrategy(new CheaterPlayer(Player::players[i]));
+		}
+		else if (Player::players[i].getName() == "Human")
+		{
+			Player::players[i].setStrategy(new HumanPlayer(Player::players[i]));
+		}
+		else if (Player::players[i].getName() == "Random")
+		{
+			Player::players[i].setStrategy(new AggressivePlayer(Player::players[i])); // Setting the changing player to Aggressive 
+		}
+	}
 
 	// Instantiating a deck
 	Deck* deck = new Deck();
 
 	// Adding different cards to the Deck
-	deck->addCard(new Card(bomb));
-	deck->addCard(new Card(blockade));
-	deck->addCard(new Card(airlift));
-	deck->addCard(new Card(reinforcement));
-	deck->addCard(new Card(diplomacy));
-	deck->addCard(new Card(bomb));
-	deck->addCard(new Card(reinforcement));
-	deck->addCard(new Card(airlift));
-	deck->addCard(new Card(airlift));
-	deck->addCard(new Card(diplomacy));
-	deck->addCard(new Card(diplomacy));
-	deck->addCard(new Card(diplomacy));
-	
+	deck->addCard(new Card(Card::bomb));
+	deck->addCard(new Card(Card::airlift));
+	deck->addCard(new Card(Card::diplomacy));
+	deck->addCard(new Card(Card::reinforcement));
+	deck->addCard(new Card(Card::blockade));
+	deck->addCard(new Card(Card::airlift));
+	deck->addCard(new Card(Card::bomb));
+	deck->addCard(new Card(Card::diplomacy));
+	deck->addCard(new Card(Card::reinforcement));
+	deck->addCard(new Card(Card::airlift));
+	deck->addCard(new Card(Card::diplomacy));
+
 	// Printing all players, showing their name, the strategy class they are implementing and the type they belong to. It should always display player, as they are all players.
 	PrintPlayers();
 
-	cout << "\n>> Random player Changes from " << typeid(*chaPlayer->getStrategy()).name() << " to Human player\n" << endl;
-	HumanPlayer* huStrat = new HumanPlayer(*chaPlayer);
-	//chaPlayer->setStrategy(*huStrat);
+	cout << "\n>> Random player Changes from Aggressive to Cheater player\n" << endl;
+	for (size_t i = 0; i < Player::players.size(); i++)
+	{
+		if (Player::players[i].getName() == "Random")
+		{
+			Player::players[i].setStrategy(new CheaterPlayer(Player::players[i]));
+		}
+	}
 
 	cout << ">> Printing again all players..." << endl;
 
 	PrintPlayers();
-		
+
 	Engine::GameState::gamestartCmd(&map, deck);
+	mainGameLoop(&map, deck, 3);
 
-	mainGameLoop(&map, deck, 5);
-
-	system("Pause");
 	//Remove the added players for rest of demo.
 	Player::players.clear();
 }
@@ -101,13 +118,55 @@ void PlayerStrategyDriver()
 
 void PrintPlayers()
 {
+	for (size_t i = 0; i < Player::players.size(); i++)
+	{
+		if (Player::players[i].getName() == "Human" || Player::players[i].getName() == "Random")
+		{
+			cout << ">> Name:" << Player::players[i] << "\t\t| Strat: " << typeid(*Player::players[i].getStrategy()).name() << "\t| Type: " << typeid(Player::players[i]).name() << endl;
+
+		}
+		else
+		{
+			cout << ">> Name:" << Player::players[i] << "\t| Strat: " << typeid(*Player::players[i].getStrategy()).name() << "\t| Type: " << typeid(Player::players[i]).name() << endl;
+		}
+	}
+
+	/*if (player.getName() == "Aggressive")
+	{
+		cout << ">> Name:" << player << "\t| Strat: " << typeid(player.getStrategy()).name() << "\t| Type: " << typeid(player).name() << endl;
+
+	}
+	else if (player.getName() == "Neutral")
+	{
+		cout << ">> Name:" << player << "\t| Strat: " << typeid(player.getStrategy()).name() << "\t| Type: " << typeid(player).name() << endl;
+
+	}
+	else if (player.getName() == "Benevolent")
+	{
+		cout << ">> Name:" << player << "\t| Strat: " << typeid(player.getStrategy()).name() << "\t| Type: " << typeid(player).name() << endl;
+
+	}
+	else if (player.getName() == "Cheater")
+	{
+		cout << ">> Name:" << player << "\t| Strat: " << typeid(player.getStrategy()).name() << "\t| Type: " << typeid(player).name() << endl;
+
+	}
+	else if (player.getName() == "Human")
+	{
+		cout << ">> Name:" << player << "\t\t| Strat: " << typeid(player.getStrategy()).name() << "\t| Type: " << typeid(player).name() << endl;
+
+	}
+	else if (player.getName() == "Random")
+	{
+		cout << ">> Name:" << player << "\t\t| Strat: " << typeid(player.getStrategy()).name() << "\t| Type: " << typeid(player).name() << endl;
+
+	}*/
+
 	// Printing each one individually as some take specific indententation so it is easy to look at.
-	cout << ">> Name:" << *aggPlayer << "\t| Strat: " << typeid(*aggPlayer->getStrategy()).name() << "\t| Type: " << typeid(*aggPlayer).name() << endl;
-	cout << ">> Name:" << *neuPlayer << "\t| Strat: " << typeid(*neuPlayer->getStrategy()).name() << "\t| Type: " << typeid(*neuPlayer).name() << endl;
-	cout << ">> Name:" << *benPlayer << "\t| Strat: " << typeid(*benPlayer->getStrategy()).name() << "\t| Type: " << typeid(*benPlayer).name() << endl;
-	cout << ">> Name:" << *chePlayer << "\t| Strat: " << typeid(*chePlayer->getStrategy()).name() << "\t| Type: " << typeid(*chePlayer).name() << endl;
-	cout << ">> Name:" << *humPlayer << "\t\t| Strat: " << typeid(*humPlayer->getStrategy()).name() << "\t| Type: " << typeid(*humPlayer).name() << endl;
-	cout << ">> Name:" << *chaPlayer << "\t\t| Strat: " << typeid(*chaPlayer->getStrategy()).name() << "\t| Type: " << typeid(*chaPlayer).name() << endl;
+	//cout << ">> Name:" << *benPlayer << "\t| Strat: " << typeid(*benPlayer->getStrategy()).name() << "\t| Type: " << typeid(*benPlayer).name() << endl;
+	//cout << ">> Name:" << *chePlayer << "\t| Strat: " << typeid(*chePlayer->getStrategy()).name() << "\t| Type: " << typeid(*chePlayer).name() << endl;
+	//cout << ">> Name:" << *humPlayer << "\t\t| Strat: " << typeid(*humPlayer->getStrategy()).name() << "\t| Type: " << typeid(*humPlayer).name() << endl;
+	//cout << ">> Name:" << *chaPlayer << "\t\t| Strat: " << typeid(*chaPlayer->getStrategy()).name() << "\t| Type: " << typeid(*chaPlayer).name() << endl;
 }
 
 /*#include <iostream>
@@ -123,7 +182,7 @@ void PlayerDriverDemo()
 	cout << " Creating new player" << endl;
 	Player* player1 = new Player("Player1");
 	cout << *player1 << " was created...\n" << endl;
-	
+
 	// Adding player to the list for demo purposes
 	playerList.push_back(player1);
 
@@ -235,7 +294,7 @@ void IssueOrder()
 
 	int selection = 0;
 
-	do 
+	do
 	{
 		cout << "\n Choose a player to issue order: ";
 		cin >> selection;
@@ -251,4 +310,4 @@ void IssueOrder()
 	cout << endl;
 	system("pause");
 	cout << endl;
-}*/ 
+}*/
