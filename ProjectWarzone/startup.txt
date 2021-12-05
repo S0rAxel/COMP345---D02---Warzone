@@ -1,12 +1,3 @@
-invalidCmd
-loadmap test.txt
-validatemap
-addplayer Bot_James
-addplayer Bot_Alfred
-addplayer Bot_Lucy
-gamestart
-issueorder
-endissueorders
-execorder
-win
-quit
+tournament -M test.txt -P neutral neutral cheater -G 2 -D 15
+tournament -M test.txt -P cheater cheater -G 3 -D 25
+tournament -M test.txt -P neutral neutral -G 1 -D 50

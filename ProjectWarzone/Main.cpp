@@ -7,7 +7,7 @@ Map readfile(string);
 
 int main()
 {
-	PlayerStrategyDriver();
+	//PlayerStrategyDriver();
 
 	system("pause");
 	// TODO fix log observer stuff
@@ -227,6 +227,9 @@ int main()
 						cout << "\n\nStarting tournament..." << endl;
 						system("pause");
 						tournamentLoop(loadedMaps, numOfGames, numOfTurns);
+						loadedMaps.clear();
+						Player::players.clear();
+						cout << "Tournament is over!";
 					}
 					else {
 						cout << "\nTournament command is invalid." << endl;
@@ -318,7 +321,6 @@ int main()
 						cout << endl;
 					}
 
-					cout << "TODO: Add verification before starting game." << endl;
 					//Play the first map in the set, then remove it.
 					mainGameLoop(&loadedMaps.front(), &deckCopy, -1);
 					//Simulates .pop_front().

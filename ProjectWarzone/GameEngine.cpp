@@ -44,7 +44,7 @@ void GameState::GameSetup() {
 
 	cout << "\tEstablishing state links...\n";
 	//Establish links between states.
-	states[0]->links = { states[1], states[4] };
+	states[0]->links = { states[1], states[0] };
 	states[1]->links = { states[1], states[2] };
 	states[2]->links = { states[3] };
 	states[3]->links = { states[3], states[4] };
@@ -312,7 +312,7 @@ void tournamentLoop(vector<Map>& mapRotation, int numGames, int turnLimit) {
 void mainGameLoop(Map* map, Deck* deck, int turnLimit)
 {
 	//Copy all current players, put them in a new vector. 
-	//This new vector can be modified without at will without fear of altering the static player vector.
+	//This new vector can be modified at will without fear of altering the static player vector.
 	vector<Player*> participants;
 	for (int i = 0; i < Player::players.size(); i++)
 	{
